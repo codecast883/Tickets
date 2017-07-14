@@ -37,9 +37,10 @@ class TicketsGateway
 
         foreach ($week as $array) {
             foreach ($array as $key => $value) {
-                $sql = "INSERT INTO tickets (day_id,time,price,no_time) VALUES (:day_id,:time,:price,:no_time)";
+                $sql = "INSERT INTO tickets (day_id,user_id,time,price,no_time) VALUES (:day_id,:user_id,:time,:price,:no_time)";
                 $statement = $this->db->dbh->prepare($sql);
                 $statement->bindValue(':day_id', $value['day_id']);
+                $statement->bindValue(':user_id', 2);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
                 $statement->bindValue(':no_time', $value['no_time']);

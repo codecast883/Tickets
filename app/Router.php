@@ -18,10 +18,13 @@ class Router
      */
     private function getURI()
     {
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            return trim($_SERVER['REQUEST_URI'], '/');
+        $url = trim(htmlspecialchars($_SERVER['REQUEST_URI']), '/');
+        if (!empty($url) ){
+            return $url;
 
         }
+
+        
     }
 
     /**
@@ -54,6 +57,7 @@ class Router
         $controllerObj = new $controllerName;
         $controllerObj->$controllerMethod();
         return true;
+
 
     }
 
@@ -103,7 +107,9 @@ class Router
 
         }
 
-        echo "404 Not Found";
+        echo "404 Not Found". '<br>';
+
+        echo $this->getURI();
         header("HTTP/1.0 404 Not Found");
     }
 }

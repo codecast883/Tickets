@@ -11,7 +11,7 @@ class TicketsController
     {
 
         $list = TicketsApp::getData('getAllTickets','Tickets');
-        TicketsApp::debug(\app\DB\Day::getMassDate(7));
+        TicketsApp::debug($_SERVER['REQUEST_URI']);
         require_once ROOT . '/../app/Views/list.php';
 
 
