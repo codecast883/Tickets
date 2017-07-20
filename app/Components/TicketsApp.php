@@ -18,16 +18,19 @@ class TicketsApp{
         return  $dateFormat;
     }
 
+
     /**
      * @param $function
      * @param $model
-     * @param string $value
+     * @param string $value1
+     * @param string $value2
      * @return mixed
      */
-    public static function getData($function, $model, $value = ''){
+    public static function getData($function, $model, $value1 = '', $value2 = ''){
+
         $objName = '\\app\\DB\\' . $model . 'Gateway';
         $obj = new $objName;
-        return $obj->$function($value);
+        return $obj->$function($value1,$value2);
     }
 
 

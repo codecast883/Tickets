@@ -17,8 +17,8 @@ class OptionsGateway
     public function getAllHeaderImages()
     {
         $id = 2;
-        $sql = "SELECT pic_src FROM options_files WHERE options_id = '$id'";
-        if ($picSrc = $this->db->query($sql)) {
+        $sql = "SELECT pic_src FROM options_files WHERE options_id = ?";
+        if ($picSrc = $this->db->query($sql,[$id])) {
             return $picSrc;
         }
         return false;
@@ -58,8 +58,8 @@ class OptionsGateway
     public function getOptions()
     {
         $id = 2;
-        $sql = "SELECT title,phone,description,day_amount FROM options WHERE options_id = '$id'";
-        if ($data = $this->db->query($sql)) {
+        $sql = "SELECT title,phone,description,day_amount FROM options WHERE options_id = ?";
+        if ($data = $this->db->query($sql,[$id])) {
             return $data[0];
         }
         return false;

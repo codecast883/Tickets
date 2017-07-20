@@ -8,16 +8,16 @@ use app\Components\Validator;
 use app\Components\TicketsApp;
 
 
-class RequestController
+class RequestController extends Controller
 {
 
 
     public $requestModel;
-
+    public $requestGateway;
 
     public function __construct()
     {
-
+        parent::__construct();
         $this->requestGateway = new RequestGateway;
         $this->requestModel = new Request;
 
@@ -30,7 +30,7 @@ class RequestController
         /*
         *Validation Form
         */
-        $ticketData = TicketsApp::getData('getTicketsById','Tickets',$idItem);
+        $ticketData = TicketsApp::getData('getTicketsById','Tickets',$idItem,$this->id);
         $formData = [];
         $error = [];
 
@@ -90,7 +90,7 @@ class RequestController
 
                 $this->requestGateway->addRequest($formData);
 
-                header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done');
+                header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe='.$this->hash);
 
             }
 

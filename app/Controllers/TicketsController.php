@@ -1,19 +1,19 @@
 <?php
+
 namespace app\Controllers;
 
 use app\Components\TicketsApp;
 
-class TicketsController
+class TicketsController extends Controller
 {
 
 
     public function actionList()
     {
 
-        $list = TicketsApp::getData('getAllTickets','Tickets');
-        TicketsApp::debug($_SERVER['REQUEST_URI']);
+        TicketsApp::debug(TicketsApp::getData('getFullOptions','Settings'));
+        $list = TicketsApp::getData('getAllTickets', 'Tickets', $this->id);
         require_once ROOT . '/../app/Views/list.php';
-
 
     }
 }

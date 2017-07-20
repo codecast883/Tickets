@@ -2,16 +2,7 @@
 namespace app\DB;
 class Day
 {
-    public $date;
 
-    /**
-     * Day constructor.
-     */
-    public function __construct()
-    {
-        $this->date = new \DateTime;
-
-    }
 
 
     /**

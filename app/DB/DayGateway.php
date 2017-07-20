@@ -6,7 +6,7 @@ namespace app\DB;
 class DayGateway
 {
     private $db;
-    private $day;
+
 
     /**
      * DayGateway constructor.
@@ -14,7 +14,7 @@ class DayGateway
     public function __construct()
     {
         global $dbo;
-        $this->day = new Day;
+
         $this->db = $dbo;
     }
 
@@ -23,14 +23,15 @@ class DayGateway
      * @param $dayNumber
      * @return bool
      */
-    public function addNewDays($dayNumber)
+    public function addNewDays($dayNumber,$userId)
     {
         $dates = Day::getMassDate($dayNumber);
 
         foreach ($dates as $date) {
-            $sql = "INSERT INTO day (date) VALUES (:date)";
+            $sql = "INSERT INTO day (user_id,date) VALUES (:user_id,:date)";
             $statement = $this->db->dbh->prepare($sql);
             $statement->bindValue(':date', $date);
+            $statement->bindValue(':user_id', $userId);
             $statement->execute();
         }
         return true;

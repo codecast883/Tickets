@@ -25,12 +25,13 @@
 
 
 <div class="frame">
-    <h2><?= app\Components\TicketsApp::getDataAdmin('getOptions','Options')->title ?></h2>
+    <h2><?= $this->header->title ?></h2>
+
 
 
     <div class="contact">
         <p>
-            <span class="small_icon phone"><?= app\Components\TicketsApp::getDataAdmin('getOptions','Options')->phone; ?></span>
+            <span class="small_icon phone"><?= $this->header->phone; ?></span>
         </p>
     </div>
 </div>

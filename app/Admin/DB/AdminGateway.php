@@ -26,8 +26,8 @@ class AdminGateway
      */
     public function checkUser($login, $pass)
     {
-        $sql = "SELECT login, password FROM users WHERE login = '$login'";
-        $user = $this->db->query($sql);
+        $sql = "SELECT login, password FROM users WHERE login = ?";
+        $user = $this->db->query($sql,[$login]);
         if (empty($user)) {
             return false;
         } else {
@@ -48,8 +48,8 @@ class AdminGateway
     {
 
         if ($hash = $_COOKIE['usr']) {
-            $sql = "SELECT login FROM users WHERE password = '$hash'";
-            if ($user = $this->db->query($sql)) {
+            $sql = "SELECT login FROM users WHERE password = ?";
+            if ($user = $this->db->query($sql,[$hash])) {
                 return $user[0]->login;
             }
 
@@ -69,8 +69,8 @@ class AdminGateway
             $login = $name;
         }
 
-        $sql = "SELECT user_id FROM users WHERE login = '$login'";
-        if ($id = $this->db->query($sql)) {
+        $sql = "SELECT user_id FROM users WHERE login = ?";
+        if ($id = $this->db->query($sql,[$login])) {
             return $id[0]->user_id;
         }
         return false;
@@ -102,8 +102,8 @@ class AdminGateway
      * @return bool
      */
     public function checkSameLogin($login){
-        $sql = "SELECT login FROM users WHERE login = '$login'";
-        $result = $this->db->query($sql);
+        $sql = "SELECT login FROM users WHERE login = ?";
+        $result = $this->db->query($sql,[$login]);
         if (empty($result)){
             return true;
         }else{
@@ -130,5 +130,14 @@ class AdminGateway
 
 
     }
+
+    public function getUserIdByHash($hash){
+        $sql = "SELECT user_id FROM users WHERE app_hash = ?";
+        if ($id = $this->db->query($sql,[$hash])) {
+            return $id[0]->user_id;
+        }
+        return false;
+    }
+
 
 }

@@ -17,7 +17,7 @@ class RequestGateway
      */
     public function addRequest($array)
     {
-        $sql = "INSERT INTO request (date,time,price,name,phone,email,note,no_time) VALUES (:date, :time, :price, :name, :phone, :email, :note, :no_time)";
+        $sql = "INSERT INTO request (user_id,date,time,price,name,phone,email,note,no_time) VALUES (:user_id, :date, :time, :price, :name, :phone, :email, :note, :no_time)";
         $statement = $this->db->dbh->prepare($sql);
 
         foreach ($array as $key => $value) {

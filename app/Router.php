@@ -20,8 +20,9 @@ class Router
     {
         $url = trim(htmlspecialchars($_SERVER['REQUEST_URI']), '/');
         if (!empty($url) ){
-            return $url;
+            $uriArray = explode('?', $url);
 
+            return array_shift($uriArray)  ;
         }
 
         
@@ -109,7 +110,7 @@ class Router
 
         echo "404 Not Found". '<br>';
 
-        echo $this->getURI();
+
         header("HTTP/1.0 404 Not Found");
     }
 }

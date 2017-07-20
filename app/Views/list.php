@@ -33,7 +33,7 @@
                                         echo 'disabledDate';
                                     } ?>">
 
-                                        <a href="/tickets/request/<?= $ticket->id ?>"
+                                        <a href="/tickets/request/<?= $ticket->id ?>?getiframe=<?= $this->hash ?>"
                                            class="shTimeHref"><?php if (!$ticket->no_time) {
                                                 echo app\DB\Tickets::timeFormat($ticket->time);
                                             } else {
@@ -57,7 +57,7 @@
 
         <div class="tab-pane fade"
              id="profile"><?=
-            app\Components\TicketsApp::getDataAdmin('getOptions','Options')->description; ?></div>
+            $this->header->description; ?></div>
         <div class="tab-pane fade" id="messages"></div>
 
     </div>

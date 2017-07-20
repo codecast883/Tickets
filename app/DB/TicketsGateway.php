@@ -30,7 +30,7 @@ class TicketsGateway
         $this->cleanFullTickets();
         $this->day->cleanFullDays();
         $dayAmount = TicketsApp::getDataAdmin('getOptions','Options')->day_amount;
-        $this->day->addNewDays($dayAmount);
+        $this->day->addNewDays($dayAmount,2);
 
 
         $week = TicketsApp::getData('getFullOptions','Settings');
@@ -55,27 +55,29 @@ class TicketsGateway
     /**
      * @return array
      */
-    public function getAllDay()
+    public function getAllDay($userId)
     {
         $day = [];
-        $sql = 'SELECT day_id,date FROM ' . 'day ';
-        $dayObj = $this->db->query($sql);
+        $sql = 'SELECT day_id,date FROM ' . 'day WHERE user_id=?';
+        $dayObj = $this->db->query($sql,[$userId]);
         foreach ($dayObj as $value) {
             $day[$value->day_id] = $value->date;
         }
         return $day;
     }
 
+
     /**
+     * @param $userId
      * @return array
      */
-    public function getAllTickets()
+    public function getAllTickets($userId)
     {
         $ticketDay = [];
-        $allDate = $this->getAllDay();
+        $allDate = $this->getAllDay($userId);
 
-        $sql = 'SELECT * FROM ' . 'tickets ';
-        $tickets = $this->db->query($sql);
+        $sql = 'SELECT * FROM ' . 'tickets ' . 'WHERE user_id = ?';
+        $tickets = $this->db->query($sql,[$userId]);
 
         foreach ($allDate as $dayNumber => $date) {
             foreach ($tickets as $key => $value) {
@@ -93,12 +95,16 @@ class TicketsGateway
 
     /**
      * @param $id
+     * @param $userId
      * @return mixed
      */
-    public function getTicketsById($id)
+    public function getTicketsById($id, $userId)
     {
-        $sql = "SELECT id,time,price,no_time,date FROM tickets JOIN day USING (day_id) WHERE id = $id";
-        return $this->db->query($sql)[0];
+        $sql = "SELECT id,user_id,time,price,no_time,date FROM tickets JOIN day USING (day_id,user_id) WHERE id = ?  AND user_id = ?";
+
+
+        return $this->db->query($sql,[$id,$userId])[0];
+
     }
 
 
@@ -175,6 +181,8 @@ class TicketsGateway
 
 
     }
+
+
 
     /**
      * @param $id
