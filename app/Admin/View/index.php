@@ -1,6 +1,6 @@
 <?php require_once ROOT . '/../app/Admin/View/header.php'; ?>
-
-<?php require_once ROOT . '/../app/Admin/View/sidebar.php'; ?>
+<?php require_once ROOT . '/../app/Admin/View/sidebarDefault.php'; ?>
+<?php require_once ROOT . '/../app/Admin/View/dashboard.php'; ?>
 
 
 </div>

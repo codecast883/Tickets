@@ -1,23 +1,8 @@
 <?php
 namespace app\Admin\DB;
 
-
-
-
-class AdminGateway
+class AdminGateway extends Gateway
 {
-
-    private $db;
-
-    /**
-     * AdminGateway constructor.
-     */
-    public function __construct()
-    {
-        global $dbo;
-        $this->db = $dbo;
-
-    }
 
     /**
      * @param $login
@@ -47,7 +32,7 @@ class AdminGateway
     public function getNameUser()
     {
 
-        if ($hash = $_COOKIE['usr']) {
+        if ($hash = htmlspecialchars($_COOKIE['usr'])) {
             $sql = "SELECT login FROM users WHERE password = ?";
             if ($user = $this->db->query($sql,[$hash])) {
                 return $user[0]->login;

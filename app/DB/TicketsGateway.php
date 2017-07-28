@@ -21,40 +21,58 @@ class TicketsGateway
 
     }
 
+
     /**
-     * Pull CRUD method
+     * @param $userId
+     * @param int $type
      */
-    public function pullNewTickets()
+    public function pullNewTickets($userId, $type = 0)
     {
-
-        $this->cleanFullTickets();
-        $this->day->cleanFullDays();
-        $dayAmount = TicketsApp::getDataAdmin('getOptions','Options')->day_amount;
-        $this->day->addNewDays($dayAmount,2);
+        $week = '';
+        $dayAmount = TicketsApp::getDataAdmin('getOptions','Events',$userId)->day_amount;
 
 
-        $week = TicketsApp::getData('getFullOptions','Settings');
 
-        foreach ($week as $array) {
-            foreach ($array as $key => $value) {
-                $sql = "INSERT INTO tickets (day_id,user_id,time,price,no_time) VALUES (:day_id,:user_id,:time,:price,:no_time)";
-                $statement = $this->db->dbh->prepare($sql);
-                $statement->bindValue(':day_id', $value['day_id']);
-                $statement->bindValue(':user_id', 2);
-                $statement->bindValue(':time', $value['time']);
-                $statement->bindValue(':price', $value['price']);
-                $statement->bindValue(':no_time', $value['no_time']);
-                $statement->execute();
+            if ($type == 0){
+                $this->cleanFullTicketsByUser($userId);
+                $this->day->cleanFullDaysByUser($userId);
+                $this->day->addNewDays($dayAmount,$userId);
+                $week = TicketsApp::getData('getFullOptions','Settings',$userId);
+            }elseif ($type == 1){
+                $week = $this->getTicketsUpdate($userId);
+                $this->cleanFullTicketsByUser($userId);
+                $this->day->cleanFullDaysByUser($userId);
+                $this->day->addNewDays($dayAmount,$userId);
+
+//                $this->cleanFullTickets();
             }
 
-        }
+            foreach ($week as $array) {
+                foreach ($array as $key => $value) {
+                    $sql = "INSERT INTO tickets (day_id,user_id,time,price,no_time) VALUES (:day_id,:user_id,:time,:price,:no_time)";
+                    $statement = $this->db->dbh->prepare($sql);
+                    $statement->bindValue(':day_id', $value['day_id']);
+                    $statement->bindValue(':user_id', $userId);
+                    $statement->bindValue(':time', $value['time']);
+                    $statement->bindValue(':price', $value['price']);
+                    $statement->bindValue(':no_time', $value['no_time']);
+                    $statement->execute();
+                }
+            }
 
 
     }
 
-    /**
-     * @return array
-     */
+
+    public function cleanFullTicketsByUser($userId){
+        $sql = 'DELETE FROM tickets WHERE user_id = :user_id';
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+    }
+
+
+
     public function getAllDay($userId)
     {
         $day = [];
@@ -180,6 +198,30 @@ class TicketsGateway
         }
 
 
+    }
+
+    public function getTicketsUpdate($userId)
+    {
+
+        $settings = TicketsApp::getData('getFullOptions','Settings',$userId);
+        $lastDay = array_pop($settings);
+        $tickets = $this->getAllTickets($userId);
+        array_shift($tickets);
+
+        $newTickets = [];
+        $i = 0;
+        foreach ($tickets as $date => $value) {
+            $i++;
+            foreach ($value as $key => $values) {
+                $newTickets[$i][$key]['day_id'] = $i;
+                $newTickets[$i][$key]['time'] = $values->time;
+                $newTickets[$i][$key]['price'] = $values->price;
+                $newTickets[$i][$key]['no_time'] = $values->no_time;
+
+            }
+        }
+        $newTickets[$i+1] = $lastDay;
+        return $newTickets;
     }
 
 

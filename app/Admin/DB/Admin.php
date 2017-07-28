@@ -19,7 +19,7 @@ class Admin
      */
     public static function checkAuth()
     {
-        $cookie = $_COOKIE['usr'];
+        $cookie = htmlspecialchars($_COOKIE['usr']);
         if (empty($cookie)) {
             return false;
         } else {

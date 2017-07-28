@@ -18,8 +18,8 @@ class Controller
 
             if ($this->id = TicketsApp::getDataAdmin('getUserIdByHash', 'Admin', $this->hash)) {
 
-//                TicketsApp::debug(TicketsApp::getData('getTicketsById','Tickets',2));
-                $this->header = TicketsApp::getDataAdmin('getOptions', 'Options');
+//
+                $this->header = TicketsApp::getDataAdmin('getOptions', 'Events',$this->id);
 
             } else {
                 header("HTTP/1.0 404 Not Found");

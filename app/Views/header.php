@@ -37,7 +37,7 @@
 </div>
 
 <div id="featured">
-    <?php foreach (app\Components\TicketsApp::getDataAdmin('getAllHeaderImages','Options') as $value): ?>
+    <?php foreach (app\Components\TicketsApp::getDataAdmin('getAllHeaderImages','Events') as $value): ?>
         <?php echo '<img src="' . $value->pic_src . '" style="width:683px"/>' ?>
     <?php endforeach; ?>
 </div>

@@ -7,7 +7,10 @@ body {
   padding-top: 50px;
 }
 
-
+.form-images-download{
+  margin-left: 70px;
+  margin-bottom: 100px;
+}
 /*
  * Global add-ons
  */
@@ -17,6 +20,18 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+
+#foo {
+  display: none;
+  z-index: 12;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+}
+#foo.active {
+  display: inline-block; /* или какой надо */
+}
 
 /*
  * Sidebar
@@ -38,7 +53,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color: #ddd;
-    border-right: 1px solid #eee;
+    border-right: 1px solid #929292;
   }
 }
 
@@ -47,11 +62,13 @@ body {
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
   margin-left: -20px;
+
 }
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
   color: #466682;
+  text-align: center;
 }
 .nav-sidebar > .active > a {
   color: #31708f;
@@ -139,3 +156,28 @@ body {
     border: 1px solid #000;
     margin: 10px 5px 0 0;
   }
+  .events-alert{
+    text-align: center;
+    margin-top: 300px;
+    color: #969696;
+  }
+
+  .add-event{
+    margin-top: 20px;
+    margin-right: 25px;
+    padding: 15px;
+  }
+  #form{
+    margin-top: 50px;
+    margin-left: 50px;
+  }
+  .form-label{
+    font-size: 15px;
+    font-weight: 500;
+    color: grey;
+  }
+.new-event-title{
+  color: #909090;
+  margin-bottom: 30px;
+  margin-top: 70px;
+}

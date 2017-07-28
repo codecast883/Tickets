@@ -16,32 +16,24 @@ class SettingsGateway
 
     }
 
-    /**
-     * @return mixed
-     */
-    public function countDays()
-    {
-        $sql = 'SELECT COUNT(day_id) FROM ' . 'options_pull_day';
-        $str = $this->db->query($sql)[0];
-        foreach ($str as $value) {
-            $count = $value;
-        }
-        return $count;
-    }
+
 
     /**
      * @return array
      */
-    public function getFullOptions()
+
+
+    public function getFullOptions($userId)
     {
         $options = [];
         $fullOptions = [];
         $fullOptionsOut = [];
-        $daysNumber = $this->countDays();
-        $dayAmount = TicketsApp::getDataAdmin('getOptions', 'Options')->day_amount;
+        $dayOfWeek = (new \DateTime())->format('N');
+        $daysNumber = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
+        $dayAmount = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_amount;
 
         for ($i = 1; $i <= $daysNumber; $i++) {
-            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i;
+            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND user_id=' . $userId;
 
             $options[$i] = $this->db->query($sql);
         }
@@ -49,8 +41,15 @@ class SettingsGateway
         $lastElement = array_pop($as);
 
         for ($i = 1; $i <= $dayAmount; $i++) {
-            $arrayIteration = current($options);
 
+            if ($dayOfWeek !== 1 and $i == 1) {
+                $dayOfWeek--;
+                for ($a = 1; $a <= $dayOfWeek; $a++) {
+                    next($options);
+                }
+            }
+
+            $arrayIteration = current($options);
             $fullOptions[$i] = $arrayIteration;
             next($options);
             if ($arrayIteration[0]->id == $lastElement[0]->id) {
@@ -69,10 +68,9 @@ class SettingsGateway
             }
         }
 
-
         return $fullOptionsOut;
-
     }
+
 
 }
 

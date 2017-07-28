@@ -26,15 +26,17 @@ class DayGateway
     public function addNewDays($dayNumber,$userId)
     {
         $dates = Day::getMassDate($dayNumber);
-
+        $i = 1;
         foreach ($dates as $date) {
-            $sql = "INSERT INTO day (user_id,date) VALUES (:user_id,:date)";
+            $sql = "INSERT INTO day (day_id,user_id,date) VALUES (:day_id,:user_id,:date)";
             $statement = $this->db->dbh->prepare($sql);
+            $statement->bindValue(':day_id',  $i++);
             $statement->bindValue(':date', $date);
             $statement->bindValue(':user_id', $userId);
             $statement->execute();
         }
-        return true;
+            return true;
+
     }
 
 
@@ -48,4 +50,10 @@ class DayGateway
 
     }
 
+    public function cleanFullDaysByUser($userId){
+        $sql = 'DELETE FROM day WHERE user_id = :user_id';
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+    }
 }

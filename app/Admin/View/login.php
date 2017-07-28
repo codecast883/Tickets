@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/style/signin.css" rel="stylesheet">
-
+    <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
     <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -49,6 +49,24 @@
         <div class="register"> <a href="/admin/register">Регистрация</a></div>
     </form>
 
+<!--<script type="text/javascript">-->
+<!--    $( ".form-signin" ).submit(function() {-->
+<!--        var str = $(this).serialize();-->
+<!---->
+<!--        $.ajax({-->
+<!--            type: "POST",-->
+<!--            url: "/admin/loginform",-->
+<!--            data: str,-->
+<!--            cache: false,-->
+<!--            success: function(html){-->
+<!---->
+<!--                $("html").html(html);-->
+<!--            }-->
+<!--        });-->
+<!--        return false;-->
+<!--    });-->
+<!---->
+<!--</script>-->
 </div> <!-- /container -->
 
 

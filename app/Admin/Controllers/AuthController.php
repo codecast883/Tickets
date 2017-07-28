@@ -9,7 +9,7 @@ use app\Admin\DB\TicketsGateway;
 use app\Components\TicketsApp;
 
 
-class AdminController
+class AuthController
 {
     public $adminGateway;
     public $adminModel;
@@ -75,7 +75,7 @@ class AdminController
 
                 } else {
 
-                    $error[1]['login'] = "<span style='color:red';>Пользователь или пароль неверны</span>";
+                    $error[1]['login'] = "<span style='color:red'>Пользователь или пароль неверны</span>";
 
                 }
 
@@ -87,40 +87,7 @@ class AdminController
     }
 
 
-    public function actionProfile()
-    {
-        if (!Admin::checkAuth()) {
-            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
-            die;
-        }
 
-        $listRequest = TicketsApp::getData('getAllRequest','Request');
-        $this->ticketsGateway->cleanCountNewTickets();
-
-
-        require_once ROOT . '/../app/Admin/View/dashboard.php';
-
-
-    }
-
-
-    public function actionIndex()
-    {
-        if (!Admin::checkAuth()) {
-            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
-            die;
-        }
-        require_once ROOT . '/../app/Admin/View/index.php';
-    }
-
-
-    public function actionLogout()
-    {
-        setrawcookie('usr', '', time() - 460000, '', '', 0, 1);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/profile');
-
-
-    }
 
     public function actionRegister()
     {
@@ -175,6 +142,33 @@ class AdminController
 
         }
         require_once ROOT . '/../app/Admin/View/register.php';
+
+
+    }
+
+//    public function actionProfile()
+//    {
+//        if (!Admin::checkAuth()) {
+//            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
+//            die;
+//        }
+//
+//        $listRequest = TicketsApp::getData('getAllRequest','Request');
+//        $this->ticketsGateway->cleanCountNewTickets();
+//
+//
+//        require_once ROOT . '/../app/Admin/View/dashboard.php';
+//
+//
+//    }
+
+
+
+
+    public function actionLogout()
+    {
+        setrawcookie('usr', '', time() - 460000, '', '', 0, 1);
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin');
 
 
     }
