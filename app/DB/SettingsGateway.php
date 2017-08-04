@@ -71,6 +71,21 @@ class SettingsGateway
         return $fullOptionsOut;
     }
 
+    public function getWeekOptions($userId)
+    {
+        $daysNumber = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
+        $options = [];
+
+        for ($i = 1; $i <= $daysNumber; $i++) {
+            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND user_id=' . $userId;
+
+            $options[$i] = $this->db->query($sql);
+        }
+
+
+        return $options;
+    }
+
 
 }
 

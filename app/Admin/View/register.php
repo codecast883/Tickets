@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
 
-    <title>Войти</title>
+    <title>Регистрация</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/style/bootstrap.min.css" rel="stylesheet">
@@ -60,7 +60,8 @@
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Регистрация</button>
-        <a class="btn btn-lg btn-success btn-block btn-enter" href="/admin">Вход</a>
+        <br><br>
+        <a  href="/admin">Войти, используя существующий аккаунт</a>
     </form>
 
 </div> <!-- /container -->

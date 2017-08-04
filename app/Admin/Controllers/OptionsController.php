@@ -1,32 +1,21 @@
 <?php
 namespace app\Admin\Controllers;
 
-use app\Admin\DB\OptionsGateway;
+use app\Admin\DB\EventsGateway;
 use app\Admin\DB\Admin;
 use app\Components\TicketsApp;
 
 
-class OptionsController
+class OptionsController extends Controller
 {
 
-    private $optionsGateway;
-
-    public function __construct()
-    {
-
-        $this->optionsGateway = new OptionsGateway;
-
-    }
 
 
     public function actionList()
     {
-        if (!Admin::checkAuth()) {
-            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
-            die;
-        }
-        $allImages = TicketsApp::getDataAdmin('getAllHeaderImages','Options');
-        $optionsData = TicketsApp::getDataAdmin('getOptions','Options');
+
+        $allImages = TicketsApp::getDataAdmin('getAllHeaderImages','Events',$this->id);
+        $optionsData = TicketsApp::getDataAdmin('getOptions','Events',$this->id);
         $formOptions = [];
         $fileErrors = [];
         $formSuccess = '';
@@ -56,14 +45,14 @@ class OptionsController
 
             if (empty($fileErrors)) {
 
-                $this->optionsGateway->deleteAllImages();
+                $this->eventsGateway->deleteAllImages($this->id);
 
                 foreach ($_FILES["fileMulti"]["tmp_name"] as $value) {
                     if (is_uploaded_file($value)) {
                         $name = mt_rand(100000, 200000);
                         $path = '/src/pictures/' . $name . '.jpg';
                         if ( move_uploaded_file($value, ROOT . $path)){
-                            $this->optionsGateway->insertImage($path);
+                            $this->eventsGateway->insertImage($path,$this->id);
                         }
 
                     } else {
@@ -71,8 +60,8 @@ class OptionsController
                     }
                 }
             }
-            $this->optionsGateway->optionsUpdate($formOptions);
-            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/options');
+            $this->eventsGateway->optionsUpdate($formOptions,$this->id);
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/options?saveOpt');
 
         }
 

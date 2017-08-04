@@ -154,10 +154,10 @@ class TicketsGateway
      * @param $post
      * @return array
      */
-    public function formatPostUpdate($post)
+    public function formatPostUpdate($post,$userId)
     {
         $outArray = [];
-        $allDay = $this->getAllDay();
+        $allDay = $this->getAllDay($userId);
         foreach ($allDay as $date) {
             foreach ($post as $key => $value) {
                 $type = explode('_', $key);
@@ -172,17 +172,16 @@ class TicketsGateway
     /**
      * @param $upTickets
      */
-    public function ticketsUpdate($upTickets)
+    public function ticketsUpdate($upTickets,$userId)
     {
-        $id = 0;
-        $allTickets = $this->getAllTickets();
+
+        $allTickets = $this->getAllTickets($userId);
         foreach ($upTickets as $date => $ticket) {
             foreach ($ticket as $key => $value) {
                 $idTicket = $allTickets[$date][$key]->id;
                 $r = '';
-                $id++;
 
-                $sql = 'UPDATE tickets SET time = :time, price = :price ,no_time = :no_time WHERE id = :id';
+                $sql = 'UPDATE tickets SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND user_id = :user_id';
                 $statement = $this->db->dbh->prepare($sql);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
@@ -193,6 +192,7 @@ class TicketsGateway
                 }
 
                 $statement->bindValue(':id', $idTicket);
+                $statement->bindValue(':user_id', $userId);
                 $statement->execute();
             }
         }
@@ -229,7 +229,7 @@ class TicketsGateway
     /**
      * @param $id
      */
-    public function deleteTicketById($id)
+    public function deleteTicketById($id,$userId)
     {
         $sql = 'DELETE FROM tickets WHERE id = :id';
         $statement = $this->db->dbh->prepare($sql);
@@ -243,15 +243,15 @@ class TicketsGateway
      * @param $data
      * @return mixed
      */
-    public function addOneTickets($data)
+    public function addOneTickets($data,$userId)
     {
         $date = $data['date'];
-        $sql = "SELECT day_id FROM day WHERE date = '$date'";
+        $sql = "SELECT day_id FROM day WHERE date = '$date' AND user_id = '$userId'";
         $dayId = $this->db->query($sql)[0]->day_id;
-        $r = '';
 
-        $sql = "INSERT INTO tickets (day_id,time,price,no_time) VALUES (:day_id,:time,:price,:no_time)";
+        $sql = "INSERT INTO tickets (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";
         $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':day_id', $dayId);
         $statement->bindValue(':time', $data['time']);
         $statement->bindValue(':price', $data['price']);

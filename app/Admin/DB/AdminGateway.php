@@ -99,12 +99,12 @@ class AdminGateway extends Gateway
     public function addUser($login,$pass,$email)
     {
         $date = \app\Components\TicketsApp::getDate();
-        $passHash = password_hash($pass, PASSWORD_DEFAULT);
+
         $appHash = mb_strimwidth(md5($login), 0, 18);
         $sql = "INSERT INTO users (login,password,email,date_reg,app_hash) VALUES (:login,:password,:email,:date_reg,:app_hash)";
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':login', $login);
-        $statement->bindValue(':password', $passHash);
+        $statement->bindValue(':password', $pass);
         $statement->bindValue(':email', $email);
         $statement->bindValue(':date_reg', $date);
         $statement->bindValue(':app_hash', $appHash);
@@ -125,4 +125,19 @@ class AdminGateway extends Gateway
     }
 
 
+    public function getUserHashById($id){
+        $sql = "SELECT app_hash FROM users WHERE user_id = ?";
+        if ($id = $this->db->query($sql,[$id])) {
+            return $id[0]->app_hash;
+        }
+        return false;
+    }
+
+    public function getAllAdminId(){
+        $sql = "SELECT user_id FROM users";
+        if ($id = $this->db->query($sql)) {
+            return $id;
+        }
+        return false;
+    }
 }

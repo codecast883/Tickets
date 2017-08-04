@@ -3,43 +3,21 @@ namespace app\Admin\DB;
 
 
 
-class PulloptionsGateway
+use Composer\Factory;
+
+class PulloptionsGateway extends Gateway
 {
 
-    protected $db;
 
-
-    public function __construct()
-    {
-        global $dbo;
-        $this->db = $dbo;
-
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function countDay()
-    {
-        $count = '';
-        $sql = 'SELECT COUNT(day_id) FROM ' . 'options_pull_day';
-        $str = $this->db->query($sql)[0];
-        foreach ($str as $value) {
-            $count = $value;
-        }
-        return $count;
-
-    }
 
     /**
      * @param $post
      * @return array
      */
-    public function formatPostUpdate($post)
+    public function formatPostUpdate($post,$userId)
     {
         $outArray = [];
-        $allDay = $this->countDay();
+        $allDay = \app\Components\TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
         for ($i = 0; $i <= $allDay; $i++) {
             foreach ($post as $key => $value) {
                 $type = explode('_', $key);
@@ -55,17 +33,17 @@ class PulloptionsGateway
     /**
      * @param $upTickets
      */
-    public function ticketsUpdate($upTickets)
+    public function ticketsUpdate($upTickets,$userId)
     {
 
-        $allTickets = \app\Components\TicketsApp::getData('getFullOptions','Settings');
+        $allTickets = \app\Components\TicketsApp::getData('getWeekOptions','Settings',$userId);
         foreach ($upTickets as $number => $ticket) {
             foreach ($ticket as $key => $value) {
 
                 $idTicket = $allTickets[$number][--$key]->id;
 
 
-                $sql = 'UPDATE options_pull_ticket SET time = :time, price = :price ,no_time = :no_time WHERE id = :id';
+                $sql = 'UPDATE options_pull_ticket SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND user_id = :user_id';
                 $statement = $this->db->dbh->prepare($sql);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
@@ -76,6 +54,7 @@ class PulloptionsGateway
                 }
 
                 $statement->bindValue(':id', $idTicket);
+                $statement->bindValue(':user_id', $userId);
                 $statement->execute();
             }
         }
@@ -83,6 +62,27 @@ class PulloptionsGateway
 
     }
 
+    public function insertPullOptions($options,$userId)
+    {
+
+
+        foreach ($options as $number => $ticket) {
+            foreach ($ticket as $key => $value) {
+
+                $sql = "INSERT INTO options_pull_ticket (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";;
+                $statement = $this->db->dbh->prepare($sql);
+                $statement->bindValue(':user_id', $userId);
+                $statement->bindValue(':day_id', $number);
+                $statement->bindValue(':time', $value['time']);
+                $statement->bindValue(':price', $value['price']);
+                $statement->bindValue(':no_time', 0);
+
+                $statement->execute();
+            }
+        }
+
+
+    }
     /**
      * @param $id
      */
@@ -99,12 +99,13 @@ class PulloptionsGateway
      * @param $data
      * @return bool
      */
-    public function addOneTickets($data)
+    public function addOneTickets($data,$userId)
     {
 
-        $sql = "INSERT INTO options_pull_ticket (day_id,time,price,no_time) VALUES (:d_week_id,:time,:price,:no_time)";
+        $sql = "INSERT INTO options_pull_ticket (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':d_week_id', $data['day']);
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':day_id', $data['day']);
         $statement->bindValue(':time', $data['time']);
         $statement->bindValue(':price', $data['price']);
         if (isset($data['noTime'])) {

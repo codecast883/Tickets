@@ -18,10 +18,14 @@
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <!-- 4. Подключить скрипт виджета "Bootstrap datetimepicker" -->
     <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/js/alertify.min.js"></script>
+
     <!-- 5. Подключить CSS платформы Twitter Bootstrap 3 -->
     <link rel="stylesheet" href="/style/bootstrap.min.css"/>
     <!-- 6. Подключить CSS виджета "Bootstrap datetimepicker" -->
     <link rel="stylesheet" href="/style/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="/style/alertify.core.css"/>
+    <link rel="stylesheet" href="/style/alertify.default.css"/>
 
 
     <!-- Custom styles for this template -->
@@ -35,6 +39,7 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
 </head>
 

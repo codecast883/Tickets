@@ -131,9 +131,12 @@ class AuthController
                    if (!$this->adminGateway->checkSameLogin($formData['login'])){
                        $error[1]['login'] = '<label class="control-label" for="inputError1">Введенный пользователь уже существует</label>';
                        $error[0]['login'] = 'has-error';
-                       TicketsApp::debug(TicketsApp::getDate());
+
                    }else{
-                       $this->adminGateway->addUser($formData['login'],$formData['password'],$formData['email']);
+                       $passHash = password_hash($formData['password'], PASSWORD_DEFAULT);
+                       $this->adminGateway->addUser($formData['login'],$passHash,$formData['email']);
+                       setrawcookie('usr', $passHash, time() + 43600, '', '', 0, 1);
+                       header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin');
                    }
 
                }

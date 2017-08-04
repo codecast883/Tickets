@@ -12,12 +12,6 @@ class TicketsController extends Controller
     {
 
 
-//        TicketsApp::debug(TicketsApp::getData('getTicketsUpdate','Tickets',$this->id));
-//        TicketsApp::debug(TicketsApp::getData('getFullOptions','Settings',$this->id));
-
-
-
-
         $list = TicketsApp::getData('getAllTickets', 'Tickets', $this->id);
         require_once ROOT . '/../app/Views/list.php';
 

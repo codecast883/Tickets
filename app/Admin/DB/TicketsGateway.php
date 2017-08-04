@@ -4,23 +4,14 @@
 namespace app\Admin\DB;
 
 
-class TicketsGateway
+class TicketsGateway extends Gateway
 {
-    protected $db;
 
 
-    public function __construct()
+    public function getCountNewTickets($userId)
     {
-        global $dbo;
-        $this->db = $dbo;
-
-    }
-
-
-    public function getCountNewTickets()
-    {
-        $sql = "SELECT number FROM new_tickets_number ";
-        $count = $this->db->query($sql);
+        $sql = "SELECT number FROM new_tickets_number WHERE user_id = ?";
+        $count = $this->db->query($sql, [$userId]);
         if (empty($count)) {
             return false;
         } else {
@@ -29,10 +20,12 @@ class TicketsGateway
     }
 
 
-    public function cleanCountNewTickets()
+    public function cleanCountNewTickets($userId)
     {
-        $sql = "TRUNCATE TABLE new_tickets_number";
-        $this->db->dbh->exec($sql);
+        $sql = 'DELETE FROM new_tickets_number WHERE user_id = :user_id';
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
 
     }
 }

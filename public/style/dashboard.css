@@ -4,33 +4,77 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
+    padding-top: 50px;
+}
+.events-item a {
+    display: block;
+    height: 100%;
+}
+.btn-save-and-pull{
+    float: initial !important;
+}
+.events-item {
+    float: left;
+    width: 300px;
+    height: 100px;
+    background-color: #66512c;
+    border: black 1px solid;
+    margin-right: 20px;
+
+}
+.events-item:hover{
+    border: red 4px solid;
+}
+.events-item-title {
+    text-align: center;
+    font-weight: 800;
+    padding-top: 13px;
+    width: 100%;
+    height: 20px;
+    color: #fff;
 }
 
-.form-images-download{
-  margin-left: 70px;
-  margin-bottom: 100px;
+.form-images-download {
+    margin-left: 70px;
+    margin-bottom: 100px;
+}
+.go-back{
+    border: none;
+    color: #fff;
+    background-color: #ccc;
 }
 /*
  * Global add-ons
  */
+.alert-dangers {
+    width: 30%;
+    display: none;
+}
 
 .sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
+.day-amount {
+    width: 32%;
+}
+
+.step {
+    margin-left: 430px;
+}
 
 #foo {
-  display: none;
-  z-index: 12;
-  position: absolute;
-  left: 50%;
-  top: 50%;
+    display: none;
+    z-index: 12;
+    position: absolute;
+    left: 50%;
+    top: 50%;
 
 }
+
 #foo.active {
-  display: inline-block; /* или какой надо */
+    display: inline-block; /* или какой надо */
 }
 
 /*
@@ -39,43 +83,47 @@ body {
 
 /* Hide for mobile, show later */
 .sidebar {
-  display: none;
+    display: none;
 }
+
 @media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #ddd;
-    border-right: 1px solid #929292;
-  }
+    .sidebar {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #ddd;
+        border-right: 1px solid #929292;
+    }
 }
 
 /* Sidebar navigation */
 .nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
 
 }
+
 .nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
-  color: #466682;
-  text-align: center;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #466682;
+    text-align: center;
 }
+
 .nav-sidebar > .active > a {
-  color: #31708f;
-  background-color: #428bca;
+    color: #31708f;
+    background-color: #428bca;
 }
-.jumbotron{
-  background-color: #e2e2e2;
+
+.jumbotron {
+    background-color: #e2e2e2;
 
 }
 
@@ -84,100 +132,113 @@ body {
  */
 
 .main {
-  padding: 20px;
-}
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-.main .page-header {
-  margin-top: 0;
+    padding: 20px;
 }
 
+@media (min-width: 768px) {
+    .main {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+
+.main .page-header {
+    margin-top: 0;
+}
 
 /*
  * Placeholder dashboard ideas
  */
 
 .placeholders {
-  margin-bottom: 30px;
-  text-align: center;
+    margin-bottom: 30px;
+    text-align: center;
 }
+
 .placeholders h4 {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .placeholder {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 .placeholder img {
-  display: inline-block;
-  border-radius: 50%;
+    display: inline-block;
+    border-radius: 50%;
 }
 
 .navbar-nav {
     float: right;
 }
-.table-tickets{
-  width: 50%;
-}
-.btn-group-lg>.btn, .btn-lg{
-  padding: 7px 8px;; 
-  font-size: 14px;
-  float: right;
 
-}
-.btn-save{
-  float:right;
+.table-tickets {
+    width: 50%;
 }
 
-.title-data{
-  margin-top: 70px;
+.btn-group-lg > .btn, .btn-lg {
+    padding: 7px 8px;;
+    font-size: 14px;
+    float: right;
+
 }
-.btn-add{
-  margin-top: 25px;
-  float: left;
+
+.btn-save {
+    float: right;
 }
+
+.title-data {
+    margin-top: 70px;
+}
+
+.btn-add {
+    margin-top: 82px;
+
+}
+
 .modal-dialog {
     min-width: 700px;
     max-width: 700px;
     margin: 30px auto;
-  }
+}
 
-   .img-thumbnail {
+.img-thumbnail {
     height: 75px;
     border: 1px solid #000;
     margin: 10px 5px 0 0;
-  }
+}
 
-  .slider-preview img{
+.slider-preview img {
     height: 100px;
     border: 1px solid #000;
     margin: 10px 5px 0 0;
-  }
-  .events-alert{
+}
+
+.events-alert {
     text-align: center;
     margin-top: 300px;
     color: #969696;
-  }
+}
 
-  .add-event{
+.add-event {
     margin-top: 20px;
     margin-right: 25px;
     padding: 15px;
-  }
-  #form{
+}
+
+#form {
     margin-top: 50px;
     margin-left: 50px;
-  }
-  .form-label{
+}
+
+.form-label {
     font-size: 15px;
     font-weight: 500;
     color: grey;
-  }
-.new-event-title{
-  color: #909090;
-  margin-bottom: 30px;
-  margin-top: 70px;
+}
+
+.new-event-title {
+    color: #909090;
+    margin-bottom: 30px;
+    margin-top: 70px;
 }

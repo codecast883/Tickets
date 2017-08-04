@@ -1,33 +1,21 @@
 <?php
 namespace app\Admin\Controllers;
 
-use app\DB\TicketsGateway;
 use app\Admin\DB\Admin;
 use app\Components\TicketsApp;
 
 
-class TicketsController
+class TicketsController extends Controller
 {
-    private $ticketsGateway;
-
-    public function __construct()
-    {
-        $this->ticketsGateway = new TicketsGateway;
-
-    }
 
     public function actionList()
     {
-        if (!Admin::checkAuth()) {
-            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
-            die;
-        }
-
+        TicketsApp::debug($this->adminGateway->getAllAdminId());
         $formSuccess = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $postFormat = $this->ticketsGateway->formatPostUpdate($_POST);
-            $this->ticketsGateway->ticketsUpdate($postFormat);
+            $postFormat = $this->ticketsGateway->formatPostUpdate($_POST,$this->id);
+            $this->ticketsGateway->ticketsUpdate($postFormat,$this->id);
 
             $formSuccess = '<div class="alert alert-success">
   			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения сохранены</div>';
@@ -35,7 +23,7 @@ class TicketsController
 
         }
 
-
+        $ticketsList = $this->ticketsGateway->getAllTickets($this->id);
         require_once ROOT . '/../app/Admin/View/tickets.php';
 
 
@@ -46,15 +34,15 @@ class TicketsController
     {
 
         $this->ticketsGateway->deleteTicketById($idItem);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets');
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets?s');
 
     }
 
     public function actionAdd()
     {
 
-        $this->ticketsGateway->addOneTickets($_POST);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets');
+        $this->ticketsGateway->addOneTickets($_POST,$this->id);
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets?add');
 
 
     }

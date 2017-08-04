@@ -60,7 +60,7 @@
 <!--            cache: false,-->
 <!--            success: function(html){-->
 <!---->
-<!--                $("html").html(html);-->
+<!--                $(".container").html(html);-->
 <!--            }-->
 <!--        });-->
 <!--        return false;-->

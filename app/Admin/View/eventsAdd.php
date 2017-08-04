@@ -1,7 +1,20 @@
 <?php require_once ROOT . '/../app/Admin/View/header.php'; ?>
 <?php require_once ROOT . '/../app/Admin/View/sidebarDefault.php'; ?>
 <div class="container">
-<h2 class="new-event-title">Создание нового квеста(мероприятия)</h2>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <h2 class="new-event-title">Создание нового квеста(мероприятия)</h2>
+
+            <?php if ($this->alert){die($this->alert);}?>
+        </div>
+        <div class="col-md-6">
+            <h3 class="new-event-title step">Шаг 1 из 2</h3>
+        </div>
+
+
+    </div>
 <form role="form" name="updateTickets" enctype="multipart/form-data" action="" method="post">
 <div class="col-md-5">
 

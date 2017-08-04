@@ -7,7 +7,7 @@
     <div class="jumbotron"><h3>Общие настройки приложения</h3></div>
 
     <div class="col-md-5">
-        <?= $formSuccess ?>
+        <?= $this->alert ?>
 
         <form role="form" name="updateTickets" enctype="multipart/form-data" action="" method="post">
             Название проекта<br>

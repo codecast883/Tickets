@@ -88,7 +88,7 @@ class RequestController extends Controller
                     $formData[$key] = $value;
                 }
 
-                $this->requestGateway->addRequest($formData);
+                $this->requestGateway->addRequest($formData,$this->id);
 
                 header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe='.$this->hash);
 

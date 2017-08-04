@@ -11,18 +11,17 @@ class EventsGateway extends Gateway
         $sql = 'SELECT * FROM ' . 'events WHERE user_id=?';
         $result = $this->db->query($sql, [$userId]);
         if (!empty($result)) {
-            return true;
+            return $result;
         } else {
             return false;
         }
 
     }
 
-    public function getAllHeaderImages()
+    public function getAllHeaderImages($userId)
     {
-        $id = 2;
         $sql = "SELECT pic_src FROM events_files WHERE user_id = ?";
-        if ($picSrc = $this->db->query($sql, [$id])) {
+        if ($picSrc = $this->db->query($sql, [$userId])) {
             return $picSrc;
         }
         return false;
@@ -30,9 +29,12 @@ class EventsGateway extends Gateway
     }
 
 
-    public function deleteAllImages()
+    public function deleteAllImages($userId)
     {
-        $this->db->query('TRUNCATE table events_files');
+        $sql = 'DELETE FROM events_files WHERE user_id = :user_id';
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
     }
 
     /**
@@ -99,4 +101,33 @@ class EventsGateway extends Gateway
         $statement->execute();
 
     }
+
+    public function getGenerateWeek($param, $userId)
+    {
+        $week = [];
+        for ($i = 1; $i <= 7; $i++) {
+            for ($a = 1; $a <= $param['ticketsAmount']; $a++) {
+                $week[$i][$a]['user_id'] = $userId;
+                $week[$i][$a]['day_id'] = $i;
+                $week[$i][$a]['time'] = $param['from'];
+                $week[$i][$a]['price'] = $param['ticketsPrice'];
+                $week[$i][$a]['no_time'] = 0;
+            }
+        }
+
+        return $week;
+    }
+
+    public function setDayAmount($countDays, $userId)
+    {
+        $sql = 'UPDATE events SET day_amount = :day_amount WHERE user_id = :user_id';
+
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':day_amount', $countDays);
+        $statement->bindValue(':user_id', $userId);
+
+        $statement->execute();
+
+    }
+
 }

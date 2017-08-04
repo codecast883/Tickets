@@ -24,11 +24,11 @@ class CronController
     public function actionAdd()
     {
 
-        if (!empty($this->id)){
+        if (!empty($this->id)) {
 
             (new \app\DB\TicketsGateway)->pullNewTickets($this->id);
 
-        }else{
+        } else {
             header("HTTP/1.0 404 Not Found");
             echo "404 Not Found" . '<br>';
             die;
@@ -38,14 +38,28 @@ class CronController
     public function actionUpdate()
     {
 
-        if (!empty($this->id)){
+        if (!empty($this->id)) {
 
             (new \app\DB\TicketsGateway)->pullNewTickets($this->id, 1);
 
-        }else{
+        } else {
             header("HTTP/1.0 404 Not Found");
             echo "404 Not Found" . '<br>';
             die;
+        }
+    }
+
+    public function actionCron()
+    {
+        $ticketsGateway = new \app\DB\TicketsGateway;
+
+        $allUsersId = (new \app\Admin\DB\AdminGateway)->getAllAdminId();
+
+        if ($_GET['t'] === 's4FR4LhsHIyT') {
+
+            foreach ($allUsersId as $key => $value) {
+                $ticketsGateway->pullNewTickets($value->user_id, 1);
+            }
         }
     }
 

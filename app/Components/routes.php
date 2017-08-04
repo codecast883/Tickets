@@ -3,10 +3,11 @@ return [
     'tickets/list' =>                       'tickets/list',
     'tickets/request/([0-9]+)' =>           'request/add',
     'action/add' =>                         'cron/add',
+    'action/cron' =>                         'cron/cron',
     'action/update' =>                       'cron/update',
     'request/done' =>                       'request/done',
     'admin/loginform' =>                    'auth/login',
-    'admin/profile' =>                      'auth/profile',
+
     'admin/logout' =>                       'auth/logout',
     'admin/tickets' =>                      'tickets/list',
     'admin/tickets/delete/([0-9]+)' =>      'tickets/delete',
@@ -19,6 +20,9 @@ return [
     'admin/events' =>                       'events/events',
     'admin/events/add' =>                       'events/eventsAdd',
     'admin' =>                               'index/index',
+    'admin/requestlist' =>                    'request/list',
+    'admin/settings' =>                    'settings/list',
+    'admin/profile' =>                      'settings/profile',
 
 ];
 ?>
