@@ -5,11 +5,13 @@ class TicketsApp{
 
 
     public static function debug($object){
-        echo '<pre>';
+        echo '<pre style="z-index: 9000;position: relative">';
          print_r($object);
         echo '</pre>';
 
     }
+
+
 
 
     public static function getDate(){

@@ -1,15 +1,11 @@
-<?php
-ob_start();
-define('ROOT', dirname(__FILE__));
-require_once __DIR__ . '/../app/config.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+<style type="text/css">
+	
+	body{
+		margin: 0;
+	}
+</style>
 
-use app\DB\Db;
-use app\Components\Application;
+<iframe name="aaz" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true" frameborder="0" src="http://<?=$_SERVER['SERVER_NAME']?>/tickets/list?getiframe=<?=$_GET['iframe']?>" width="700px"  height="600px">
 
-
-
-
-$dbo = new Db;
-$app = new Application;
-$app->run();
+</iframe>
+	

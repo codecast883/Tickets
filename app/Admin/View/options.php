@@ -46,6 +46,15 @@
     </div>
 </div>
 </div>
+<?php if ($errors): ?>
+    <script>
+        <?php
+        foreach ($fileErrors as $value) {
+            echo 'alertify.error("' . $value . '");';
+        }
+        ?>
+    </script>
+<?php endif; ?>
 <script>
 
 
@@ -55,9 +64,7 @@
         for (var i = 0, f; f = files[i]; i++) {
 
             // Only process image files.
-            if (!f.type.match('image.*')) {
-                alert("Только изображения....");
-            }
+
 
             var reader = new FileReader();
 

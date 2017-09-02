@@ -95,6 +95,22 @@ class AuthController
         $formData = [];
         $error = [];
 
+        $formData['login'] = '';
+        $formData['password'] = '';
+        $formData['email'] = '';
+
+        $error[0]['login'] = '';
+        $error[1]['login'] = '';
+
+        $error[0]['password'] = '';
+        $error[1]['password'] = '';
+
+        $error[0]['email'] = '';
+        $error[1]['email'] = '';
+
+        $error[0]['passwordRetry'] = '';
+        $error[1]['passwordRetry'] = '';
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $formData['login'] = htmlentities(trim($_POST['login']));
             $formData['email'] = htmlentities(trim($_POST['email']));

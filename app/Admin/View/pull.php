@@ -3,7 +3,7 @@
 <?php require_once ROOT . '/../app/Admin/View/sidebar.php'; ?>
 
 
-<div class="container">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
     <div class="jumbotron"><h3>Настройка пула билетов</h3>
     </div>

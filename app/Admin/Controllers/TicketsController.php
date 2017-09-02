@@ -10,19 +10,18 @@ class TicketsController extends Controller
 
     public function actionList()
     {
-        TicketsApp::debug($this->adminGateway->getAllAdminId());
+
         $formSuccess = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $postFormat = $this->ticketsGateway->formatPostUpdate($_POST,$this->id);
             $this->ticketsGateway->ticketsUpdate($postFormat,$this->id);
 
-            $formSuccess = '<div class="alert alert-success">
-  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения сохранены</div>';
+            $formSuccess = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения сохранены</div>';
 
 
         }
-
+//        TicketsApp::debug();
         $ticketsList = $this->ticketsGateway->getAllTickets($this->id);
         require_once ROOT . '/../app/Admin/View/tickets.php';
 
@@ -33,7 +32,7 @@ class TicketsController extends Controller
     public function actionDelete($idItem)
     {
 
-        $this->ticketsGateway->deleteTicketById($idItem);
+        $this->ticketsGateway->deleteTicketById($idItem,$this->id);
         header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets?s');
 
     }

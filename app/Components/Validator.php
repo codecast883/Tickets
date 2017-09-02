@@ -1,4 +1,5 @@
 <?php
+
 namespace app\Components;
 class Validator
 {
@@ -65,7 +66,6 @@ class Validator
         return $error;
 
 
-
     }
 
 
@@ -88,6 +88,66 @@ class Validator
         return $error;
 
 
+    }
+
+    public static function nCheckTitle($field)
+    {
+
+        $error = '';
+
+        if (mb_strlen($field) == 0)
+            $error = 1;
+        if (mb_strlen($field) > 40)
+            $error = 2;
+        if (!preg_match('/^[0-9\sa-zA-Zа-яёА-ЯЁ]+$/u', $field))
+            $error = 3;
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
+
+    }
+
+    public static function nCheckTextArea($field, $empty = false)
+    {
+
+        $error = '';
+
+        if (mb_strlen($field) > 400)
+            $error = 1;
+        if ($empty) {
+            if (mb_strlen($field) == 0)
+                $error = 2;
+        }
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
+
+    }
+
+    public static function nCheckNumber($field)
+    {
+
+        $error = '';
+
+        if (mb_strlen($field) == 0)
+            $error = 1;
+
+        if (mb_strlen($field) > 20)
+            $error = 2;
+        if (!is_numeric($field))
+            $error = 3;
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
 
     }
 

@@ -24,11 +24,12 @@ class TicketsGateway
 
     /**
      * @param $userId
-     * @param int $type
+     * @param int $type: 1 = update, 0 = add
      */
     public function pullNewTickets($userId, $type = 0)
     {
         $week = '';
+        $i = 1;
         $dayAmount = TicketsApp::getDataAdmin('getOptions','Events',$userId)->day_amount;
 
 
@@ -49,9 +50,10 @@ class TicketsGateway
 
             foreach ($week as $array) {
                 foreach ($array as $key => $value) {
-                    $sql = "INSERT INTO tickets (day_id,user_id,time,price,no_time) VALUES (:day_id,:user_id,:time,:price,:no_time)";
+                    $sql = "INSERT INTO tickets (id,day_id,user_id,time,price,no_time) VALUES (:id,:day_id,:user_id,:time,:price,:no_time)";
                     $statement = $this->db->dbh->prepare($sql);
                     $statement->bindValue(':day_id', $value['day_id']);
+                    $statement->bindValue(':id', $i++);
                     $statement->bindValue(':user_id', $userId);
                     $statement->bindValue(':time', $value['time']);
                     $statement->bindValue(':price', $value['price']);
@@ -231,9 +233,10 @@ class TicketsGateway
      */
     public function deleteTicketById($id,$userId)
     {
-        $sql = 'DELETE FROM tickets WHERE id = :id';
+        $sql = 'DELETE FROM tickets WHERE id = :id AND user_id = :user_id';
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':id', $id);
+        $statement->bindValue(':user_id', $userId);
         $statement->execute();
     }
 
@@ -248,9 +251,10 @@ class TicketsGateway
         $date = $data['date'];
         $sql = "SELECT day_id FROM day WHERE date = '$date' AND user_id = '$userId'";
         $dayId = $this->db->query($sql)[0]->day_id;
-
-        $sql = "INSERT INTO tickets (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";
+        $ticketId = $this->getLastTicket($userId)[0]->id;
+        $sql = "INSERT INTO tickets (id,user_id,day_id,time,price,no_time) VALUES (:id,:user_id,:day_id,:time,:price,:no_time)";
         $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':id', $ticketId + 1);
         $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':day_id', $dayId);
         $statement->bindValue(':time', $data['time']);
@@ -263,6 +267,12 @@ class TicketsGateway
         $statement->execute();
 
         return $dayId;
+    }
+
+    public function getLastTicket($userId){
+        $sql = "SELECT * FROM tickets ORDER BY id DESC LIMIT 1";
+        $str = $this->db->query($sql);
+        return $str;
     }
 
 

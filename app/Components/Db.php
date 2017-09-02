@@ -1,5 +1,5 @@
 <?php
-namespace app\DB;
+namespace app\Components;
 
 require_once __DIR__ . '/../config.php';
 
