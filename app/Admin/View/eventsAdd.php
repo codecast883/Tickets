@@ -7,9 +7,7 @@
         <div class="col-md-6">
             <h2 class="new-event-title">Создание нового квеста(мероприятия)</h2>
 
-            <?php if ($this->alert) {
-                die($this->alert);
-            } ?>
+
         </div>
         <div class="col-md-6">
             <h3 class="new-event-title step">Шаг 1 из 2</h3>
@@ -58,11 +56,10 @@
         <div class="col-md-6 form-images-download">
 
             <div class="row"><label>Загрузка файлов верхнего слайдера:</label><br>
-                <span>Выделите нужные вам файлы и нажмите добавить</span><br>
 
-                <label class="form-label">Изображения должны быть размером 700х200 пикселей</label>
+<!--                <label class="form-label">Изображения должны быть размером 700х200 пикселей</label>-->
                 <input type="hidden" name="MAX_FILE_SIZE" value="3145728"/>
-                <input type="file" id="fileMulti" name="fileMulti[]" multiple/><br><br>
+                <input type="file" id="file" name="file"/><br><br>
 
 
                 <div class="row"><span id="outputMulti"></span></div>
@@ -113,5 +110,5 @@
         }
     }
 
-    document.getElementById('fileMulti').addEventListener('change', handleFileSelectMulti, false);
+    document.getElementById('file').addEventListener('change', handleFileSelectMulti, false);
 </script>

@@ -11,7 +11,7 @@
         <div id="form"></div>
 
         <?php foreach ($this->events as $items => $item): ?>
-            <div class="events-item" style="background-image: url(..<?= $pictures[0]->pic_src ?>)">
+            <div class="events-item" style="background-image: url(..<?= $eventPic($item); ?>)">
 
                 <div class="events-item-title"><span><?= $item->title ?></span></div>
                 <a href="tickets"></a>

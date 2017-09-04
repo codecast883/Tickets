@@ -18,7 +18,7 @@ class Controller
     protected $id;
     protected $appHash;
 
-    public $alert = '';
+
     public function __construct()
     {
         $this->adminGateway = new AdminGateway();

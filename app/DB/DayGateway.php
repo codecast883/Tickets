@@ -40,15 +40,6 @@ class DayGateway
     }
 
 
-    public function cleanFullDays()
-    {
-        $sql = "SET foreign_key_checks = 0;
-					TRUNCATE TABLE day;
-					SET foreign_key_checks = 1;";
-        $statement = $this->db->dbh->exec($sql);
-
-
-    }
 
     public function cleanFullDaysByUser($userId){
         $sql = 'DELETE FROM day WHERE user_id = :user_id';

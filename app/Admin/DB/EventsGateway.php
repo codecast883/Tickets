@@ -18,10 +18,16 @@ class EventsGateway extends Gateway
 
     }
 
-    public function getAllHeaderImages($userId)
+    public function getLastEvent($userId)
     {
-        $sql = "SELECT pic_src FROM events_files WHERE user_id = ?";
-        if ($picSrc = $this->db->query($sql, [$userId])) {
+        $events = $this->isEventsExist($userId);
+        return array_pop($events);
+    }
+
+    public function getAllEventsImages($eventId)
+    {
+        $sql = "SELECT pic_src FROM events_files WHERE event_id = ? AND type = ?";
+        if ($picSrc = $this->db->query($sql, [$eventId,'title_pic'])) {
             return $picSrc;
         }
         return false;
@@ -29,11 +35,11 @@ class EventsGateway extends Gateway
     }
 
 
-    public function deleteAllImages($userId)
+    public function deleteAllImages($eventId)
     {
-        $sql = 'DELETE FROM events_files WHERE user_id = :user_id';
+        $sql = 'DELETE FROM events_files WHERE event_id = :event_id';
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->execute();
     }
 
@@ -41,13 +47,14 @@ class EventsGateway extends Gateway
      * @param $path
      * @return bool
      */
-    public function insertImage($path, $userId)
+    public function insertTitleImage($path, $eventId)
     {
 
-        $sql = "INSERT INTO events_files (user_id, pic_src) VALUES (:user_id, :pic_src)";
+        $sql = "INSERT INTO events_files (event_id, pic_src,type) VALUES (:event_id, :pic_src,:type)";
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->bindValue(':pic_src', $path);
+        $statement->bindValue(':type', 'title_pic');
         if ($statement->execute()) {
             return true;
         }
@@ -58,35 +65,42 @@ class EventsGateway extends Gateway
     /**
      * @return bool
      */
-    public function getOptions($userId)
+    public function getEvent($eventId)
     {
-        $sql = "SELECT title,phone,description,day_amount,day_of_week FROM events WHERE user_id = ?";
-        if ($data = $this->db->query($sql, [$userId])) {
+        $sql = "SELECT title,phone,description,day_amount,day_of_week FROM events WHERE event_id = ?";
+        if ($data = $this->db->query($sql, [$eventId])) {
             return $data[0];
         }
         return false;
     }
 
+
+
+
+
+
+
     /**
      * @param $options
      */
-    public function optionsUpdate($options, $userId)
+    public function optionsUpdate($options, $eventId)
     {
         $sql = '';
 
-        $sql = 'UPDATE events SET title = :title, phone = :phone,description = :description,day_of_week = :day_of_week WHERE user_id = :user_id';
+        $sql = 'UPDATE events SET title = :title, phone = :phone,description = :description,day_of_week = :day_of_week WHERE event_id = :event_id';
 
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':title', $options['title']);
         $statement->bindValue(':phone', $options['phone']);
         $statement->bindValue(':description', $options['description']);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->bindValue(':day_of_week', 7);
         $statement->execute();
 
     }
 
-    public function optionsInsert($options, $userId)
+
+    public function eventsInsert($options, $userId)
     {
         $sql = '';
 
@@ -98,7 +112,9 @@ class EventsGateway extends Gateway
         $statement->bindValue(':description', $options['description']);
         $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':day_of_week', 7);
-        $statement->execute();
+        if ($statement->execute()){
+            return true;
+        }
 
     }
 

@@ -15,7 +15,7 @@ class OptionsController extends Controller
     {
 
         $allImages = TicketsApp::getDataAdmin('getAllHeaderImages','Events',$this->id);
-        $optionsData = TicketsApp::getDataAdmin('getOptions','Events',$this->id);
+        $optionsData = TicketsApp::getDataAdmin('getEvent','Events',$this->id);
         $formOptions = [];
         $fileErrors = [];
         $formSuccess = '';
