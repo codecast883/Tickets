@@ -31,7 +31,6 @@ class EventsGateway extends Gateway
             return $picSrc;
         }
         return false;
-
     }
 
 
@@ -62,12 +61,27 @@ class EventsGateway extends Gateway
 
     }
 
+    public function updateTitleImage($path, $eventId)
+    {
+
+        $sql = "UPDATE events_files SET  pic_src = :pic_src,type = :type WHERE event_id = :event_id";
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':event_id', $eventId);
+        $statement->bindValue(':pic_src', $path);
+        $statement->bindValue(':type', 'title_pic');
+        if ($statement->execute()) {
+            return true;
+        }
+
+
+    }
+
     /**
      * @return bool
      */
     public function getEvent($eventId)
     {
-        $sql = "SELECT title,phone,description,day_amount,day_of_week FROM events WHERE event_id = ?";
+        $sql = "SELECT user_id,title,phone,description,day_amount,day_of_week FROM events WHERE event_id = ?";
         if ($data = $this->db->query($sql, [$eventId])) {
             return $data[0];
         }
@@ -118,12 +132,12 @@ class EventsGateway extends Gateway
 
     }
 
-    public function getGenerateWeek($param, $userId)
+    public function getGenerateWeek($param, $eventId)
     {
         $week = [];
         for ($i = 1; $i <= 7; $i++) {
             for ($a = 1; $a <= $param['ticketsAmount']; $a++) {
-                $week[$i][$a]['user_id'] = $userId;
+                $week[$i][$a]['event_id'] = $eventId;
                 $week[$i][$a]['day_id'] = $i;
                 $week[$i][$a]['time'] = $param['from'];
                 $week[$i][$a]['price'] = $param['ticketsPrice'];
@@ -134,16 +148,39 @@ class EventsGateway extends Gateway
         return $week;
     }
 
-    public function setDayAmount($countDays, $userId)
+    public function setDayAmount($countDays, $eventId)
     {
-        $sql = 'UPDATE events SET day_amount = :day_amount WHERE user_id = :user_id';
+        $sql = 'UPDATE events SET day_amount = :day_amount WHERE event_id = :event_id';
 
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':day_amount', $countDays);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
 
         $statement->execute();
 
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function getAllEventsId()
+    {
+        $sql = "SELECT event_id FROM events";
+        $idArray = [];
+        if ($data = $this->db->query($sql)) {
+            return $data;
+        }
+        return false;
+    }
+
+    public function isEventIdHasUser()
+    {
+        $sql = "SELECT event_id FROM events";
+        $idArray = [];
+        if ($data = $this->db->query($sql)) {
+            return $data;
+        }
+        return false;
     }
 
 }

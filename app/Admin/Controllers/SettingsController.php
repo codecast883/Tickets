@@ -16,4 +16,10 @@ class SettingsController extends Controller
 
         require_once ROOT . '/../app/Admin/View/profile.php';
     }
+
+    public function ActionRedirect404()
+    {
+        header("HTTP/1.0 404 Not Found");
+        require_once ROOT . '/../app/Admin/View/404.php';
+    }
 }

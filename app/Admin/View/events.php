@@ -1,7 +1,7 @@
 <?php require_once ROOT . '/../app/Admin/View/header.php'; ?>
 <?php require_once ROOT . '/../app/Admin/View/sidebarDefault.php'; ?>
 
-<a href="/admin/events/add?step=1" class="btn btn-primary btn-lg add-event" role="button">Добавить мероприятие</a>
+<a href="/admin/events/add" class="btn btn-primary btn-lg add-event" role="button">Добавить мероприятие</a>
 <div class="container">
 
     <!--    <a href="" class="btn btn-primary btn-lg add-event">Добавить мероприятие</a>-->
@@ -14,7 +14,7 @@
             <div class="events-item" style="background-image: url(..<?= $eventPic($item); ?>)">
 
                 <div class="events-item-title"><span><?= $item->title ?></span></div>
-                <a href="tickets"></a>
+                <a href="events/tickets/<?= $item->event_id ?>"></a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

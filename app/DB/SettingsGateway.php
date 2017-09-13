@@ -16,24 +16,22 @@ class SettingsGateway
 
     }
 
-
-
     /**
      * @return array
      */
 
 
-    public function getFullOptions($userId)
+    public function getFullOptions($eventId)
     {
         $options = [];
         $fullOptions = [];
         $fullOptionsOut = [];
         $dayOfWeek = (new \DateTime())->format('N');
-        $daysNumber = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
-        $dayAmount = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_amount;
+        $daysNumber = TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_of_week;
+        $dayAmount = TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_amount;
 
         for ($i = 1; $i <= $daysNumber; $i++) {
-            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND user_id=' . $userId;
+            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND event_id=' . $eventId;
 
             $options[$i] = $this->db->query($sql);
         }
@@ -71,13 +69,13 @@ class SettingsGateway
         return $fullOptionsOut;
     }
 
-    public function getWeekOptions($userId)
+    public function getWeekOptions($eventId)
     {
-        $daysNumber = TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
+        $daysNumber = TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_of_week;
         $options = [];
 
         for ($i = 1; $i <= $daysNumber; $i++) {
-            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND user_id=' . $userId;
+            $sql = 'SELECT * FROM ' . ' options_pull_ticket ' . 'WHERE' . '  day_id=' . $i . ' AND event_id =' . $eventId;
 
             $options[$i] = $this->db->query($sql);
         }

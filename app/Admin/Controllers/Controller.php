@@ -17,7 +17,8 @@ class Controller
     protected $userName;
     protected $id;
     protected $appHash;
-
+    protected $eventId;
+    protected $alert = '';
 
     public function __construct()
     {
@@ -35,6 +36,7 @@ class Controller
             } else {
                 $this->id = $this->adminGateway->getIdUser($this->userName);
                 $this->appHash = $this->adminGateway->getUserHashById($this->id);
+
             }
         } else {
             header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/loginform');
@@ -42,16 +44,6 @@ class Controller
         }
 
 
-        if (isset($_GET['s'])){
-            $this->alert = '<div class="alert alert-success">
-  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Билет успешно удален</div>';
-        }elseif (isset($_GET['add'])){
-            $this->alert = '<div class="alert alert-success">
-  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Билет успешно добавлен</div>';
-        }elseif (isset($_GET['saveOpt'])){
-            $this->alert = '<div class="alert alert-success">
-  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения успешно сохранены</div>';
-        }
     }
 
 

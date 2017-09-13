@@ -8,10 +8,10 @@ class TicketsGateway extends Gateway
 {
 
 
-    public function getCountNewTickets($userId)
+    public function getCountNewTickets($eventId)
     {
-        $sql = "SELECT number FROM new_tickets_number WHERE user_id = ?";
-        $count = $this->db->query($sql, [$userId]);
+        $sql = "SELECT number FROM new_tickets_number WHERE event_id = ?";
+        $count = $this->db->query($sql, [$eventId]);
         if (empty($count)) {
             return false;
         } else {
@@ -20,11 +20,11 @@ class TicketsGateway extends Gateway
     }
 
 
-    public function cleanCountNewTickets($userId)
+    public function cleanCountNewTickets($eventId)
     {
-        $sql = 'DELETE FROM new_tickets_number WHERE user_id = :user_id';
+        $sql = 'DELETE FROM new_tickets_number WHERE event_id = :event_id';
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->execute();
 
     }

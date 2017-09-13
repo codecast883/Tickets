@@ -14,10 +14,11 @@ class PulloptionsGateway extends Gateway
      * @param $post
      * @return array
      */
-    public function formatPostUpdate($post,$userId)
+    public function formatPostUpdate($post, $eventId)
     {
         $outArray = [];
-        $allDay = \app\Components\TicketsApp::getDataAdmin('getOptions', 'Events',$userId)->day_of_week;
+        $arrayResult = [];
+        $allDay = \app\Components\TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_of_week;
         for ($i = 0; $i <= $allDay; $i++) {
             foreach ($post as $key => $value) {
                 $type = explode('_', $key);
@@ -26,24 +27,34 @@ class PulloptionsGateway extends Gateway
                 }
             }
         }
-        return $outArray;
+
+        foreach ($outArray as $key => $array) {
+            $i = 1;
+            foreach ($array as $value) {
+                $arrayResult[$key][$i++] = $value;
+            }
+        }
+
+
+        return $arrayResult;
+
     }
 
 
     /**
      * @param $upTickets
      */
-    public function ticketsUpdate($upTickets,$userId)
+    public function ticketsUpdate($upTickets, $eventId)
     {
 
-        $allTickets = \app\Components\TicketsApp::getData('getWeekOptions','Settings',$userId);
+        $allTickets = \app\Components\TicketsApp::getData('getWeekOptions', 'Settings', $eventId);
         foreach ($upTickets as $number => $ticket) {
             foreach ($ticket as $key => $value) {
 
                 $idTicket = $allTickets[$number][--$key]->id;
 
 
-                $sql = 'UPDATE options_pull_ticket SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND user_id = :user_id';
+                $sql = 'UPDATE options_pull_ticket SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND event_id = :event_id';
                 $statement = $this->db->dbh->prepare($sql);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
@@ -54,7 +65,7 @@ class PulloptionsGateway extends Gateway
                 }
 
                 $statement->bindValue(':id', $idTicket);
-                $statement->bindValue(':user_id', $userId);
+                $statement->bindValue(':event_id', $eventId);
                 $statement->execute();
             }
         }
@@ -62,16 +73,16 @@ class PulloptionsGateway extends Gateway
 
     }
 
-    public function insertPullOptions($options,$userId)
+    public function insertPullOptions($options, $eventId)
     {
 
 
         foreach ($options as $number => $ticket) {
             foreach ($ticket as $key => $value) {
 
-                $sql = "INSERT INTO options_pull_ticket (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";;
+                $sql = "INSERT INTO options_pull_ticket (event_id,day_id,time,price,no_time) VALUES (:event_id,:day_id,:time,:price,:no_time)";;
                 $statement = $this->db->dbh->prepare($sql);
-                $statement->bindValue(':user_id', $userId);
+                $statement->bindValue(':event_id', $eventId);
                 $statement->bindValue(':day_id', $number);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
@@ -99,12 +110,12 @@ class PulloptionsGateway extends Gateway
      * @param $data
      * @return bool
      */
-    public function addOneTickets($data,$userId)
+    public function addOneTickets($data, $eventId)
     {
 
-        $sql = "INSERT INTO options_pull_ticket (user_id,day_id,time,price,no_time) VALUES (:user_id,:day_id,:time,:price,:no_time)";
+        $sql = "INSERT INTO options_pull_ticket (event_id,day_id,time,price,no_time) VALUES (:event_id,:day_id,:time,:price,:no_time)";
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->bindValue(':day_id', $data['day']);
         $statement->bindValue(':time', $data['time']);
         $statement->bindValue(':price', $data['price']);

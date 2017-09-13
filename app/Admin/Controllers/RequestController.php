@@ -2,11 +2,13 @@
 
 
 namespace app\Admin\Controllers;
+
 use app\DB\RequestGateway;
 
 class RequestController extends Controller
 {
     protected $requestGateway;
+
     public function __construct()
     {
         parent::__construct();
@@ -14,10 +16,16 @@ class RequestController extends Controller
 
     }
 
-    public function ActionList()
+    public function ActionList($event)
     {
-        (new \app\Admin\DB\TicketsGateway)->cleanCountNewTickets($this->id);
-        $listRequest = $this->requestGateway->getAllRequest($this->id);
+        if ($this->eventsGateway->getEvent($event)->user_id != $this->id) {
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        }
+
+        $this->eventId = $event;
+
+        (new \app\Admin\DB\TicketsGateway)->cleanCountNewTickets($this->eventId);
+        $listRequest = $this->requestGateway->getAllRequest($this->eventId);
         require_once ROOT . '/../app/Admin/View/requestList.php';
     }
 }

@@ -11,12 +11,12 @@
     <button class="btn btn-primary btn-lg btn-add" data-toggle="modal" data-target="#myModal">
         Добавить билет
     </button>
-    <?php if (empty($this->ticketsGateway->getAllTickets($this->id))): ?>
+    <?php if (empty($this->ticketsGateway->getAllTickets($this->eventId))): ?>
         <button class="btn btn-danger btn-lg btn-save-and-pull">
             Сохранить изменения и завершить установку
         </button>
     <?php endif; ?>
-    <?= $this->alert ?>
+
     <div class="table-responsive table-tickets">
         <form id="saveWeek" role="form" name="updateTickets" action="" method="post">
             <?php
@@ -61,7 +61,7 @@
 
                     <?php foreach ($tickets as $key => $ticket) : ?>
 
-                        <tr>
+                        <tr id="<?= $ticket->id ?>">
 
                             <td><?= ++$key ?></td>
                             <td><input id="time1" class="times form-control" name="<?= $key ?>_time_<?= $number ?>"
@@ -74,8 +74,11 @@
                                     echo 'checked';
                                 } ?> class="checking" name="<?= $key ?>_noTime_<?= $number ?>" value="1"></td>
 
-                            <td><a href="/admin/pulloptions/delete/<?= $ticket->id ?>" class="btn btn-danger btn-lg"
-                                   role="button">Удалить</a></td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-lg btn-delete"
+                                        id="<?= $ticket->id . 'd' ?>" role="button">Удалить
+                                </button>
+                            </td>
 
                         </tr>
 
@@ -95,75 +98,6 @@
         <div class="results"></div>
 
         <!-- Button trigger modal -->
-        <script type="text/javascript">
-            $(function () {
-                $('.times').datetimepicker(
-                    {pickDate: false, language: 'ru'}
-                );
-            });
-
-
-            $(".btn-save").click(function () {
-                alertify.confirm("Сохранить изменения?", function (e) {
-                    if (e) {
-                        var msg = $('#saveWeek').serialize();
-                        $.ajax({
-                            type: "POST",
-                            url: "/admin/pulloptions",
-                            data: msg,
-                            cache: false,
-                            success: function (data) {
-
-                                alertify.success("Изменения сохранены");
-                            }
-
-                        });
-                    } else {
-                        // user clicked "cancel"
-                    }
-                });
-
-            });
-
-            $(".btn-save-and-pull").click(function () {
-
-                $.ajax({
-                    type: "GET",
-                    url: "/action/add?getiframe=<?=$this->appHash; ?>",
-
-                    cache: false,
-                    success: function () {
-
-                        alertify.alert("Готово! Данные сохранены и сгенерирована ваша ссылка для встраивания, найти её можно в настройках.");
-                    }
-
-                });
-            });
-            //            $( ".btn-danger" ).click(function() {
-            //                alertify.confirm("Message", function (e) {
-            //                    if (e) {
-            //
-            //                        $.ajax({
-            //
-            //                            url: "/admin/pulloptions/delete/",
-            //
-            //                            cache: false,
-            //                            success: function(html){
-            //                                $('.results').append(html);
-            //
-            //                                alertify.success("Изменения сохранены");
-            //                            }
-            //
-            //                        });
-            //                    } else {
-            //                        // user clicked "cancel"
-            //                    }
-            //                });
-            //
-            //            });
-        </script>
-
-        <!-- Modal -->
 
 
         <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -187,7 +121,7 @@
         </div>
 
     </div>
-    <?php if ($_SERVER['HTTP_REFERER'] == 'https://' . $_SERVER['SERVER_NAME'] . '/admin/events/add?step=2'): ?>
+    <?php if ($_SERVER['HTTP_REFERER'] == 'https://' . $_SERVER['SERVER_NAME'] . '/admin/events/add'): ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#Modal').modal({
@@ -207,7 +141,7 @@
                     <h4 class="modal-title" id="myModalLabel">Добавить новый билет</h4>
                 </div>
                 <div class="modal-body">
-                    <form role="form" name="day" action="/admin/pulloptions/add" method="post">
+                    <form role="form" name="day" action="/admin/pulloptions/add/<?= $this->eventId ?>" method="post">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -229,8 +163,8 @@
 
                                         </select></p>
                                 </td>
-                                <td><input type="text" class="times" name="time" value=""></td>
-                                <td><input type="number" name="price" value=""></td>
+                                <td><input required type="text" class="times" name="time" value=""></td>
+                                <td><input type="number" name="price" value="0"></td>
                                 <td><input type="checkbox" name="noTime" value="1"></td>
                             </tr>
                             </tbody>
@@ -256,6 +190,97 @@
 </div>
 </div>
 
+<?php if (isset($_GET['add'])): ?>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alertify.success("Билет добавлен");
+        });
+    </script>
+
+<?php endif; ?>
+<script type="text/javascript">
+    $(function () {
+        $('.times').datetimepicker(
+            {pickDate: false, language: 'ru'}
+        );
+    });
+
+
+    $(".btn-save").click(function () {
+        alertify.confirm("Сохранить изменения?", function (e) {
+            if (e) {
+                var msg = $('#saveWeek').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/events/pulloption" + "s/<?=$this->eventId?>",
+                    data: msg,
+                    cache: false,
+                    success: function (data) {
+
+                        alertify.success("Изменения сохранены");
+                    }
+
+                });
+            } else {
+                // user clicked "cancel"
+            }
+        });
+
+    });
+
+    $(".btn-save-and-pull").click(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "/action/add/<?=$this->eventId; ?>",
+
+            cache: false,
+            success: function () {
+                $('.btn-save-and-pull').css('display', 'none');
+                alertify.alert("Готово! Данные сохранены и сгенерирована ваша ссылка для встраивания, найти её можно в настройках.");
+            }
+
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('.btn-delete').click(function () {
+            var id = $(this).attr('id');
+            var s = parseInt(id, 10);
+
+            $(document).ajaxSend(function () {
+                $('#' + s).css('opacity', '0.4');
+                console.log(s);
+
+            });
+
+            $(document).ajaxError(function (thrownError) {
+                alertify.error('Ошибка');
+
+            });
+            $.ajax({
+                url: "/admin/pulloptions/delete/" + s,
+
+                success: function (data) {
+                    $('#' + s).fadeOut("slow", function () {
+                        $('#' + s).remove();
+                    });
+
+
+                    alertify.success("Билет успешно удалён");
+                }
+
+            });
+
+
+        })
+    });
+
+</script>
+
+<!-- Modal -->
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

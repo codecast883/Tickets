@@ -26,35 +26,35 @@ class TicketsGateway
      * @param $userId
      * @param int $type: 1 = update, 0 = add
      */
-    public function pullNewTickets($userId, $type = 0)
+    public function pullNewTickets($eventId, $type = 0)
     {
         $week = '';
         $i = 1;
-        $dayAmount = TicketsApp::getDataAdmin('getOptions','Events',$userId)->day_amount;
+        $dayAmount = TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_amount;
 
 
 
             if ($type == 0){
-                $this->cleanFullTicketsByUser($userId);
-                $this->day->cleanFullDaysByUser($userId);
-                $this->day->addNewDays($dayAmount,$userId);
-                $week = TicketsApp::getData('getFullOptions','Settings',$userId);
+                $this->cleanFullTicketsByEvent($eventId);
+                $this->day->cleanFullDaysByUser($eventId);
+                $this->day->addNewDays($dayAmount, $eventId);
+                $week = TicketsApp::getData('getFullOptions', 'Settings', $eventId);
             }elseif ($type == 1){
-                $week = $this->getTicketsUpdate($userId);
-                $this->cleanFullTicketsByUser($userId);
-                $this->day->cleanFullDaysByUser($userId);
-                $this->day->addNewDays($dayAmount,$userId);
+                $week = $this->getTicketsUpdate($eventId);
+                $this->cleanFullTicketsByEvent($eventId);
+                $this->day->cleanFullDaysByUser($eventId);
+                $this->day->addNewDays($dayAmount, $eventId);
 
 //                $this->cleanFullTickets();
             }
 
             foreach ($week as $array) {
                 foreach ($array as $key => $value) {
-                    $sql = "INSERT INTO tickets (id,day_id,user_id,time,price,no_time) VALUES (:id,:day_id,:user_id,:time,:price,:no_time)";
+                    $sql = "INSERT INTO tickets (id,day_id,event_id,time,price,no_time) VALUES (:id,:day_id,:event_id,:time,:price,:no_time)";
                     $statement = $this->db->dbh->prepare($sql);
                     $statement->bindValue(':day_id', $value['day_id']);
                     $statement->bindValue(':id', $i++);
-                    $statement->bindValue(':user_id', $userId);
+                    $statement->bindValue(':event_id', $eventId);
                     $statement->bindValue(':time', $value['time']);
                     $statement->bindValue(':price', $value['price']);
                     $statement->bindValue(':no_time', $value['no_time']);
@@ -66,20 +66,20 @@ class TicketsGateway
     }
 
 
-    public function cleanFullTicketsByUser($userId){
-        $sql = 'DELETE FROM tickets WHERE user_id = :user_id';
+    public function cleanFullTicketsByEvent($eventId)
+    {
+        $sql = 'DELETE FROM tickets WHERE event_id = :event_id';
         $statement = $this->db->dbh->prepare($sql);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->execute();
     }
 
 
-
-    public function getAllDay($userId)
+    public function getAllDay($eventId)
     {
         $day = [];
-        $sql = 'SELECT day_id,date FROM ' . 'day WHERE user_id=?';
-        $dayObj = $this->db->query($sql,[$userId]);
+        $sql = 'SELECT day_id,date FROM ' . 'day WHERE event_id=?';
+        $dayObj = $this->db->query($sql, [$eventId]);
         foreach ($dayObj as $value) {
             $day[$value->day_id] = $value->date;
         }
@@ -91,13 +91,13 @@ class TicketsGateway
      * @param $userId
      * @return array
      */
-    public function getAllTickets($userId)
+    public function getAllTickets($eventId)
     {
         $ticketDay = [];
-        $allDate = $this->getAllDay($userId);
+        $allDate = $this->getAllDay($eventId);
 
-        $sql = 'SELECT * FROM ' . 'tickets ' . 'WHERE user_id = ?';
-        $tickets = $this->db->query($sql,[$userId]);
+        $sql = 'SELECT * FROM ' . 'tickets ' . 'WHERE event_id = ?';
+        $tickets = $this->db->query($sql, [$eventId]);
 
         foreach ($allDate as $dayNumber => $date) {
             foreach ($tickets as $key => $value) {
@@ -118,12 +118,12 @@ class TicketsGateway
      * @param $userId
      * @return mixed
      */
-    public function getTicketsById($id, $userId)
+    public function getTicketsById($id, $eventId)
     {
-        $sql = "SELECT id,user_id,time,price,no_time,date FROM tickets JOIN day USING (day_id,user_id) WHERE id = ?  AND user_id = ?";
+        $sql = "SELECT id,event_id,time,price,no_time,date FROM tickets JOIN day USING (day_id,event_id) WHERE id = ?  AND event_id = ?";
 
 
-        return $this->db->query($sql,[$id,$userId])[0];
+        return $this->db->query($sql, [$id, $eventId])[0];
 
     }
 
@@ -156,10 +156,10 @@ class TicketsGateway
      * @param $post
      * @return array
      */
-    public function formatPostUpdate($post,$userId)
+    public function formatPostUpdate($post, $eventId)
     {
         $outArray = [];
-        $allDay = $this->getAllDay($userId);
+        $allDay = $this->getAllDay($eventId);
         foreach ($allDay as $date) {
             foreach ($post as $key => $value) {
                 $type = explode('_', $key);
@@ -174,16 +174,16 @@ class TicketsGateway
     /**
      * @param $upTickets
      */
-    public function ticketsUpdate($upTickets,$userId)
+    public function ticketsUpdate($upTickets, $eventId)
     {
 
-        $allTickets = $this->getAllTickets($userId);
+        $allTickets = $this->getAllTickets($eventId);
         foreach ($upTickets as $date => $ticket) {
             foreach ($ticket as $key => $value) {
                 $idTicket = $allTickets[$date][$key]->id;
                 $r = '';
 
-                $sql = 'UPDATE tickets SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND user_id = :user_id';
+                $sql = 'UPDATE tickets SET time = :time, price = :price ,no_time = :no_time WHERE id = :id AND event_id = :event_id';
                 $statement = $this->db->dbh->prepare($sql);
                 $statement->bindValue(':time', $value['time']);
                 $statement->bindValue(':price', $value['price']);
@@ -194,7 +194,7 @@ class TicketsGateway
                 }
 
                 $statement->bindValue(':id', $idTicket);
-                $statement->bindValue(':user_id', $userId);
+                $statement->bindValue(':event_id', $eventId);
                 $statement->execute();
             }
         }
@@ -202,12 +202,12 @@ class TicketsGateway
 
     }
 
-    public function getTicketsUpdate($userId)
+    public function getTicketsUpdate($eventId)
     {
 
-        $settings = TicketsApp::getData('getFullOptions','Settings',$userId);
+        $settings = TicketsApp::getData('getFullOptions', 'Settings', $eventId);
         $lastDay = array_pop($settings);
-        $tickets = $this->getAllTickets($userId);
+        $tickets = $this->getAllTickets($eventId);
         array_shift($tickets);
 
         $newTickets = [];
@@ -231,12 +231,12 @@ class TicketsGateway
     /**
      * @param $id
      */
-    public function deleteTicketById($id,$userId)
+    public function deleteTicketById($id, $eventId)
     {
-        $sql = 'DELETE FROM tickets WHERE id = :id AND user_id = :user_id';
+        $sql = 'DELETE FROM tickets WHERE id = :id AND event_id = :event_id';
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':id', $id);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->execute();
     }
 
@@ -246,16 +246,16 @@ class TicketsGateway
      * @param $data
      * @return mixed
      */
-    public function addOneTickets($data,$userId)
+    public function addOneTickets($data, $eventId)
     {
         $date = $data['date'];
-        $sql = "SELECT day_id FROM day WHERE date = '$date' AND user_id = '$userId'";
+        $sql = "SELECT day_id FROM day WHERE date = '$date' AND event_id = '$eventId'";
         $dayId = $this->db->query($sql)[0]->day_id;
-        $ticketId = $this->getLastTicket($userId)[0]->id;
-        $sql = "INSERT INTO tickets (id,user_id,day_id,time,price,no_time) VALUES (:id,:user_id,:day_id,:time,:price,:no_time)";
+        $ticketId = $this->getLastTicket()[0]->id;
+        $sql = "INSERT INTO tickets (id,event_id,day_id,time,price,no_time) VALUES (:id,:event_id,:day_id,:time,:price,:no_time)";
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':id', $ticketId + 1);
-        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':event_id', $eventId);
         $statement->bindValue(':day_id', $dayId);
         $statement->bindValue(':time', $data['time']);
         $statement->bindValue(':price', $data['price']);
@@ -269,7 +269,8 @@ class TicketsGateway
         return $dayId;
     }
 
-    public function getLastTicket($userId){
+    public function getLastTicket()
+    {
         $sql = "SELECT * FROM tickets ORDER BY id DESC LIMIT 1";
         $str = $this->db->query($sql);
         return $str;

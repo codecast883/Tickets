@@ -4,7 +4,7 @@
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <div class="jumbotron"><h3>Общие настройки приложения</h3></div>
+    <div class="jumbotron"><h3>Настройки описания приложения</h3></div>
 
     <div class="col-md-5">
         <?= $this->alert ?>
@@ -23,9 +23,12 @@
                       name="description"><?= $optionsData->description ?></textarea>
             <br>
             <div class="row"><label>Загрузка файлов верхнего слайдера:</label><br>
-                <span>Выделите нужные вам файлы и нажмите добавить</span><br>
-                <span>Изображения должны быть размером 700х200 пикселей </span><br><br>
-                <input type="file" id="fileMulti" name="fileMulti[]" multiple/><br><br>
+
+
+                <input type="hidden" name="MAX_FILE_SIZE" value="3145728"/>
+                <input type="file" id="file" name="file"/><br><br>
+
+                <span id="outputMulti"></span>
 
 
                 <div class="row"><span id="outputMulti"></span></div>
@@ -46,6 +49,15 @@
     </div>
 </div>
 </div>
+<?php if (isset($_GET['saveOpt'])): ?>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alertify.success("Изменения сохранены");
+        });
+    </script>
+
+<?php endif; ?>
 <?php if ($errors): ?>
     <script>
         <?php
@@ -56,15 +68,16 @@
     </script>
 <?php endif; ?>
 <script>
-
-
     function handleFileSelectMulti(evt) {
         var files = evt.target.files; // FileList object
         document.getElementById('outputMulti').innerHTML = "";
         for (var i = 0, f; f = files[i]; i++) {
 
             // Only process image files.
+            if (!f.type.match('image.*')) {
+                alert("Только изображения....");
 
+            }
 
             var reader = new FileReader();
 
@@ -84,9 +97,7 @@
         }
     }
 
-
-    document.getElementById('fileMulti').addEventListener('change', handleFileSelectMulti, false);
-
+    document.getElementById('file').addEventListener('change', handleFileSelectMulti, false);
 </script>
 <!-- Bootstrap core JavaScript
 ================================================== -->

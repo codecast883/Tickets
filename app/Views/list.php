@@ -33,7 +33,7 @@
                                         echo 'disabledDate';
                                     } ?>">
 
-                                        <a href="/tickets/request/<?= $ticket->id ?>?getiframe=<?= $this->hash ?>"
+                                        <a href="/tickets/request/<?= $ticket->id ?>?getiframe=<?= $this->hash ?>&id=<?= $this->eventId ?>"
                                            class="shTimeHref"><?php if (!$ticket->no_time) {
                                                 echo app\DB\Tickets::timeFormat($ticket->time);
                                             } else {

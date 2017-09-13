@@ -151,7 +151,68 @@ class Validator
 
     }
 
+    public static function nCheckDaysAmount($field)
+    {
 
+        $error = '';
+
+        if (mb_strlen($field) == 0)
+            $error = 1;
+
+        if ($field > 30)
+            $error = 2;
+        if (!is_numeric($field))
+            $error = 3;
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
+
+    }
+
+    public static function nCheckTicketsAmount($field)
+    {
+
+        $error = '';
+
+        if (mb_strlen($field) == 0)
+            $error = 1;
+
+        if ($field > 40)
+            $error = 2;
+        if (!is_numeric($field))
+            $error = 3;
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
+
+    }
+
+    public static function nCheckTicketsPrice($field)
+    {
+
+        $error = '';
+
+        if (mb_strlen($field) == 0)
+            $error = 1;
+
+        if ($field > 1000000)
+            $error = 2;
+        if (!is_numeric($field))
+            $error = 3;
+
+        if (empty($error)) {
+            return false;
+        } else {
+            return $error;
+        }
+
+    }
 }
 
 ?>

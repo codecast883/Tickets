@@ -11,7 +11,7 @@
         <h1 class="events-alert">Билеты отсутствуют</h1>
     <?php else: ?>
         <h2 class="sub-header">Опубликованные билеты</h2>
-        <?=  $this->alert ?>
+
         <div class="table-responsive table-tickets">
             <button class="btn btn-primary btn-lg btn-add" data-toggle="modal" data-target="#myModal">
                 Добавить билет
@@ -45,7 +45,7 @@
 
                         <?php foreach ($tickets as $key => $ticket) : ?>
 
-                            <tr>
+                            <tr id="<?= $ticket->id ?>">
 
                                 <td><?= ++$key ?></td>
                                 <td><input id="time1" class="times form-control" name="<?= $key ?>_time_<?= $date ?>"
@@ -58,8 +58,13 @@
                                         echo 'checked';
                                     } ?> class="checking" name="<?= $key ?>_noTime_<?= $date ?>" value="1"></td>
 
-                                <td><a href="/admin/tickets/delete/<?= $ticket->id ?>" class="btn btn-danger btn-lg"
-                                       role="button">Удалить</a></td>
+                                <td>
+
+                                    <button type="button" class="btn btn-danger btn-lg btn-delete"
+                                            id="<?= $ticket->id . 'd' ?>" role="button">Удалить
+                                    </button>
+
+                                </td>
                             </tr>
 
                         <?php endforeach; ?>
@@ -74,7 +79,15 @@
 
             </form>
 
+            <?php if (isset($_GET['add'])): ?>
 
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        alertify.success("Билет добавлен");
+                    });
+                </script>
+
+            <?php endif; ?>
             <script type="text/javascript">
 
 
@@ -83,7 +96,7 @@
                     var msg = $('#updateTickets').serialize();
                     $.ajax({
                         type: "POST",
-                        url: "/admin/tickets",
+                        url: "/admin/events/tickets" + "/<?=$this->eventId?>",
                         data: msg,
                         cache: false,
                         success: function (data) {
@@ -92,6 +105,38 @@
                         }
 
                     });
+                });
+
+                $(document).ready(function () {
+                    $('.btn-delete').click(function () {
+                        var id = $(this).attr('id');
+                        var s = parseInt(id, 10);
+
+                        $(document).ajaxSend(function () {
+                            $('#' + s).css('opacity', '0.4');
+                            console.log(s);
+                        });
+
+                        $(document).ajaxError(function (thrownError) {
+                            alertify.error('Ошибка');
+
+                        });
+                        $.ajax({
+                            url: "/admin/tickets/delete/" + s + "?event=<?=$this->eventId?>",
+
+                            success: function (data) {
+                                $('#' + s).fadeOut("slow", function () {
+                                    $('#' + s).remove();
+                                });
+
+
+                                alertify.success("Билет успешно удалён");
+                            }
+
+                        });
+
+
+                    })
                 });
 
             </script>
@@ -107,7 +152,8 @@
                             <h4 class="modal-title" id="myModalLabel">Добавить новый билет</h4>
                         </div>
                         <div class="modal-body">
-                            <form role="form" name="addTickets" action="/admin/tickets/add" method="post">
+                            <form role="form" name="addTickets" action="/admin/tickets/add/<?= $this->eventId ?>"
+                                  method="post">
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
@@ -129,7 +175,7 @@
 
                                                 </select></p>
                                         </td>
-                                        <td><input type="text" class="times" name="time" value=""></td>
+                                        <td><input type="text" required class="times" name="time" value=""></td>
                                         <td><input type="number" name="price" value=""></td>
                                         <td><input type="checkbox" name="noTime" value="1"></td>
                                     </tr>

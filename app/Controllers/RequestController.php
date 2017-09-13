@@ -25,12 +25,10 @@ class RequestController extends Controller
 
     public function actionAdd($idItem)
     {
-
-
         /*
         *Validation Form
         */
-        $ticketData = TicketsApp::getData('getTicketsById','Tickets',$idItem,$this->id);
+        $ticketData = TicketsApp::getData('getTicketsById', 'Tickets', $idItem, $this->eventId);
         $formData = [];
         $error = [];
 
@@ -88,9 +86,9 @@ class RequestController extends Controller
                     $formData[$key] = $value;
                 }
 
-                $this->requestGateway->addRequest($formData,$this->id);
+                $this->requestGateway->addRequest($formData, $this->eventId);
 
-                header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe='.$this->hash);
+                header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe=' . $this->hash . '&id=' . $this->eventId);
 
             }
 

@@ -17,7 +17,7 @@ class RequestGateway
      */
     public function addRequest($array,$userId)
     {
-        $sql = "INSERT INTO request (user_id,date,time,price,name,phone,email,note,no_time) VALUES (:user_id, :date, :time, :price, :name, :phone, :email, :note, :no_time)";
+        $sql = "INSERT INTO request (event_id,date,time,price,name,phone,email,note,no_time) VALUES (:event_id, :date, :time, :price, :name, :phone, :email, :note, :no_time)";
         $statement = $this->db->dbh->prepare($sql);
 
         foreach ($array as $key => $value) {
@@ -36,9 +36,9 @@ class RequestGateway
     /**
      * @return array|bool
      */
-    public function getAllRequest($userId)
+    public function getAllRequest($eventId)
     {
-        $sql = "SELECT date,time,price,name,phone,email,note,no_time FROM request WHERE user_id = '$userId' ORDER BY id DESC";
+        $sql = "SELECT date,time,price,name,phone,email,note,no_time FROM request WHERE event_id = '$eventId' ORDER BY id DESC";
         return $this->db->query($sql);
     }
 
@@ -46,20 +46,20 @@ class RequestGateway
     /**
      * @return mixed
      */
-    public function setCountNewTickets($userId)
+    public function setCountNewTickets($eventId)
     {
-        $sql = "SELECT number FROM new_tickets_number WHERE user_id = '$userId' ";
+        $sql = "SELECT number FROM new_tickets_number WHERE event_id = '$eventId' ";
         $count = $this->db->query($sql);
         if (empty($count)) {
-            $sqli = "INSERT INTO new_tickets_number (user_id,number) VALUES ('$userId',1) ";
+            $sqli = "INSERT INTO new_tickets_number (event_id,number) VALUES ('$eventId',1) ";
             $this->db->query($sqli);
         } else {
             $countNumber = $count[0]->number;
             $countNumber++;
-            $sqli = "UPDATE new_tickets_number SET number = '$countNumber' WHERE user_id = '$userId'";
+            $sqli = "UPDATE new_tickets_number SET number = '$countNumber' WHERE event_id = '$eventId'";
             $this->db->query($sqli);
         }
-        return $countNumber;
+
     }
 
 }

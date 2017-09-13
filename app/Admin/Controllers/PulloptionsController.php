@@ -7,25 +7,26 @@ class PulloptionsController extends Controller
 {
 
 
-    public function actionList()
+    public function actionList($event)
     {
 
+        if ($this->eventsGateway->getEvent($event)->user_id != $this->id) {
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        }
 
+        $this->eventId = $event;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //
 
-            $postFormat = $this->pulloptionsGateway->formatPostUpdate($_POST,$this->id);
+            $postFormat = $this->pulloptionsGateway->formatPostUpdate($_POST, $this->eventId);
 
-            $this->pulloptionsGateway->ticketsUpdate($postFormat,$this->id);
-            $formSuccess = '<div class="alert alert-success">
-  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения сохранены</div>';
-
+            $this->pulloptionsGateway->ticketsUpdate($postFormat, $this->eventId);
 
         }
 
 
-        $fullOptions = TicketsApp::getData('getWeekOptions','Settings',$this->id);
+        $fullOptions = TicketsApp::getData('getWeekOptions', 'Settings', $this->eventId);
 
         require_once ROOT . '/../app/Admin/View/pull.php';
 
@@ -36,15 +37,15 @@ class PulloptionsController extends Controller
     {
 
         $this->pulloptionsGateway->deleteTicketById($idItem);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/pulloptions?s');
+
 
     }
 
-    public function actionAdd()
+    public function actionAdd($eventId)
     {
 
-        $this->pulloptionsGateway->addOneTickets($_POST,$this->id);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/pulloptions?add');
+        $this->pulloptionsGateway->addOneTickets($_POST, $eventId);
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/events/pulloptions/' . $eventId . '?add');
 
 
     }

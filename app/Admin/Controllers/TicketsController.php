@@ -8,21 +8,24 @@ use app\Components\TicketsApp;
 class TicketsController extends Controller
 {
 
-    public function actionList()
+    public function actionList($event)
     {
-
+        if ($this->eventsGateway->getEvent($event)->user_id != $this->id) {
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        }
+        $this->eventId = $event;
         $formSuccess = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $postFormat = $this->ticketsGateway->formatPostUpdate($_POST,$this->id);
-            $this->ticketsGateway->ticketsUpdate($postFormat,$this->id);
+            $postFormat = $this->ticketsGateway->formatPostUpdate($_POST, $this->eventId);
+            $this->ticketsGateway->ticketsUpdate($postFormat, $this->eventId);
 
             $formSuccess = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Изменения сохранены</div>';
 
 
         }
-//        TicketsApp::debug();
-        $ticketsList = $this->ticketsGateway->getAllTickets($this->id);
+
+        $ticketsList = $this->ticketsGateway->getAllTickets($this->eventId);
         require_once ROOT . '/../app/Admin/View/tickets.php';
 
 
@@ -31,17 +34,17 @@ class TicketsController extends Controller
 
     public function actionDelete($idItem)
     {
+        $eventId = $_GET['event'];
+        $this->ticketsGateway->deleteTicketById($idItem, $eventId);
 
-        $this->ticketsGateway->deleteTicketById($idItem,$this->id);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets?s');
 
     }
 
-    public function actionAdd()
+    public function actionAdd($eventId)
     {
 
-        $this->ticketsGateway->addOneTickets($_POST,$this->id);
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/tickets?add');
+        $this->ticketsGateway->addOneTickets($_POST, $eventId);
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/events/tickets/' . $eventId . '?add');
 
 
     }

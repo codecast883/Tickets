@@ -21,18 +21,18 @@ class CronController
 
     }
 
-    public function actionAdd()
+    public function actionAdd($eventId)
     {
 
-        if (!empty($this->id)) {
+//        if (!empty($this->id)) {
 
-            (new \app\DB\TicketsGateway)->pullNewTickets($this->id);
+        (new \app\DB\TicketsGateway)->pullNewTickets($eventId);
 
-        } else {
-            header("HTTP/1.0 404 Not Found");
-            echo "404 Not Found" . '<br>';
-            die;
-        }
+//        } else {
+//            header("HTTP/1.0 404 Not Found");
+//            echo "404 Not Found" . '<br>';
+//            die;
+//        }
     }
 
     public function actionUpdate()
@@ -53,12 +53,12 @@ class CronController
     {
         $ticketsGateway = new \app\DB\TicketsGateway;
 
-        $allUsersId = (new \app\Admin\DB\AdminGateway)->getAllAdminId();
+        $allEventsId = (new \app\Admin\DB\EventsGateway)->getAllEventsId();
 
         if ($_GET['t'] === 's4FR4LhsHIyT') {
 
-            foreach ($allUsersId as $key => $value) {
-                $ticketsGateway->pullNewTickets($value->user_id, 1);
+            foreach ($allEventsId as $key => $value) {
+                $ticketsGateway->pullNewTickets($value->event_id, 1);
             }
         }
     }
