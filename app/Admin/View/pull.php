@@ -163,8 +163,8 @@
 
                                         </select></p>
                                 </td>
-                                <td><input required type="text" class="times" name="time" value=""></td>
-                                <td><input type="number" name="price" value="0"></td>
+                                <td><input type="text" class="times" name="time" value=""></td>
+                                <td><input requiredtype="number" name="price" value=""></td>
                                 <td><input type="checkbox" name="noTime" value="1"></td>
                             </tr>
                             </tbody>

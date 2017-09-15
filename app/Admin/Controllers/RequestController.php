@@ -3,7 +3,9 @@
 
 namespace app\Admin\Controllers;
 
+use app\Components\TicketsApp;
 use app\DB\RequestGateway;
+
 
 class RequestController extends Controller
 {
@@ -26,6 +28,8 @@ class RequestController extends Controller
 
         (new \app\Admin\DB\TicketsGateway)->cleanCountNewTickets($this->eventId);
         $listRequest = $this->requestGateway->getAllRequest($this->eventId);
+
+
         require_once ROOT . '/../app/Admin/View/requestList.php';
     }
 }

@@ -12,6 +12,27 @@ body{
 
 }
 
+.param {
+    float: left;
+}
+
+.sevices {
+    float: right;
+
+    width: 300px;
+
+    margin-top: 20px;
+    border-radius: 15px;
+    border: 1px solid #c8c4b6;
+}
+
+.price {
+    color: chartreuse;
+}
+
+.sevices span {
+    margin-left: 20px;
+}
 .event-item {
     height: 200px;
     width: 95%;
@@ -49,6 +70,10 @@ body{
     text-shadow: 1px 1px 2px black;
 }
 
+.sevice-item {
+    margin-top: 10px;
+}
+
 .event-item:hover {
     opacity: 1;
     transition: opacity;
@@ -72,6 +97,7 @@ body{
     z-index: 4;
     transition: border-color 0.3s ease;
 }
+
 .frame h2{
 
 	font-size: 19px;
@@ -82,6 +108,9 @@ body{
     padding: 0;
 }
 
+.form-group {
+    clear: both;
+}
 .contact{
 	position: absolute;
     top: 24px;
@@ -226,3 +255,4 @@ shDate.qad6 {
     padding: 2px 13px 2px 12px;
 }
 
+/*

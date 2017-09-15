@@ -20,11 +20,15 @@ class RequestController extends Controller
         parent::__construct();
         $this->requestGateway = new RequestGateway;
         $this->requestModel = new Request;
-
+        if (!$_GET['id']) {
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        }
     }
 
     public function actionAdd($idItem)
     {
+        $services = TicketsApp::getDataAdmin('getAllServices', "services", $this->eventId);
+
         /*
         *Validation Form
         */
@@ -46,7 +50,7 @@ class RequestController extends Controller
             $formData['phone'] = htmlentities(trim($_POST['phone']));
             $formData['email'] = htmlentities(trim($_POST['email']));
             $formData['note'] = htmlentities(trim($_POST['note']));
-
+            $formData['price'] = htmlentities(trim($_POST['totalPrice']));
 
             if ($errorCode = Validator::checkName($formData['name'])) {
                 $error[0]['name'] = $errorCode[0];
@@ -79,15 +83,22 @@ class RequestController extends Controller
             if ($checkForm) {
 
                 foreach ($ticketData as $key => $value) {
-                    if ($key == 'id') {
+                    if ($key == 'id' or $key == 'price') {
                         continue;
                     }
 
                     $formData[$key] = $value;
                 }
+                $idsService = '';
+                foreach ($_POST as $key => $value) {
+                    if (is_int($key)) {
+                        $idsService[] = $key;
+                    }
+                }
 
                 $this->requestGateway->addRequest($formData, $this->eventId);
-
+                $lastRequestId = $this->requestGateway->getLastRequest($this->eventId)[0]->id;
+                $this->requestGateway->addRequestService($idsService, $lastRequestId);
                 header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe=' . $this->hash . '&id=' . $this->eventId);
 
             }

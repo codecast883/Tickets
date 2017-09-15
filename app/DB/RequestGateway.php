@@ -1,4 +1,5 @@
 <?php
+
 namespace app\DB;
 class RequestGateway
 {
@@ -15,7 +16,7 @@ class RequestGateway
      * @param $array
      * @return bool
      */
-    public function addRequest($array,$userId)
+    public function addRequest($array, $userId)
     {
         $sql = "INSERT INTO request (event_id,date,time,price,name,phone,email,note,no_time) VALUES (:event_id, :date, :time, :price, :name, :phone, :email, :note, :no_time)";
         $statement = $this->db->dbh->prepare($sql);
@@ -32,14 +33,50 @@ class RequestGateway
 
     }
 
+    public function addRequestService($arrayIdService, $requestId)
+    {
+        foreach ($arrayIdService as $item) {
+            $sql = "INSERT INTO request_and_services (request_id, service_id) VALUES (:request_id,:service_id)";
+            $statement = $this->db->dbh->prepare($sql);
+            $statement->bindValue(':request_id', $requestId);
+
+            $statement->bindValue(':service_id', $item);
+            $statement->execute();
+        }
+
+    }
+
+    public function getRequestService($requestId)
+    {
+        $sql = "SELECT service_id 
+        FROM request_and_services 
+        WHERE request_id = ?";
+
+        return $this->db->query($sql, [$requestId]);
+    }
+
 
     /**
      * @return array|bool
      */
     public function getAllRequest($eventId)
     {
-        $sql = "SELECT date,time,price,name,phone,email,note,no_time FROM request WHERE event_id = '$eventId' ORDER BY id DESC";
+        $sql = "SELECT * 
+        FROM request 
+        WHERE event_id = '$eventId' 
+        ORDER BY id DESC";
         return $this->db->query($sql);
+    }
+
+    public function getLastRequest($eventId)
+    {
+        $sql = "SELECT * 
+                FROM  `request` 
+                WHERE event_id = ?
+                ORDER BY id DESC 
+                LIMIT 1";
+
+        return $this->db->query($sql, [$eventId]);
     }
 
 

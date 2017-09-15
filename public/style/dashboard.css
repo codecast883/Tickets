@@ -6,6 +6,19 @@
 body {
     padding-top: 50px;
 }
+
+.modal-services {
+    width: 500px;
+    min-width: 300px;
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 140px;
+}
+
+.btn-add-service {
+    margin-top: 42px;
+    float: none;
+}
 .events-item a {
     display: block;
     height: 100%;
@@ -29,12 +42,15 @@ body {
     background-color: #66512c;
     border: black 1px solid;
     margin-right: 20px;
+    margin-bottom: 20px;
 
 }
+
 .events-item:hover{
     border: red 4px solid;
 
 }
+
 .events-item-title {
     text-align: center;
     font-weight: 800;
@@ -252,6 +268,9 @@ body {
     color: #969696;
 }
 
+.sevices-list {
+
+}
 .add-event {
     margin-top: 20px;
     margin-right: 25px;
@@ -269,6 +288,21 @@ body {
     color: grey;
 }
 
+.glyphicon:hover {
+    color: #fb0505;
+    cursor: pointer;
+}
+
+.title-services {
+    height: 70px;
+    font-weight: bold;
+}
+
+.title-services span {
+
+    margin-top: 15px;
+    display: block;;
+}
 .new-event-title {
     color: #909090;
     margin-bottom: 30px;
@@ -279,4 +313,14 @@ body {
     background-color: blanchedalmond;
     text-shadow: 1px 1px 2px black;
     color: chocolate;
+}
+
+.table-services {
+    width: 50%;
+    margin-top: 40px;
+}
+
+.table-services > tbody > tr > td {
+    border: none;
+    margin-left: 8px;
 }

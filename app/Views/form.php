@@ -1,24 +1,42 @@
 <?php require_once __DIR__ . '/header.php'; ?>
 <div class="container container-form">
     <div class="form-wrapper">
-        <div class="parameters">
-            <p><span class='datetitle'>Дата</span>
-                <span class='dateday'>
+        <div class="param">
+            <div class="parameters">
+                <p><span class='datetitle'>Дата</span>
+                    <span class='dateday'>
 				<?= app\DB\Day::dateFormat($ticketData->date)[0] ?>
                 <?= app\DB\Day::dateFormat($ticketData->date)[1] ?>
 			</span>
-                <?php if (!$ticketData->no_time): ?>
-                    в <span class='datetime'>
+                    <?php if (!$ticketData->no_time): ?>
+                        в <span class='datetime'>
 			 <?= app\DB\Tickets::timeFormat($ticketData->time); ?>
 			 </span>
-                <?php else: ?>
-                    в любое время
-                <?php endif ?>
-        </div>
-        <div class="parameters">
-            <p><span class='pricetitle'>Цена</span> <span class='pricevalue'> <?= $ticketData->price ?></span>
+                    <?php else: ?>
+                        в любое время
+                    <?php endif ?>
+            </div>
+            <div class="parameters">
+                <p><span class='pricetitle'>Цена</span> <span class='pricevalue'> <?= $ticketData->price ?></span>
+            </div>
         </div>
         <form class="form-horizontal" role="form" action="" method="post">
+            <div class="sevices">
+                <span>Доп. услуги</span>
+                <ul class="sevice-item">
+                    <?php foreach ($services as $number => $sevice): ?>
+                        <p>
+                            <input type="checkbox" name="<?= $sevice->id ?>" value="<?= $sevice->price ?>">
+
+                            <label for="test1">"<?= $sevice->title ?>"</label>
+                            <label class="price" for="test2">+<?= $sevice->price ?>р</label>
+                        </p>
+
+                    <?php endforeach; ?>
+                    <input type="hidden" name="totalPrice" value="">
+                </ul>
+            </div>
+
 
             <div class="form-group">
 
@@ -65,3 +83,26 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(":checkbox").click(function () {
+
+            price = $(this).attr('value');
+            var totalPrice;
+            if ($(this).prop('checked')) {
+                $(".pricevalue").html(function (i, numb) {
+                    totalPrice = parseInt(numb) + parseInt(price);
+                    return totalPrice;
+                }).animate({fontSize: 30}, 1000);
+            } else {
+                $(".pricevalue").html(function (i, numb) {
+                    totalPrice = parseInt(numb) - parseInt(price);
+                    return totalPrice;
+                });
+            }
+            $("input[name=totalPrice]").val(totalPrice);
+
+        });
+    })
+
+</script>

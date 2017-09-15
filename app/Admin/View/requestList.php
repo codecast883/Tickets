@@ -17,10 +17,13 @@
                 <th>Телефон</th>
                 <th>Емейл</th>
                 <th>Заметка</th>
+                <th>Услуги</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($listRequest as $key => $value): ?>
+                <?php $services = $this->requestGateway->getRequestService($value->id) ?>
+
                 <tr>
                     <td><?= ++$key ?></td>
                     <td><?= $value->date ?></td>
@@ -30,6 +33,12 @@
                     <td><?= $value->phone ?></td>
                     <td><?= $value->email ?></td>
                     <td><?= $value->note ?></td>
+                    <td><? if ($services): ?>
+                            <?php foreach ($services as $obj): ?>
+                                <?php echo (new \app\Admin\DB\ServicesGateway)->getService($obj->service_id)[0]->title . '<br>' ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
 
                 </tr>
             <?php endforeach; ?>

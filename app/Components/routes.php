@@ -24,11 +24,15 @@ return [
     'admin/events/requestlist/([0-9]+)' => 'request/list',
     'admin/events/pulloptions/([0-9]+)' => 'pulloptions/list',
     'admin/events/options/([0-9]+)' => 'options/list',
+    'admin/events/services/([0-9]+)' => 'services/list',
 
-    'admin/pulloptions/delete/([0-9]+)' => 'pulloptions/delete',
     'admin/tickets/delete/([0-9]+)' => 'tickets/delete',
     'admin/tickets/add/([0-9]+)' => 'tickets/add',
+    'admin/pulloptions/delete/([0-9]+)' => 'pulloptions/delete',
     'admin/pulloptions/add/([0-9]+)' => 'pulloptions/add',
+    'admin/services/add/([0-9]+)' => 'services/add',
+    'admin/services/delete/([0-9]+)' => 'services/delete',
+
     'admin/events/add' => 'events/eventsAdd',
 
 

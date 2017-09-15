@@ -31,7 +31,10 @@ class TicketsController extends Controller
     public function actionEvent()
     {
 
-        $eventId = $_GET['id'];
+
+        if (!$_GET['id']) {
+            header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        }
 
         $list = TicketsApp::getData('getAllTickets', 'Tickets', $this->eventId);
         require_once ROOT . '/../app/Views/list.php';

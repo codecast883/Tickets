@@ -175,7 +175,7 @@
 
                                                 </select></p>
                                         </td>
-                                        <td><input type="text" required class="times" name="time" value=""></td>
+                                        <td><input type="text" class="times" name="time" value=""></td>
                                         <td><input type="number" name="price" value=""></td>
                                         <td><input type="checkbox" name="noTime" value="1"></td>
                                     </tr>

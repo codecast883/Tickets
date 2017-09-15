@@ -23,7 +23,7 @@
             <ul class="nav nav-sidebar">
                 <li><a href="/admin/events/pulloptions/<?= $this->eventId ?>">Пул билетов</a></li>
                 <li><a href="/admin/events/options/<?= $this->eventId ?>">Описание</a></li>
-                <li><a href="/admin/events/options/<?= $this->eventId ?>">Услуги</a></li>
+                <li><a href="/admin/events/services/<?= $this->eventId ?>">Услуги</a></li>
                 <br><br>
                 <li class="go-back"><a href="/admin">НАЗАД</a></li>
 
