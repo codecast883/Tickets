@@ -169,7 +169,7 @@
                                             <p><select size="1" name="date">
                                                     <option disabled>Выберите дату</option>
 
-                                                    <?php foreach ($this->ticketsGateway->getAllday($this->id) as $value) : ?>
+                                                    <?php foreach ($this->ticketsGateway->getAllday($this->eventId) as $value) : ?>
                                                         <option value="<?= $value ?>"><?= $value ?></option>
                                                     <?php endforeach; ?>
 

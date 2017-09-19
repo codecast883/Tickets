@@ -32,6 +32,10 @@ return [
     'admin/pulloptions/add/([0-9]+)' => 'pulloptions/add',
     'admin/services/add/([0-9]+)' => 'services/add',
     'admin/services/delete/([0-9]+)' => 'services/delete',
+    'admin/services/updatecp/([0-9]+)' => 'services/updateCountPeoples',
+
+    'admin/services/addprice/([0-9]+)' => 'services/addPriceCountPeoples',
+    'admin/services/deleteprice/([0-9]+)' => 'services/deletePrice',
 
     'admin/events/add' => 'events/eventsAdd',
 

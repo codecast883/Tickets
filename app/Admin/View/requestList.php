@@ -18,6 +18,7 @@
                 <th>Емейл</th>
                 <th>Заметка</th>
                 <th>Услуги</th>
+                <th>Кол-во человек</th>
             </tr>
             </thead>
             <tbody>
@@ -39,6 +40,7 @@
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </td>
+                    <td><?= $value->count_peoples ?></td>
 
                 </tr>
             <?php endforeach; ?>

@@ -111,6 +111,6 @@ class Router
         echo "404 Not Found". '<br>';
 
 
-        header("HTTP/1.0 404 Not Found");
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
     }
 }

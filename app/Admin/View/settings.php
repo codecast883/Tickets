@@ -2,7 +2,7 @@
 <?php require_once ROOT . '/../app/Admin/View/sidebarDefault.php'; ?>
 <div class="container">
 
-    <?php if (empty($this->ticketsGateway->getAllTickets($this->id))): ?>
+    <?php if (empty($this->eventsGateway->isEventsExist($this->id))): ?>
         <h1 class="events-alert">Шаблон не настроен</h1>
     <?php else: ?>
 

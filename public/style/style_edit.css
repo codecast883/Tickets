@@ -25,6 +25,12 @@ body {
   background-color: #151515 !important;
   width: 100%;
 }
+
+.select-count-peoples {
+    color: #1F1F1F;
+    padding: 5px;
+    border-radius: 6px;
+}
 .container.container-form {
   color: #c8c4b6 !important;
   font-size: 14px !important;

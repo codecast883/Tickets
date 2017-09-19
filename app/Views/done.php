@@ -5,6 +5,8 @@
     <div class="jumbotron done">
 
         <h2> Вы успешно записаны!</h2>
+        <a href="<?= 'https://' . $_SERVER['SERVER_NAME'] . '/tickets/list?getiframe=' . $this->hash ?>"
+           class="go-home">Вернуться в приложение</a>
     </div>
 
 

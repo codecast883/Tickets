@@ -27,7 +27,7 @@ class EventsGateway extends Gateway
     public function getAllEventsImages($eventId)
     {
         $sql = "SELECT pic_src FROM events_files WHERE event_id = ? AND type = ?";
-        if ($picSrc = $this->db->query($sql, [$eventId,'title_pic'])) {
+        if ($picSrc = $this->db->query($sql, [$eventId, 'title_pic'])) {
             return $picSrc;
         }
         return false;
@@ -76,22 +76,32 @@ class EventsGateway extends Gateway
 
     }
 
+
+    public function updateUpdateCountPeoples($updateData, $eventId)
+    {
+
+        $sql = "UPDATE events SET min_people = :min_people,max_people = :max_people WHERE event_id = :event_id";
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':event_id', $eventId);
+        $statement->bindValue(':min_people', $updateData['minPeople']);
+        $statement->bindValue(':max_people', $updateData['maxPeople']);
+        if ($statement->execute()) {
+            return true;
+        }
+
+
+    }
     /**
      * @return bool
      */
     public function getEvent($eventId)
     {
-        $sql = "SELECT user_id,title,phone,description,day_amount,day_of_week FROM events WHERE event_id = ?";
+        $sql = "SELECT user_id,title,phone,description,day_amount,day_of_week,min_people,max_people FROM events WHERE event_id = ?";
         if ($data = $this->db->query($sql, [$eventId])) {
             return $data[0];
         }
         return false;
     }
-
-
-
-
-
 
 
     /**
@@ -118,7 +128,8 @@ class EventsGateway extends Gateway
     {
         $sql = '';
 
-        $sql = "INSERT INTO events (title,phone,description,user_id,day_of_week) VALUES (:title, :phone, :description,:user_id,:day_of_week)";
+        $sql = "INSERT INTO events (title,phone,description,user_id,day_of_week,min_people,max_people) 
+                VALUES (:title, :phone, :description,:user_id,:day_of_week,:min_people,:max_people)";
 
         $statement = $this->db->dbh->prepare($sql);
         $statement->bindValue(':title', $options['title']);
@@ -126,7 +137,9 @@ class EventsGateway extends Gateway
         $statement->bindValue(':description', $options['description']);
         $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':day_of_week', 7);
-        if ($statement->execute()){
+        $statement->bindValue(':min_people', 1);
+        $statement->bindValue(':max_people', 3);
+        if ($statement->execute()) {
             return true;
         }
 

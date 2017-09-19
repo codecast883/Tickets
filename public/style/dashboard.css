@@ -1,7 +1,9 @@
 /*
  * Base structure
  */
-
+.go-back a {
+    color: #1F1F1F !important;
+}
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
@@ -15,9 +17,28 @@ body {
     margin-top: 140px;
 }
 
+.form-count-people {
+    float: left;
+    width: 20%;
+    margin-right: 30px;
+
+}
+
+.badge {
+    background-color: #5abd57;
+}
+
+.count-people-price {
+    margin-top: 340px;
+}
 .btn-add-service {
     margin-top: 42px;
     float: none;
+}
+
+.modal-sm {
+    min-width: 400px !important;
+    margin-top: 340px !important;
 }
 .events-item a {
     display: block;
@@ -25,6 +46,10 @@ body {
 }
 .btn-save-and-pull{
     float: initial !important;
+}
+
+.nav li:hover {
+    background-color: #af0807;
 }
 
 .jumbotron {
@@ -131,6 +156,7 @@ body {
 /* Hide for mobile, show later */
 .sidebar {
     display: none;
+    background-color: #252525;
 }
 
 @media (min-width: 768px) {
@@ -144,11 +170,19 @@ body {
         padding: 20px;
         overflow-x: hidden;
         overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-        background-color: #ddd;
+        background-color: #252525;
         border-right: 1px solid #929292;
     }
 }
 
+.list-group-item {
+    background-color: #585858;
+    border: 1px solid #8c8989;
+}
+
+.list-group-item a {
+    color: #ffffff;
+}
 /* Sidebar navigation */
 .nav-sidebar {
     margin-right: -21px; /* 20px padding + 1px border */
@@ -160,7 +194,7 @@ body {
 .nav-sidebar > li > a {
     padding-right: 20px;
     padding-left: 20px;
-    color: #466682;
+    color: #bfbfbf;
     text-align: center;
 }
 
@@ -250,6 +284,9 @@ body {
     margin: 30px auto;
 }
 
+.form-horizontal {
+    margin-top: 32px;
+}
 .img-thumbnail {
     height: 75px;
     border: 1px solid #000;
@@ -309,6 +346,13 @@ body {
     margin-top: 70px;
 }
 
+.sevice-right-column {
+    float: right;
+    border: 1px solid black;
+    margin-top: 32px;
+    padding: 30px;
+    border-radius: 14px;
+}
 .sub-header {
     background-color: blanchedalmond;
     text-shadow: 1px 1px 2px black;
@@ -316,7 +360,7 @@ body {
 }
 
 .table-services {
-    width: 50%;
+
     margin-top: 40px;
 }
 

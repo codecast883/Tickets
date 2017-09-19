@@ -20,7 +20,8 @@ class RequestController extends Controller
 
     public function ActionList($event)
     {
-        if ($this->eventsGateway->getEvent($event)->user_id != $this->id) {
+        $eventData = $this->eventsGateway->getEvent($event);
+        if ($eventData->user_id != $this->id) {
             header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
         }
 

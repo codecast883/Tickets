@@ -1,26 +1,42 @@
 <?php require_once __DIR__ . '/header.php'; ?>
+<a class="button-back" href="<?= $_SERVER['HTTP_REFERER'] ?>">Назад</a>
 <div class="container container-form">
     <div class="form-wrapper">
-        <div class="param">
-            <div class="parameters">
-                <p><span class='datetitle'>Дата</span>
-                    <span class='dateday'>
+        <form class="form-horizontal" role="form" action="" method="post">
+            <div class="param">
+                <div class="parameters">
+                    <p><span class='datetitle'>Дата</span>
+                        <span class='dateday'>
 				<?= app\DB\Day::dateFormat($ticketData->date)[0] ?>
                 <?= app\DB\Day::dateFormat($ticketData->date)[1] ?>
 			</span>
-                    <?php if (!$ticketData->no_time): ?>
-                        в <span class='datetime'>
+                        <?php if (!$ticketData->no_time): ?>
+                            в <span class='datetime'>
 			 <?= app\DB\Tickets::timeFormat($ticketData->time); ?>
 			 </span>
-                    <?php else: ?>
-                        в любое время
-                    <?php endif ?>
+                        <?php else: ?>
+                            в любое время
+                        <?php endif ?>
+                </div>
+
+                <div class="parameters">
+                    <p><span class='pricetitle'>Цена</span>
+                        <span class='pricevalue'> <?= $ticketData->price ?></span>
+                    <p>
+                    <p><span class='pricetitle'>Кол-во игроков</span>
+                        <select size="1" name="countPeoples" class="select-count-peoples">
+                            <?php for ($i = $this->header->min_people; $i <= $this->header->max_people; $i++): ?>
+
+
+                                <option value="<?= $i ?>"><?= $i ?></option>
+
+                            <?php endfor; ?>
+
+                        </select>
+                    </p>
+                </div>
             </div>
-            <div class="parameters">
-                <p><span class='pricetitle'>Цена</span> <span class='pricevalue'> <?= $ticketData->price ?></span>
-            </div>
-        </div>
-        <form class="form-horizontal" role="form" action="" method="post">
+
             <div class="sevices">
                 <span>Доп. услуги</span>
                 <ul class="sevice-item">
@@ -33,7 +49,7 @@
                         </p>
 
                     <?php endforeach; ?>
-                    <input type="hidden" name="totalPrice" value="">
+
                 </ul>
             </div>
 
@@ -85,8 +101,25 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(":checkbox").click(function () {
+        var dataPeoplesObject = $.parseJSON('<?=$priceCountPeoplesJson?>');
+        var value = $(".pricevalue").html();
+        $("select").change(function () {
+            $(".pricevalue").html(value);
+            var countPeoples = parseInt($(this).val());
+            var i = 0;
+            for (var key in dataPeoplesObject) {
+                i++;
+                var price = dataPeoplesObject[i]['price'];
+                if (countPeoples === dataPeoplesObject[i]['count_peoples']) {
+                    $(".pricevalue").html(function (b, numb) {
+                        totalPrice = parseInt(numb) + price;
+                        return totalPrice;
+                    }).animate({fontSize: 30}, 1000);
+                }
+            }
+        });
 
+        $(":checkbox").click(function () {
             price = $(this).attr('value');
             var totalPrice;
             if ($(this).prop('checked')) {
@@ -100,7 +133,7 @@
                     return totalPrice;
                 });
             }
-            $("input[name=totalPrice]").val(totalPrice);
+
 
         });
     })

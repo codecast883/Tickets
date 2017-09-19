@@ -1,5 +1,5 @@
 <?php require_once __DIR__ . '/header.php'; ?>
-
+<a class="button-back" href="<?= 'https://' . $_SERVER['SERVER_NAME'] . '/tickets/list?getiframe=' . $this->hash ?>">Назад</a>
 <div class="menu-tab">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#home" data-toggle="tab">Запись на квест</a></li>

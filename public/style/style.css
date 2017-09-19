@@ -16,6 +16,11 @@ body{
     float: left;
 }
 
+.button-back-events {
+
+    margin-bottom: 100px;
+    padding: 10px;
+}
 .sevices {
     float: right;
 
@@ -26,6 +31,21 @@ body{
     border: 1px solid #c8c4b6;
 }
 
+.go-home:hover {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.go-home {
+    padding: 13px;
+    background-color: #3e3e3e;
+    color: #fff;
+    border-radius: 9px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 70px;
+}
 .price {
     color: chartreuse;
 }

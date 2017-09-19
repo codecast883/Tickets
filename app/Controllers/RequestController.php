@@ -28,6 +28,9 @@ class RequestController extends Controller
     public function actionAdd($idItem)
     {
         $services = TicketsApp::getDataAdmin('getAllServices', "services", $this->eventId);
+        $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "services", $this->eventId);
+        $priceCountPeoplesJson = json_encode($priceCountPeoples);
+
 
         /*
         *Validation Form
@@ -35,7 +38,7 @@ class RequestController extends Controller
         $ticketData = TicketsApp::getData('getTicketsById', 'Tickets', $idItem, $this->eventId);
         $formData = [];
         $error = [];
-
+        $servicesIds = [];
 
         foreach ($this->requestModel as $key => $value) {
             $formData[$key] = '';
@@ -46,11 +49,40 @@ class RequestController extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            //Проходимся по POST данным и вытаскиваем все id сервисов
+            foreach ($_POST as $key => $value) {
+                if (is_int($key)) {
+                    $servicesIds[] = $key;
+                }
+            }
+
+            //Если сервисы выбраны, берём из базы их цены и складываем в общую цену
+            $totalPrice = 0;
+            if ($servicesIds) {
+                foreach ($servicesIds as $serviceId) {
+                    $servicePrice = TicketsApp::getDataAdmin('getService', "services", $serviceId)[0]->price;
+                    $totalPrice += $servicePrice;
+                }
+            }
+
+            //Проверка на кол-во участников
+
+            foreach ($priceCountPeoples as $countPeople) {
+                if ($_POST['countPeoples'] == $countPeople->count_peoples) {
+                    $totalPrice += $countPeople->price;
+                }
+            }
+            //Формируется общая цена на билет
+            $totalPrice += $ticketData->price;
+
+
+
             $formData['name'] = htmlentities(trim($_POST['name']));
             $formData['phone'] = htmlentities(trim($_POST['phone']));
             $formData['email'] = htmlentities(trim($_POST['email']));
             $formData['note'] = htmlentities(trim($_POST['note']));
-            $formData['price'] = htmlentities(trim($_POST['totalPrice']));
+            $formData['price'] = htmlentities(trim($totalPrice));
+            $formData['count_peoples'] = htmlentities(trim($_POST['countPeoples']));
 
             if ($errorCode = Validator::checkName($formData['name'])) {
                 $error[0]['name'] = $errorCode[0];
@@ -98,7 +130,10 @@ class RequestController extends Controller
 
                 $this->requestGateway->addRequest($formData, $this->eventId);
                 $lastRequestId = $this->requestGateway->getLastRequest($this->eventId)[0]->id;
-                $this->requestGateway->addRequestService($idsService, $lastRequestId);
+                if ($idsService) {
+                    $this->requestGateway->addRequestService($idsService, $lastRequestId);
+                }
+
                 header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe=' . $this->hash . '&id=' . $this->eventId);
 
             }

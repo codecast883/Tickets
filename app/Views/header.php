@@ -33,6 +33,7 @@
         <?php echo '<img src="' . $value->pic_src . '" style="width:683px"/>' ?>
     <?php endforeach; ?>
 </div>
+
 <?php endif; ?>
 
 
