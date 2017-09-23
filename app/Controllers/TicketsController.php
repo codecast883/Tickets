@@ -35,8 +35,10 @@ class TicketsController extends Controller
         if (!$_GET['id']) {
             header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
         }
-
+        $reservedCookie = $_COOKIE['reserve'];
+        ksort($reservedCookie);
         $list = TicketsApp::getData('getAllTickets', 'Tickets', $this->eventId);
+
         require_once ROOT . '/../app/Views/list.php';
     }
 }

@@ -1,4 +1,6 @@
 <?php require_once __DIR__ . '/header.php'; ?>
+
+
 <a class="button-back" href="<?= $_SERVER['HTTP_REFERER'] ?>">Назад</a>
 <div class="container container-form">
     <div class="form-wrapper">
@@ -74,10 +76,10 @@
             </div>
 
             <div class="form-group">
-                <label for="check3" class="col-sm-2 control-label">Почта</label>
-                <div class="col-sm-3 <?= $error[0]['email'] ?>">
-                    <?= $error[1]['email'] ?>
-                    <input type="email" value="<?= $formData['email'] ?>" class="form-control" name="email"
+                <label for="check3" class="col-sm-2 control-label">id</label>
+                <div class="col-sm-3">
+
+                    <input type="number" value="<?= $_GET['viewer_id'] ?>" class="form-control" name="id"
                            placeholder="">
                 </div>
             </div>

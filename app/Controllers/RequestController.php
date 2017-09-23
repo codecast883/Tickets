@@ -27,8 +27,8 @@ class RequestController extends Controller
 
     public function actionAdd($idItem)
     {
-        $services = TicketsApp::getDataAdmin('getAllServices', "services", $this->eventId);
-        $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "services", $this->eventId);
+        $services = TicketsApp::getDataAdmin('getAllServices', "Services", $this->eventId);
+        $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "Services", $this->eventId);
         $priceCountPeoplesJson = json_encode($priceCountPeoples);
 
 
@@ -60,7 +60,7 @@ class RequestController extends Controller
             $totalPrice = 0;
             if ($servicesIds) {
                 foreach ($servicesIds as $serviceId) {
-                    $servicePrice = TicketsApp::getDataAdmin('getService', "services", $serviceId)[0]->price;
+                    $servicePrice = TicketsApp::getDataAdmin('getService', "Services", $serviceId)[0]->price;
                     $totalPrice += $servicePrice;
                 }
             }
@@ -76,10 +76,9 @@ class RequestController extends Controller
             $totalPrice += $ticketData->price;
 
 
-
             $formData['name'] = htmlentities(trim($_POST['name']));
             $formData['phone'] = htmlentities(trim($_POST['phone']));
-            $formData['email'] = htmlentities(trim($_POST['email']));
+            $formData['email'] = htmlentities(trim($_POST['id']));
             $formData['note'] = htmlentities(trim($_POST['note']));
             $formData['price'] = htmlentities(trim($totalPrice));
             $formData['count_peoples'] = htmlentities(trim($_POST['countPeoples']));
@@ -94,10 +93,6 @@ class RequestController extends Controller
                 $error[1]['phone'] = $errorCode[1];
             }
 
-            if ($errorCode = Validator::checkEmail($formData['email'])) {
-                $error[0]['email'] = $errorCode[0];
-                $error[1]['email'] = $errorCode[1];
-            }
 
             if ($errorCode = Validator::checkTextArea($formData['note'])) {
                 $error[0]['note'] = $errorCode[0];
@@ -132,6 +127,31 @@ class RequestController extends Controller
                 $lastRequestId = $this->requestGateway->getLastRequest($this->eventId)[0]->id;
                 if ($idsService) {
                     $this->requestGateway->addRequestService($idsService, $lastRequestId);
+                }
+
+
+                $date = new \DateTime();
+                $timeStamp = $date->getTimestamp();
+                $getMorgenDate = $date->add(new \DateInterval('P1D'))->format('Y-m-d');
+                $morgenTimeStamp = (new \DateTime($getMorgenDate))->getTimestamp();
+                $time = $morgenTimeStamp - $timeStamp;
+
+                // TicketsApp::debug(strftime("%d,%m,%Y; %H:%M:%S", time() + $time));
+
+                $countCookie = $_COOKIE['count'];
+                if (!$countCookie) {
+                    setrawcookie("count", 1, time() + 163600, '/', '', 0, 1);
+                } else {
+                    $countCookie += 1;
+                    setrawcookie("count", $countCookie, time() + 163600, '/', '', 0, 1);
+                }
+
+                if (!$countCookie) {
+                    setrawcookie("reserve[1][id]", $ticketData->id, time() + $time, '/', '', 0, 1);
+                    setrawcookie("reserve[1][event_id]", $ticketData->event_id, time() + $time, '/', '', 0, 1);
+                } else {
+                    setrawcookie("reserve[$countCookie][id]", $ticketData->id, time() + $time, '/', '', 0, 1);
+                    setrawcookie("reserve[$countCookie][event_id]", $ticketData->event_id, time() + $time, '/', '', 0, 1);
                 }
 
                 header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe=' . $this->hash . '&id=' . $this->eventId);

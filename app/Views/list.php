@@ -30,10 +30,17 @@
                                     <div class="shTime <?php if ($ticket->no_time) {
                                         echo 'noTime';
                                     } ?> <?php if (app\DB\Tickets::actionDisabled($date)) {
+
                                         echo 'disabledDate';
+                                    } elseif ($reservedCookie) {
+                                        foreach ($reservedCookie as $value) {
+                                            if ($value['id'] == $ticket->id and $value['event_id'] == $ticket->event_id) {
+                                                echo 'disabledDate';
+                                            }
+                                        }
                                     } ?>">
 
-                                        <a href="/tickets/request/<?= $ticket->id ?>?getiframe=<?= $this->hash ?>&id=<?= $this->eventId ?>"
+                                        <a href="/tickets/request/<?= $ticket->id ?>?getiframe=<?= $this->hash ?>&id=<?= $this->eventId . '&viewer_id=' . $_GET['viewer_id'] ?>"
                                            class="shTimeHref"><?php if (!$ticket->no_time) {
                                                 echo app\DB\Tickets::timeFormat($ticket->time);
                                             } else {
