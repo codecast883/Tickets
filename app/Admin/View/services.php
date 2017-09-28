@@ -41,12 +41,14 @@
     <div class="col-md-5 sevice-right-column">
         <span>Ограничение кол-ва человек</span>
 
-        <form class="form-horizontal" id="save-cpeople" role="form" action="" method="post">
+        <form class="form-horizontal" id="save-cpeople" role="form"
+              action="/admin/services/updatecp/<?= $this->eventId ?>" method="post">
             <div class="form-count-people">
                 <label class="form-label">От</label>
 
 
-                <input type="number" pattern="\d+" value="<?= $eventData->min_people ?>" class="pattern-input"
+                <input type="number" step="1" min="1" max="25" pattern="\d+" value="<?= $eventData->min_people ?>"
+                       class="pattern-input"
                        name="peopleMin"
                        required>
 
@@ -55,12 +57,13 @@
                 <label class="form-label">До</label>
 
 
-                <input type="number" pattern="\d+" value="<?= $eventData->max_people ?>" class="pattern-input"
+                <input type="number" step="1" min="2" max="55" pattern="\d+" value="<?= $eventData->max_people ?>"
+                       class="pattern-input"
                        name="peopleMax"
                        required>
 
             </div>
-            <button type="button" id="btn-save-cpeople" class="btn btn-primary btn-lg">
+            <button type="submit" id="btn-save-cpeople" class="btn btn-primary btn-lg">
                 Сохранить
             </button>
         </form>
@@ -124,7 +127,7 @@
                             <tr>
 
                                 <td><input type="text" name="title" value="" required></td>
-                                <td><input type="number" name="price" value="" required></td>
+                                <td><input type="number" min="1" name="price" value="" required></td>
 
                             </tr>
                             </tbody>
@@ -161,8 +164,31 @@
                         <tbody>
                         <tr>
 
-                            <td><input type="number" name="from" value="" required></td>
-                            <td><input type="number" name="price" value="" required></td>
+                            <td><select size="1" name="countPeoples">
+                                    <option disabled>От</option>
+
+                                    <?php for ($i = $eventData->min_people + 1; $i <= $eventData->max_people; $i++): ?>
+                                        <!--                                        --><?php //$count = $priceCountPeoples[$countPriceCountPeoples]->count_peoples + 2;?>
+                                        <!---->
+                                        <!--                                        --><?php //if ($count == $i): ?>
+                                        <!--                                            --><?php //break; ?>
+                                        <!--                                        --><?php //endif; ?>
+                                        <!---->
+                                        <!---->
+                                        <!--                                        --><?php //foreach ($priceCountPeoples as $object): ?>
+                                        <!--                                            --><?php //if ($object->count_peoples == $i): ?>
+                                        <!--                                                --><?php //continue 2; ?>
+                                        <!--                                            --><?php //endif; ?>
+                                        <!--                                        --><?php //endforeach; ?>
+
+
+                                        <option value="<?= $i ?>"><?= $i ?></option>
+                                    <?php endfor; ?>
+
+                                </select></td>
+
+
+                            <td><input type="number" min="1" name="price" value="" required></td>
 
                         </tr>
                         </tbody>
@@ -204,6 +230,7 @@
 
         });
         updateTableNumeration();
+
         $("#btn-save-service").click(function () {
 
             var msg = $('#saveService').serialize();
@@ -247,7 +274,7 @@
                     $('#asas').modal('hide');
                     alertify.success("Изменения сохранены");
 
-                    $(".table-cpeoples > tbody").append("<tr  id='" + data['last_price']['id'] + "'><td></td> <td>" + data['last_price']['count_peoples'] + "</td> <td>" + data['last_price']['price'] + "</td><td class='glyphicon glyphicon-pencil' style='display: none'></td><td class='glyphicon glyphicon-remove glyphicon-remove-price' id='" + data['last_price']['id'] + "id'></td> </tr>");
+                    $(".table-cpeoples > tbody").append("<tr  id='count" + data['last_price']['id'] + "'><td></td> <td>" + data['last_price']['count_peoples'] + "</td> <td>" + data['last_price']['price'] + "</td><td class='glyphicon glyphicon-pencil' style='display: none'></td><td class='glyphicon glyphicon-remove glyphicon-remove-price' id='" + data['last_price']['id'] + "id'></td> </tr>");
 
                     updateTableNumeration();
                     $('#save')[0].reset();
@@ -259,25 +286,27 @@
 
         });
     });
-
     $("#btn-save-cpeople").click(function () {
-
-        var msg = $('#save-cpeople').serialize();
-
-        $.ajax({
-
-            type: "POST",
-            url: "/admin/services/updatecp/<?= $this->eventId?>",
-            data: msg,
-            cache: false,
-            success: function (data) {
-                alertify.success("Изменения сохранены");
-            }
-
-        });
-
-
+        alertify.success("Сохранено");
     });
+    //    $("#btn-save-cpeople").click(function () {
+    //
+    //        var msg = $('#save-cpeople').serialize();
+    //
+    //        $.ajax({
+    //
+    //            type: "POST",
+    //            url: "/admin/services/updatecp/<?//= $this->eventId?>//",
+    //            data: msg,
+    //            cache: false,
+    //            success: function (data) {
+    //                alertify.success("Изменения сохранены");
+    //            }
+    //
+    //        });
+    //
+    //
+    //    });
 
     $(document).on("click", ".glyphicon-remove-service", function () {
         var id = $(this).attr('id');

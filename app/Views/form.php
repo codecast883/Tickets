@@ -75,14 +75,10 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="check3" class="col-sm-2 control-label">id</label>
-                <div class="col-sm-3">
 
-                    <input type="number" value="<?= $_GET['viewer_id'] ?>" class="form-control" name="id"
-                           placeholder="">
-                </div>
-            </div>
+            <input type="hidden" value="<?= $_GET['viewer_id'] ?>" class="form-control" name="id"
+            >
+
 
             <div class="form-group">
                 <label for="inputPassword3" class="col-sm-2 control-label">Заметка</label>
@@ -95,41 +91,71 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default btn-ticket">Забронировать</button>
+                    <button type="button" class="btn btn-default btn-ticket">Забронировать</button>
                 </div>
             </div>
         </form>
+
+
     </div>
+
+    <div class="jumbotron done">
+
+        <h2> Вы успешно записаны!</h2>
+        <a href="<?= 'https://' . $_SERVER['SERVER_NAME'] . '/tickets/list?getiframe=' . $this->hash ?>"
+           class="go-home">Вернуться в приложение</a>
+    </div>
+
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
         var dataPeoplesObject = $.parseJSON('<?=$priceCountPeoplesJson?>');
-        var value = $(".pricevalue").html();
-        $("select").change(function () {
-            $(".pricevalue").html(value);
-            var countPeoples = parseInt($(this).val());
-            var i = 0;
+
+        var value = parseInt($(".pricevalue").html());
+        var servicePrice = 0;
+
+        var objPrices = {};
+        var lastPrice = value;
+        $(".select-count-peoples > option").each(function (index) {
+            var count = +$(this).val();
             for (var key in dataPeoplesObject) {
-                i++;
-                var price = dataPeoplesObject[i]['price'];
-                if (countPeoples === dataPeoplesObject[i]['count_peoples']) {
-                    $(".pricevalue").html(function (b, numb) {
-                        totalPrice = parseInt(numb) + price;
-                        return totalPrice;
-                    }).animate({fontSize: 30}, 1000);
+                if (count === dataPeoplesObject[key]['count_peoples']) {
+                    objPrices[count] = dataPeoplesObject[key]['price'];
+                    objPrices[count] += value;
+                    lastPrice = objPrices[count];
+                    break;
+                } else {
+                    objPrices[count] = lastPrice;
                 }
             }
+        });
+
+        console.log(objPrices);
+
+
+        $("select").change(function () {
+//
+            var countOption = parseInt($(this).val());
+            $(".pricevalue").html(function () {
+                var totalPrice = servicePrice + objPrices[countOption];
+
+                return totalPrice;
+            }).animate({fontSize: 30}, 1000);
+
+
         });
 
         $(":checkbox").click(function () {
             price = $(this).attr('value');
             var totalPrice;
             if ($(this).prop('checked')) {
+                servicePrice += parseInt(price);
                 $(".pricevalue").html(function (i, numb) {
                     totalPrice = parseInt(numb) + parseInt(price);
                     return totalPrice;
                 }).animate({fontSize: 30}, 1000);
             } else {
+                servicePrice -= parseInt(price);
                 $(".pricevalue").html(function (i, numb) {
                     totalPrice = parseInt(numb) - parseInt(price);
                     return totalPrice;
@@ -138,6 +164,32 @@
 
 
         });
+
+
+        $(".btn-ticket").click(function () {
+            var inputs = $('.form-horizontal').find('input[type=text],select,:checked'), object = {};
+            $.each(inputs, function (num, element) {
+                object[$(element).attr('name')] = $(element).val()
+            });
+            var prices = $.toJSON(objPrices);
+            object.dataPrices = prices;
+
+
+            $.ajax({
+                type: "POST",
+                url: window.location.href,
+                data: object,
+                cache: false,
+                success: function (data) {
+                    $(".form-wrapper").css("display", "none");
+                    $(".done").css("display", "block");
+                }
+            });
+
+
+        });
+
+
     })
 
 </script>

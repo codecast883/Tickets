@@ -59,6 +59,9 @@ class ServicesController extends Controller
         $formData['maxPeople'] = htmlentities(trim($_POST['peopleMax']));
 
         $this->eventsGateway->updateUpdateCountPeoples($formData, $eventId);
+        sleep(1);
+        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/events/services/' . $eventId);
+
     }
 
     public function actionDelete($idItem)
@@ -78,7 +81,7 @@ class ServicesController extends Controller
     public function actionAddPriceCountPeoples($eventId)
     {
 
-        $formData['count_peoples'] = htmlentities(trim($_POST['from']));
+        $formData['count_peoples'] = htmlentities(trim($_POST['countPeoples']));
         $formData['price'] = htmlentities(trim($_POST['price']));
 //TicketsApp::debug( $formData);
         if ($this->servicesGateway->insertPriceCountPeoples($eventId, $formData)) {

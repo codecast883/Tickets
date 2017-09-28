@@ -101,4 +101,5 @@ body {
       background-color: dimgrey;
       position: relative;
       top: 15px;
+    display: none;
 }

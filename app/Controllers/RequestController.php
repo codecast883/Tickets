@@ -27,8 +27,11 @@ class RequestController extends Controller
 
     public function actionAdd($idItem)
     {
+
         $services = TicketsApp::getDataAdmin('getAllServices', "Services", $this->eventId);
+
         $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "Services", $this->eventId);
+
         $priceCountPeoplesJson = json_encode($priceCountPeoples);
 
 
@@ -48,6 +51,11 @@ class RequestController extends Controller
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $prices = json_decode($_POST['dataPrices']);
+
+
+            //Переменная где будем суммировать общую цену
+            $totalPrice = 0;
 
             //Проходимся по POST данным и вытаскиваем все id сервисов
             foreach ($_POST as $key => $value) {
@@ -57,7 +65,7 @@ class RequestController extends Controller
             }
 
             //Если сервисы выбраны, берём из базы их цены и складываем в общую цену
-            $totalPrice = 0;
+
             if ($servicesIds) {
                 foreach ($servicesIds as $serviceId) {
                     $servicePrice = TicketsApp::getDataAdmin('getService', "Services", $serviceId)[0]->price;
@@ -66,14 +74,9 @@ class RequestController extends Controller
             }
 
             //Проверка на кол-во участников
-
-            foreach ($priceCountPeoples as $countPeople) {
-                if ($_POST['countPeoples'] == $countPeople->count_peoples) {
-                    $totalPrice += $countPeople->price;
-                }
-            }
             //Формируется общая цена на билет
-            $totalPrice += $ticketData->price;
+
+            $totalPrice += $prices->$_POST['countPeoples'];
 
 
             $formData['name'] = htmlentities(trim($_POST['name']));
