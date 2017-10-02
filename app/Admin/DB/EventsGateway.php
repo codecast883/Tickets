@@ -96,7 +96,7 @@ class EventsGateway extends Gateway
      */
     public function getEvent($eventId)
     {
-        $sql = "SELECT user_id,title,phone,description,day_amount,day_of_week,min_people,max_people FROM events WHERE event_id = ?";
+        $sql = "SELECT user_id,title,phone,description,day_amount,day_of_week,min_people,max_people, calculation_price_type FROM events WHERE event_id = ?";
         if ($data = $this->db->query($sql, [$eventId])) {
             return $data[0];
         }
@@ -194,6 +194,19 @@ class EventsGateway extends Gateway
             return $data;
         }
         return false;
+    }
+
+    /**
+     * @param $type
+     * @param $eventId
+     */
+    public function changePriceType($type, $eventId)
+    {
+        $sql = 'UPDATE events SET calculation_price_type = :calculation_price_type WHERE event_id = :event_id';
+        $statement = $this->db->dbh->prepare($sql);
+        $statement->bindValue(':calculation_price_type', $type);
+        $statement->bindValue(':event_id', $eventId);
+        $statement->execute();
     }
 
 }

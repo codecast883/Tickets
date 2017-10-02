@@ -1,13 +1,15 @@
-<style type="text/css">
-	
-	body{
-		margin: 0;
-	}
-</style>
+<?php
+ob_start();
+define('ROOT', dirname(__FILE__));
+require_once __DIR__ . '/../app/config.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-<iframe name="aaz" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true" frameborder="0"
-        src="https://<?= $_SERVER['SERVER_NAME'] ?>/tickets/list?getiframe=<?= $_GET['iframe'] ?>&viewer_id=<?= $_GET['viewer_id'] ?>"
-        width="700px" height="600px">
+use app\Components\Db;
+use app\Components\Application;
 
-</iframe>
-	
+
+$dbo = new Db;
+$app = new Application;
+$app->run();
+
+ob_end_flush();

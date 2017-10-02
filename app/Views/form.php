@@ -108,14 +108,23 @@
 
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var dataPeoplesObject = $.parseJSON('<?=$priceCountPeoplesJson?>');
+    function getFirstCountElementInObj(obj) {
+        for (var count in obj) {
+            return count;
+            break;
+        }
+    }
 
+
+    $(document).ready(function () {
+        var calculationPriceType = +'<?=$calculationPriceType?>';
+        var dataPeoplesObject = $.parseJSON('<?=$priceCountPeoplesJson?>');
         var value = parseInt($(".pricevalue").html());
         var servicePrice = 0;
-
         var objPrices = {};
         var lastPrice = value;
+
+
         $(".select-count-peoples > option").each(function (index) {
             var count = +$(this).val();
             for (var key in dataPeoplesObject) {
@@ -130,20 +139,57 @@
             }
         });
 
-        console.log(objPrices);
+//       else other type
+        var prices = {};
+        var countPrice;
+        var pr = 0;
+        for (var count in objPrices) {
+            if (objPrices[count] !== value) {
+                for (var key in dataPeoplesObject) {
+                    if (dataPeoplesObject[key]['count_peoples'] === +count) {
+                        countPrice = dataPeoplesObject[key]['price'];
+                    }
+                }
+                pr += countPrice;
+                prices[count] = pr;
+            }
+
+        }
+
+        var objOtherPrice = {};
+        var firstCount = +getFirstCountElementInObj(prices);
+        for (var count in objPrices) {
+            objOtherPrice[count] = value + prices[count];
+        }
+
+        for (var count in objOtherPrice) {
+
+            if (+count === firstCount) {
+                break;
+            }
+            objOtherPrice[count] = value;
+        }
 
 
+// endelse
+
+        var totalPrice;
         $("select").change(function () {
-//
             var countOption = parseInt($(this).val());
             $(".pricevalue").html(function () {
-                var totalPrice = servicePrice + objPrices[countOption];
+                if (calculationPriceType) {
+                    totalPrice = servicePrice + objOtherPrice[countOption];
+
+                } else {
+                    totalPrice = servicePrice + objPrices[countOption];
+                }
+
 
                 return totalPrice;
             }).animate({fontSize: 30}, 1000);
 
-
         });
+
 
         $(":checkbox").click(function () {
             price = $(this).attr('value');
@@ -167,11 +213,18 @@
 
 
         $(".btn-ticket").click(function () {
+            var prices;
             var inputs = $('.form-horizontal').find('input[type=text],select,:checked'), object = {};
             $.each(inputs, function (num, element) {
                 object[$(element).attr('name')] = $(element).val()
             });
-            var prices = $.toJSON(objPrices);
+            if (calculationPriceType) {
+                prices = $.toJSON(objOtherPrice);
+
+            } else {
+                prices = $.toJSON(objPrices);
+            }
+
             object.dataPrices = prices;
 
 

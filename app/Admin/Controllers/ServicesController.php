@@ -28,6 +28,9 @@ class ServicesController extends Controller
         $services = $this->servicesGateway->getAllServices($this->eventId);
         $eventData = $this->eventsGateway->getEvent($this->eventId);
 
+        $calculationPriceType = $eventData->calculation_price_type;
+
+
         require_once ROOT . '/../app/Admin/View/services.php';
     }
 
@@ -97,6 +100,14 @@ class ServicesController extends Controller
             header("Content-Type:application/json");
             echo json_encode($data);
         }
+
+    }
+
+    public function actionChangePriceType()
+    {
+        $eventId = $_GET['event'];
+        $type = $_GET['type'];
+        $this->eventsGateway->changePriceType($type, $eventId);
 
     }
 

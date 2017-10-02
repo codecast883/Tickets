@@ -108,4 +108,6 @@ class ServicesGateway extends Gateway
         $lastPrice = $this->getPriceCountPeoples($eventId);
         return array_pop($lastPrice);
     }
+
+
 }

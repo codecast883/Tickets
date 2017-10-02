@@ -33,7 +33,7 @@ class RequestController extends Controller
         $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "Services", $this->eventId);
 
         $priceCountPeoplesJson = json_encode($priceCountPeoples);
-
+        $calculationPriceType = $this->header->calculation_price_type;
 
         /*
         *Validation Form

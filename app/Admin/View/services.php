@@ -76,12 +76,24 @@
         <button class="btn btn-primary btn-add-price">
             Добавить цену
         </button>
+
+        <ul>
+            <li class="list-group-item price-type">
+                Увеличивать за каждого участника
+                <div class="material-switch">
+                    <input id="someSwitchOptionSuccess" <?php if ($calculationPriceType) echo 'checked' ?> value="1"
+                           name="switchPriceType" type="checkbox"/>
+                    <label for="someSwitchOptionSuccess" class="label-success"></label>
+                </div>
+            </li>
+        </ul>
+
         <table class="table table-striped table-cpeoples">
 
             <thead>
             <tr>
                 <th></th>
-                <th>Кол-во участников</th>
+                <th>Кол-во</th>
                 <th>Цена, р.</th>
                 <th></th>
             </tr>
@@ -91,7 +103,7 @@
             <?php foreach ($priceCountPeoples as $number => $service) : ?>
                 <tr id="count<?= $service->id ?>">
                     <td></td>
-                    <td><?= $service->count_peoples ?></td>
+                    <td><?= 'C <b>' . $service->count_peoples . '</b> участников ' ?></td>
                     <td><?= $service->price ?></td>
                     <td class="glyphicon glyphicon-pencil" style="display: none"></td>
                     <td class="glyphicon glyphicon-remove glyphicon-remove-price" id="<?= $service->id ?>id"></td>
@@ -235,7 +247,6 @@
 
             var msg = $('#saveService').serialize();
 
-
             $.ajax({
                 type: "POST",
                 url: "/admin/services/add/<?= $this->eventId?>",
@@ -260,10 +271,7 @@
         });
 
         $("#btn-save-price").click(function () {
-
             var msg = $('#save').serialize();
-
-
             $.ajax({
                 type: "POST",
                 url: "/admin/services/addprice/<?= $this->eventId?>",
@@ -274,7 +282,7 @@
                     $('#asas').modal('hide');
                     alertify.success("Изменения сохранены");
 
-                    $(".table-cpeoples > tbody").append("<tr  id='count" + data['last_price']['id'] + "'><td></td> <td>" + data['last_price']['count_peoples'] + "</td> <td>" + data['last_price']['price'] + "</td><td class='glyphicon glyphicon-pencil' style='display: none'></td><td class='glyphicon glyphicon-remove glyphicon-remove-price' id='" + data['last_price']['id'] + "id'></td> </tr>");
+                    $(".table-cpeoples > tbody").append("<tr  id='count" + data['last_price']['id'] + "'><td></td> <td>С <b>" + data['last_price']['count_peoples'] + "</b> участников</td> <td>" + data['last_price']['price'] + "</td><td class='glyphicon glyphicon-pencil' style='display: none'></td><td class='glyphicon glyphicon-remove glyphicon-remove-price' id='" + data['last_price']['id'] + "id'></td> </tr>");
 
                     updateTableNumeration();
                     $('#save')[0].reset();
@@ -282,7 +290,6 @@
                 }
 
             });
-
 
         });
     });
@@ -307,6 +314,17 @@
     //
     //
     //    });
+    $(".material-switch :checkbox").change(function () {
+        var isChecked = $(this).prop('checked');
+        if (isChecked === true) {
+            $.get("/admin/services/changetypeprice?type=1&event=<?=$this->eventId?>");
+        } else {
+            $.get("/admin/services/changetypeprice?type=0&event=<?=$this->eventId?>");
+        }
+
+
+    });
+
 
     $(document).on("click", ".glyphicon-remove-service", function () {
         var id = $(this).attr('id');
