@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="hostland">
+    <serverData>
+      <paths name="hostland">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/testparse.tk/htdocs" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/testparse.tk/htdocs/www" local="$PROJECT_DIR$/public" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

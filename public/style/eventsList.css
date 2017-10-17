@@ -1,0 +1,138 @@
+body{
+    margin: 0;
+
+}
+
+
+.param {
+    float: left;
+}
+
+.button-back-events {
+
+    margin-bottom: 100px;
+    padding: 10px;
+}
+.sevices {
+    float: right;
+
+    width: 300px;
+
+    margin-top: 20px;
+    border-radius: 15px;
+    border: 1px solid #c8c4b6;
+}
+
+.go-home:hover {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.go-home {
+    padding: 13px;
+    background-color: #3e3e3e;
+    color: #fff;
+    border-radius: 9px;
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 70px;
+}
+.price {
+    color: chartreuse;
+}
+
+.sevices span {
+    margin-left: 20px;
+}
+.event-item {
+    height: 200px;
+    width: 95%;
+
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    border: 1px solid;
+    opacity: 0.5;
+
+}
+
+.not-images {
+    width: 683px;
+    height: 250px;
+    background-color: #8c8c8c;
+}
+
+.not-images span {
+    position: relative;
+    left: 43%;
+    top: 100px;
+    color: white;
+}
+
+.event-title {
+
+    position: relative;
+    top: 30px;
+    left: 20px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    text-shadow: 1px 1px 2px black;
+}
+
+.sevice-item {
+    margin-top: 10px;
+}
+
+.event-item:hover {
+    opacity: 1;
+    transition: opacity;
+    transition-duration: 0.2s
+}
+
+.event-link {
+    display: block;
+    height: 100%;
+}
+
+.container:first-child {
+    margin-top: 10px;
+}
+.frame{
+    width: 700px;
+    padding: 20px 20px 20px 20px;
+    position: absolute;
+    min-height: 200px;
+    color: #fff;
+    z-index: 4;
+    transition: border-color 0.3s ease;
+}
+
+.frame h2{
+
+    font-size: 19px;
+    line-height: 1.3;
+    padding-right: 170px !important;
+    text-decoration: none;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+.form-group {
+    clear: both;
+}
+.contact{
+    position: absolute;
+    top: 24px;
+    right: 15px;
+}
+
+.small_icon {
+    display: inline-block;
+    padding-left: 23px;
+    position: relative;
+    margin-right: 23px;
+}
+

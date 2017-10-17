@@ -1,0 +1,499 @@
+body{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    color: #2e3c56;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.container {
+
+    width: 700px;
+    margin: 0 auto;
+
+    /*border*/
+    border: 1px solid black;
+    /*End border*/
+}
+
+.main-header {
+    height: 300px;
+
+   background-color: #b3d4fc;
+}
+
+.main-header-title {
+    font-family: "qanelasbold", "Arial", "sans-serif";
+    font-size: 40px;
+    float: left;
+    margin-left: 15px;
+    margin-top: 13px;
+}
+
+.main-header-phone {
+    font-family: "qanelasextrabold", "Arial", "sans-serif";
+    position: relative;
+    float: right;
+    font-size: 25px;
+    margin-right: 17px;
+    margin-top: 30px;
+}
+
+.tickets-date{
+    font-size: 20px;
+    color: #fff;
+}
+.tickets-dweek{
+    font-size: 21.86px;
+    color: #050d19;
+}
+.main-header-phone::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 26px;
+    background-image: url("/src/pictures/icon_phone.png");
+    background-repeat: no-repeat;
+    right: 181px;
+
+
+
+}
+.main-menu-items{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    color: #fff;
+    font-size: 23px;
+    height: 60px;
+    background-color: #2e3c56;
+}
+.main-menu-items li{
+    margin-top: 15px;
+    display: inline-block;
+    width: 32.0%;
+    text-align: center;
+}
+
+.main-menu-items li:hover{
+    color: #88a8d3;
+    cursor: pointer;
+}
+
+.tickets-container{
+    background-color: #6a8fc3;
+    opacity: 0.8;
+    padding-top: 10px;
+    min-height: 700px;
+}
+
+.tickets-day:first-child{
+    margin-top: 0;
+}
+
+.tickets-day{
+    margin-left: 13px;
+    margin-right: 13px;
+    margin-top: 9px;
+    position: relative;
+}
+
+.tickets-day-period{
+    height: 100%;
+    position: absolute;
+    width: 195px;
+    background-color: #8dabd6;
+
+}
+.tickets-day-period span{
+    margin-left: 12px;
+    display: block;
+}
+.tickets-day-period span:first-child{
+    display: block;
+    margin-top: 15px;
+}
+
+.tickets-day-items{
+    min-height: 80px;
+    position: relative;
+    /*border-radius: 1px;*/
+    margin-left: 203px;
+    background-color: #8dabd6;
+
+
+}
+.tickets-item{
+    padding: 5px;
+    margin-top: 14px;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.tickets-item-time{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    border-radius: 13px;
+    font-size: 14px;
+    background-color: #ccccff;
+    color: #192535;
+    text-align: center;
+    width: 60px;
+    height: 15px;
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+    cursor: pointer;
+
+}
+
+
+.no-title{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    border-radius: 13px;
+    font-size: 14px;
+    background-color: #c3c3c3;
+    color: #7b7b7b;
+    cursor: no-drop;
+    text-align: center;
+    width: 60px;
+    height: 15px;
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+    pointer-events: none;
+}
+
+.no-time{
+    font-size: 11px;
+    position: relative;
+    bottom: 10px;
+}
+
+
+.tickets-item-time:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.tickets-item-price{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    font-size: 13px;
+    color: #192535;
+    margin-top: 5px;
+}
+
+/*
+    Form styles
+*/
+
+.form-container{
+    height: 835px;
+    background-color: #6e95ca;
+}
+
+.section-services{
+    font-family: "qanelasmedium", "Arial", "sans-serif";
+    font-size: 20px;
+    margin-bottom: 80px;
+}
+
+.form-wrapper{
+    margin:  0  auto;
+    max-width: 700px;
+
+    padding-top: 14px;
+    padding-bottom: 23px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.section-services-one{
+    float: left;
+}
+.section-services-one .date{
+    margin-bottom: 20px;
+}
+
+.date span:last-child, .count-peoples span:last-child, .price span:last-child{
+    color: #ffffff;
+}
+.section-services-one .count-peoples{
+    margin-bottom: 10px;
+}
+.section-services-two{
+    width: 290px;
+    float: right;
+    text-align: right;
+}
+.service-title{
+    font-size: 22px;
+}
+.service-item{
+    display: block;
+    background-color: #2e3c56;
+    margin-top: 10px;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+.service-item:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.service-item::before{
+    position: absolute;
+    content: '';
+    left: 12px;
+    width: 19px;
+    border-radius: 30px;
+    height: 19px;
+    background-color: #6e95ca;
+}
+.service-item-title{
+    float: left;
+    margin-left: 35px;
+    font-size: 17px;
+}
+
+.service-item-price{
+    font-size: 17px;
+}
+
+
+.section-userdata input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 90%;
+    color: #f1f1f1;
+    font-size: 23px;
+    height: 65px;
+    left: 90px;
+    position: relative;
+    z-index: 3000;
+}
+
+.userdata-container{
+    border-bottom: 1px #fff solid;
+    border-left: 1px #fff solid;
+    border-right: 1px #fff solid;
+    margin-bottom: 10px;
+}
+
+::-webkit-input-placeholder {
+    color: white;
+    font-family: "qanelasregular", "Arial", "sans-serif";
+    font-size: 21px;
+    opacity: 0.6;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: white;
+    font-family: "qanelasregular", "Arial", "sans-serif";
+    font-size: 21px;
+    opacity: 0.6;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: white;
+    font-family: "qanelasregular", "Arial", "sans-serif";
+    font-size: 21px;
+    opacity: 0.6;
+}
+
+:-ms-input-placeholder {
+    color: white;
+    font-family: "qanelasregular", "Arial", "sans-serif";
+    font-size: 21px;
+    opacity: 0.6;
+}
+
+.userdata-hidden-line{
+    width: 100%;
+    position: absolute;
+    height: 47px;
+    right: 1%;
+    background-color: #6e95ca;
+}
+
+
+.userdata-input{
+    position: relative;
+}
+.userdata-input::before{
+    position: absolute;
+    content: '';
+    width: 33px;
+    left: 24px;
+    top: 12px;
+    height: 33px;
+    background-color: transparent;
+    background-image: url(/src/pictures/icon_profile.png);
+    background-repeat: no-repeat;
+}
+.name::before{
+    background-image: url(/src/pictures/icon_profile.png);
+}
+
+.telephone::before{
+    background-image: url(/src/pictures/icon_form_phone.png);
+    left: 30px;
+}
+
+.note::before{
+    background-image: url(/src/pictures/icon_note.png);
+}
+
+.userdata-input::after{
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 57px;
+    left: 75px;
+    border-right: #fff solid 1px;
+    background-color: transparent;
+}
+
+.button-reserve{
+    font-family: "qanelassemibold", "Arial", "sans-serif";
+    color: #fff;
+    font-size: 35px;
+    height: 85px;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    background: #2e3c56;
+    border: none;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+
+.button-reserve:active {
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+
+.description-wrapper{
+    font-family: "qanelasregular", "Arial", "sans-serif";
+    font-size: 21px;
+    color: #fff;
+    margin-top: 10px;
+}
+
+.tickets-item a{
+    display:block;
+    height:100%;
+    text-decoration: none;
+    color: #192535;
+}
+
+.count-peoples-summ{
+    margin-left: 10px;
+    color: white;
+    /*display: none;*/
+}
+.count-peoples-control{
+    width: 80px;
+    height: 35px;
+    margin-top: 7px;
+    margin-left:142px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    /*display: none;*/
+}
+
+.count-peoples-add{
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    border-radius: 20px;
+    border: 1px solid #192535;
+    text-align: center;
+}
+.count-peoples-add:hover, .count-peoples-reduce:hover{
+    cursor: pointer;
+    color: #fb0505;
+}
+.count-peoples-reduce{
+    width: 25px;
+    height: 25px;
+    border: 1px solid #192535;
+    display: inline-block;
+    border-radius: 20px;
+    text-align: center;
+
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+input[type=checkbox]:checked + .service-item:before {
+    content: "";
+    background-color: red;
+    transition: ease-out 0.5s;
+}
+
+.select-count-peoples{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: #FFFFFF;
+    display: none;
+}
+.select-count-peoples option{
+    color: #192535;
+}
+
+.pricevalue{
+    color: #FFFFFF;
+}
+
+.button-disabled{
+    cursor: not-allowed;
+    background: #a5a5a5;
+}
+
+.no-title a{
+    color: #e6e6e6;
+}
+.error-message{
+    color: #bb3535;
+    font-size: 15px;
+    position: absolute;
+    bottom: 65px;
+}
+
+.button-back{
+    background-color: #2e3c56;
+    color: #fff;
+    padding: 8px;
+    border-radius: 3px;
+    position: absolute;
+    font-size: 15px;
+    cursor: pointer;
+    top: 234px;
+    left: 16px;
+    width: 80px;
+    text-align: center;
+}
+.button-back:before{
+    position: absolute;
+    content: '';
+    width: 33px;
+    left: 7px;
+    top: 7px;
+    height: 33px;
+    background-image: url(/src/pictures/icon-back.png);
+    background-repeat: no-repeat;
+
+}
+.reserve-successful{
+    display: none;
+}
+.reserve-successful-text{
+    text-align: center;
+}
