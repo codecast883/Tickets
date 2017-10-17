@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
-    <?php require_once('includeHeader.php'); ?>
+    <link rel="stylesheet" href="/admin_src/style/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/style/eventsList.css"/>
 
 </head>
 
-<body>
+<body style="background-color: #35352e">
 
 <div class="container">
     <?php foreach ($events as $key => $value): ?>
@@ -17,7 +18,7 @@
         <span class="event-title">
             <?= '"' . $value->title . '"' ?>
         </span>
-            <a href="event?getiframe=<?= $this->hash . '&id=' . $value->event_id . '&viewer_id=' . $_GET['viewer_id'] ?>"
+            <a href="event?getiframe=<?= $this->hash . '&id=' . $value->event_id ?>"
                class="event-link"></a>
         </div>
 

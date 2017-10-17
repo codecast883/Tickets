@@ -1,5 +1,6 @@
 <?php
-namespace app;
+
+namespace app\Components;
 class Router
 {
     private $routes;
@@ -108,9 +109,7 @@ class Router
 
         }
 
-        echo "404 Not Found". '<br>';
 
-
-        header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
+        header("HTTP/1.0 404 Not Found");
     }
 }

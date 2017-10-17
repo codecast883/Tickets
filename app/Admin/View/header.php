@@ -11,25 +11,25 @@
     <title>Панель управления</title>
     <!-- ... -->
     <!-- 1. Подключить библиотеку jQuery -->
-    <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/admin_src/js/jquery-1.12.4.min.js"></script>
     <!-- 2. Подключить скрипт moment-with-locales.min.js для работы с датами -->
-    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/admin_src/js/moment-with-locales.min.js"></script>
     <!-- 3. Подключить скрипт платформы Twitter Bootstrap 3 -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/admin_src/js/bootstrap.min.js"></script>
     <!-- 4. Подключить скрипт виджета "Bootstrap datetimepicker" -->
-    <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="/js/alertify.min.js"></script>
+    <script type="text/javascript" src="/admin_src/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/admin_src/js/alertify.min.js"></script>
 
     <!-- 5. Подключить CSS платформы Twitter Bootstrap 3 -->
-    <link rel="stylesheet" href="/style/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/admin_src/style/bootstrap.min.css"/>
     <!-- 6. Подключить CSS виджета "Bootstrap datetimepicker" -->
-    <link rel="stylesheet" href="/style/bootstrap-datetimepicker.min.css"/>
-    <link rel="stylesheet" href="/style/alertify.core.css"/>
-    <link rel="stylesheet" href="/style/alertify.default.css"/>
+    <link rel="stylesheet" href="/admin_src/style/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="/admin_src/style/alertify.core.css"/>
+    <link rel="stylesheet" href="/admin_src/style/alertify.default.css"/>
 
 
     <!-- Custom styles for this template -->
-    <link href="/style/dashboard.css" rel="stylesheet">
+    <link href="/admin_src/style/dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>

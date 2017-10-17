@@ -16,7 +16,7 @@ class Tickets
      * @param $dateString
      * @return bool
      */
-    public static function actionDisabled($dateString)
+    public static function isDisabled($dateString)
     {
         $todayDate = new \DateTime();
         $date = $todayDate->format('Y-m-d' . ' 00:00:00');

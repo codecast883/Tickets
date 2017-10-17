@@ -32,7 +32,7 @@
                     <td><?= $value->price ?></td>
                     <td><?= $value->name ?></td>
                     <td><?= $value->phone ?></td>
-                    <td><?= $value->email ?></td>
+                    <td><?= $value->vkId ?></td>
                     <td><?= $value->note ?></td>
                     <td><? if ($services): ?>
                             <?php foreach ($services as $obj): ?>

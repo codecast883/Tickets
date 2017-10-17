@@ -12,14 +12,13 @@
     <title>Регистрация</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/style/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin_src/style/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/style/signin.css" rel="stylesheet">
-
+    <link href="/admin_src/style/signin.css" rel="stylesheet">
+    <script type="text/javascript" src="/admin_src/js/jquery-1.12.4.min.js"></script>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
-
     <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,8 +26,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="/js/jquery-1.12.4.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
 
 </head>
 

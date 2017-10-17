@@ -32,8 +32,6 @@ class TicketsGateway
         $i = 1;
         $dayAmount = TicketsApp::getDataAdmin('getEvent', 'Events', $eventId)->day_amount;
 
-
-
             if ($type == 0){
                 $this->cleanFullTicketsByEvent($eventId);
                 $this->day->cleanFullDaysByUser($eventId);
@@ -45,7 +43,6 @@ class TicketsGateway
                 $this->day->cleanFullDaysByUser($eventId);
                 $this->day->addNewDays($dayAmount, $eventId);
 
-//                $this->cleanFullTickets();
             }
 
             foreach ($week as $array) {

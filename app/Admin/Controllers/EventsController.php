@@ -12,7 +12,6 @@ class EventsController extends Controller
 
     public function __construct()
     {
-        session_start();
         parent::__construct();
         $this->events = $this->eventsGateway->isEventsExist($this->id);
 

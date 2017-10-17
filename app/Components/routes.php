@@ -3,7 +3,7 @@ return [
     'tickets/list' =>                       'tickets/list',
     'tickets/request/([0-9]+)' =>           'request/add',
     'tickets/event' => 'tickets/event',
-
+    'admin/test' => 'test/test',
 
     'admin/404' => 'settings/redirect404',
     'action/add/([0-9]+)' => 'cron/add',
@@ -39,8 +39,6 @@ return [
     'admin/services/deleteprice/([0-9]+)' => 'services/deletePrice',
 
     'admin/events/add' => 'events/eventsAdd',
-
-
 
 
 ];

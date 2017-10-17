@@ -2,7 +2,6 @@
 
 namespace app\Components;
 
-use app\Router;
 
 class Application
 {

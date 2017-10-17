@@ -7,7 +7,7 @@ use app\Admin\DB\EventsGateway;
 
 class Controller
 {
-    protected $header;
+    protected $eventData;
     protected $headerImg;
     protected $hash;
     protected $id;
@@ -21,7 +21,7 @@ class Controller
         if (!empty($_GET['getiframe'])) {
             if (!empty($_GET['id'])) {
                 $this->eventId = htmlspecialchars($_GET['id']);
-                $this->header = TicketsApp::getDataAdmin('getEvent', 'Events', $this->eventId);
+                $this->eventData = TicketsApp::getDataAdmin('getEvent', 'Events', $this->eventId);
                 $this->headerImg = TicketsApp::getDataAdmin('getAllEventsImages', 'Events', $this->eventId);
             }
 
