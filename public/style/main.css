@@ -480,6 +480,11 @@ input[type=checkbox]:checked + .service-item:before {
     width: 80px;
     text-align: center;
 }
+
+.button-back a{
+    display: block;
+    height: 100%;
+}
 .button-back:before{
     position: absolute;
     content: '';
