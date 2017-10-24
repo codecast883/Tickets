@@ -2,6 +2,19 @@ body{
     font-family: "qanelassemibold", "Arial", "sans-serif";
     color: #2e3c56;
 }
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
 a{
     text-decoration: none;
     color: white;
@@ -54,7 +67,7 @@ a{
     height: 26px;
     background-image: url("/src/pictures/icon_phone.png");
     background-repeat: no-repeat;
-    right: 181px;
+    right: 160px;
 
 
 
@@ -67,12 +80,21 @@ a{
     background-color: #2e3c56;
 }
 .main-menu-items li{
-    margin-top: 15px;
+    margin-top: 3px;
     display: inline-block;
-    width: 32.0%;
+    width: 32.7%;
     text-align: center;
+    height: 90%;
+
 }
 
+.main-menu-items .tickets-list{
+    background-color:#485c7f;
+}
+.main-menu-items li span{
+    display: block;
+    margin-top: 11px;
+}
 .main-menu-items li:hover{
     color: #88a8d3;
     cursor: pointer;
@@ -183,8 +205,8 @@ a{
 */
 
 .form-container{
-    height: 835px;
     background-color: #6e95ca;
+    min-height: 600px;
 }
 
 .section-services{
@@ -466,11 +488,16 @@ input[type=checkbox]:checked + .service-item:before {
     position: absolute;
     bottom: 65px;
 }
-
+.button-back a{
+    display: block;
+    position: relative;
+    height: 100%;
+    padding: 8px;
+    z-index: 1000;
+}
 .button-back{
     background-color: #2e3c56;
     color: #fff;
-    padding: 8px;
     border-radius: 3px;
     position: absolute;
     font-size: 15px;
@@ -480,25 +507,36 @@ input[type=checkbox]:checked + .service-item:before {
     width: 80px;
     text-align: center;
 }
-
-.button-back a{
-    display: block;
-    height: 100%;
-}
 .button-back:before{
     position: absolute;
     content: '';
     width: 33px;
-    left: 7px;
+    left: 4px;
     top: 7px;
+    z-index: 2;
     height: 33px;
     background-image: url(/src/pictures/icon-back.png);
     background-repeat: no-repeat;
 
 }
-.reserve-successful{
-    display: none;
-}
+
 .reserve-successful-text{
     text-align: center;
+}
+
+.reserve-successful{
+    text-align: center;
+    display: none;
+
+}
+.telephone-prev{
+    position: absolute;
+    left: 84px;
+    top: 19px;
+    color: white;
+    font-size: 24px;
+    font-family: "qanelasregular", "Arial", "sans-serif";
+}
+#form-telephone{
+    margin-left: 18px;
 }
