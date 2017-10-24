@@ -28,33 +28,25 @@ class RequestController extends Controller
     public function actionAdd($idItem)
     {
         $services = TicketsApp::getDataAdmin('getAllServices', "Services", $this->eventId);
-
+        $ticketData = TicketsApp::getData('getTicketsById', 'Tickets', $idItem, $this->eventId);
         $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "Services", $this->eventId);
 
+        /*FOR JS*/
         $priceCountPeoplesJson = json_encode($priceCountPeoples);
         $calculationPriceType = $this->eventData->calculation_price_type;
+        /*FOR JS*/
 
-        //Переменная где будем суммировать общую цену
-        $totalPrice = 0;
-
-        $ticketData = TicketsApp::getData('getTicketsById', 'Tickets', $idItem, $this->eventId);
-        $formData = [];
-        $servicesIds = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $formData['name'] = htmlentities(trim($_POST['name']));
-            $formData['phone'] = htmlentities(trim($_POST['phone']));
-            $formData['vkId'] = htmlentities(trim($_POST['vkId']));
-            $formData['note'] = htmlentities(trim($_POST['note']));
-            $formData['price'] = htmlentities(trim($totalPrice));
-            $formData['count_peoples'] = htmlentities(trim($_POST['countPeoples']));
 
+            $totalPrice = 0; //Переменная где будем суммировать общую цену
+
+            $formData = [];
+            $servicesIds = [];
 
 
             $prices = json_decode($_POST['dataPrices']);
-
-
 
             //Проходимся по POST данным и вытаскиваем все id сервисов
             foreach ($_POST as $key => $value) {
@@ -74,8 +66,20 @@ class RequestController extends Controller
 
             //Проверка на кол-во участников
             //Формируется общая цена на билет
-
+            $formData['count_peoples'] = htmlentities(trim($_POST['countPeoples']));
             $totalPrice += $prices->$formData['count_peoples'];
+
+            $formData['name'] = htmlentities(trim($_POST['name']));
+            $formData['phone'] = htmlentities(trim($_POST['phone']));
+            $formData['note'] = htmlentities(trim($_POST['note']));
+            $formData['price'] = htmlentities(trim($totalPrice));
+
+            $formData['vkId'] = htmlentities(trim($_POST['vkId']));
+            $formData['second_name'] = htmlentities(trim($_POST['surname']));
+            $formData['date_of_birth'] = htmlentities(trim($_POST['bdate']));
+            $formData['university_name'] = htmlentities(trim($_POST['university_name']));
+            $formData['faculty_name'] = htmlentities(trim($_POST['faculty_name']));
+            $formData['city'] = htmlentities(trim($_POST['city']));
 
 
                 foreach ($ticketData as $key => $value) {
@@ -97,34 +101,6 @@ class RequestController extends Controller
                 if ($idsService) {
                     $this->requestGateway->addRequestService($idsService, $lastRequestId);
                 }
-
-//                $date = new \DateTime();
-//                $timeStamp = $date->getTimestamp();
-//                $getMorgenDate = $date->add(new \DateInterval('P1D'))->format('Y-m-d');
-//                $morgenTimeStamp = (new \DateTime($getMorgenDate))->getTimestamp();
-//                $time = $morgenTimeStamp - $timeStamp;
-
-                // TicketsApp::debug(strftime("%d,%m,%Y; %H:%M:%S", time() + $time));
-
-//                $countCookie = $_COOKIE['count'];
-//                if (!$countCookie) {
-//                    setrawcookie("count", 1, time() + 163600, '/', '', 0, 1);
-//                } else {
-//                    $countCookie += 1;
-//                    setrawcookie("count", $countCookie, time() + 163600, '/', '', 0, 1);
-//                }
-//
-//                if (!$countCookie) {
-//                    setrawcookie("reserve[1][id]", $ticketData->id, time() + $time, '/', '', 0, 1);
-//                    setrawcookie("reserve[1][event_id]", $ticketData->event_id, time() + $time, '/', '', 0, 1);
-//                } else {
-//                    setrawcookie("reserve[$countCookie][id]", $ticketData->id, time() + $time, '/', '', 0, 1);
-//                    setrawcookie("reserve[$countCookie][event_id]", $ticketData->event_id, time() + $time, '/', '', 0, 1);
-//                }
-
-//                header('Location: https://' . $_SERVER['SERVER_NAME'] . '/request/done?getiframe=' . $this->hash . '&id=' . $this->eventId);
-
-//            }
 
 
         }

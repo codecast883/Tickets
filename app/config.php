@@ -3,7 +3,7 @@
 //ini_set('display_errors', 0);
 //error_reporting(0);
 
-
+define('DEPLOYMENT', 0);
 define('DOMAIN', $_SERVER['SERVER_NAME']);
 
 ini_set('display_errors', 1);

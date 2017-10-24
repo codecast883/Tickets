@@ -13,7 +13,7 @@
     <div class="form-group  has-feedback">
         <label class="form-label">Ссылка на ваше приложение</label>
         <input id="ds" type="text" name="title"
-               value="<?= 'https://' . $_SERVER['SERVER_NAME'] . '/?iframe=' . $this->appHash ?>" class="form-control ">
+               value="<?= 'https://' . $_SERVER['SERVER_NAME'] . '/tickets/list?getiframe=' . $this->appHash ?>" class="form-control ">
     </div>
 </div>
 </form>

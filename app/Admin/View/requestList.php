@@ -14,7 +14,12 @@
                 <th>Время события</th>
                 <th>Цена</th>
                 <th>Имя</th>
+                <th>Фамилия</th>
                 <th>Телефон</th>
+                <th>Город</th>
+                <th>Дата рождения</th>
+                <th>Университет</th>
+
                 <th>VK ID</th>
                 <th>Заметка</th>
                 <th>Услуги</th>
@@ -31,7 +36,12 @@
                     <td><?= $value->time ?></td>
                     <td><?= $value->price ?></td>
                     <td><?= $value->name ?></td>
+                    <td><?= $value->second_name ?></td>
                     <td><?= $value->phone ?></td>
+                    <td><?= $value->city ?></td>
+                    <td><?= $value->date_of_birth ?></td>
+                    <td><?= $value->university_name?></td>
+
                     <td><?= $value->vkId ?></td>
                     <td><?= $value->note ?></td>
                     <td><? if ($services): ?>

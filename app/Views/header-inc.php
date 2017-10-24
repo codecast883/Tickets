@@ -1,3 +1,4 @@
+<div class="main-container">
 <header class="main-header" style="background: url('<? if (!empty($this->headerImg)) echo $this->headerImg[0]->pic_src; ?>') 10% 20%  no-repeat;background-size: cover;">
     <div class="main-header-title">
         <span>

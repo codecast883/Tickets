@@ -105,7 +105,6 @@ class TicketsGateway
 
         }
 
-
         return $ticketDay;
     }
 
@@ -145,8 +144,6 @@ class TicketsGateway
             $count = $value;
         }
         return $count;
-
-
     }
 
     /**

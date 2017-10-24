@@ -72,7 +72,8 @@
                     <div class="userdata-container">
                         <div class="userdata-hidden-line"></div>
                         <div class="userdata-input telephone">
-                            <input type="text" id="form-telephone" placeholder="Ваш телефон" name="phone">
+                            <div class="telephone-prev">+7</div>
+                            <input type="text" id="form-telephone"  placeholder="(999)999-99-99" name="phone">
                         </div>
                     </div>
                     <div class="userdata-container">
@@ -83,7 +84,12 @@
                     </div>
 
                 </div>
-                <input type="hidden" name="vkId" value="000">
+                <input type="hidden" id="hiddenID" name="vkId" value="0">
+                <input type="hidden" id="hiddenSurname" name="surname" value="0">
+                <input type="hidden" id="bdate" name="bdate" value="0">
+                <input type="hidden" id="university_name" name="university_name" value="0">
+                <input type="hidden" id="faculty_name" name="faculty_name" value="0">
+                <input type="hidden" id="city" name="city" value="0">
                 <button type="button" disabled class="button-reserve button-disabled ">Забронировать</button>
             </form>
 

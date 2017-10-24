@@ -1,12 +1,71 @@
 $(document).ready(function () {
+
+    jQuery(function($){
+        $("#form-telephone").mask("(999)999-99-99");
+    });
+
+if(isDeploy){
+    VK.init(function () {
+
+        setInterval(newSizeWindow, 100);
+        function newSizeWindow() {
+            VK.callMethod("resizeWindow", 700, $('.main-container').height());
+        }
+
+        var city;
+        VK.api("users.get", {"fields": "city,education,bdate"}, function (data) {
+
+            $("#hiddenID").attr("value", data.response[0].uid);
+            $("#form-nickname").attr("value", data.response[0].first_name);
+            $("#hiddenSurname").attr("value", data.response[0].last_name);
+            $("#bdate").attr("value", data.response[0].bdate);
+            $("#university_name").attr("value", data.response[0].university_name);
+            $("#faculty_name").attr("value", data.response[0].faculty_name);
+            city = data.response[0].city;
+
+
+            VK.api("database.getCitiesById", {"city_ids": city}, function (data) {
+
+                $("#city").attr("value", data.response[0].name);
+            });
+        });
+
+
+    });
+}
+
+    //TAB
     $(".menu-description").click(function () {
+
+        $(this).css("background-color","#485c7f");
+        $(".tickets-list, .menu-photo").css("background-color","inherit");
+
         $(".tickets-list-wrapper").css("display", "none");
         $(".description-wrapper").css("display", "block");
+        $(".photo-wrapper").css("display", "none");
     });
 
     $(".tickets-list").click(function () {
+
+        $(this).css("background-color","#485c7f");
+        $(".menu-photo, .menu-description").css("background-color","inherit");
+
+
         $(".tickets-list-wrapper").css("display", "block");
         $(".description-wrapper").css("display", "none");
+        $(".photo-wrapper").css("display", "none");
+
+
+    });
+    $(".menu-photo").click(function () {
+
+        $(this).css("background-color","#485c7f");
+        $(".tickets-list, .menu-description").css("background-color","inherit");
+
+
+        $(".photo-wrapper").css("display", "block");
+        $(".description-wrapper").css("display", "none");
+        $(".tickets-list-wrapper").css("display", "none");
     });
 
 
@@ -45,84 +104,90 @@ $(document).ready(function () {
 
 
     var value = parseInt($(".pricevalue").html());
-    var servicePrice = 0;
-    var objPrices = {};
-    var lastPrice = value;
-    var peoples = +$(".count-peoples-summ").text();
 /////////////////////////////////
+    var servicePrice = 0;
+    if (dataPeoplesObject.length !== 0) {
 
-    for (var i = minPeople; i <= maxPeople; i++) {
-        var count = i;
-        for (var key in dataPeoplesObject) {
-            if (count === dataPeoplesObject[key]['count_peoples']) {
-                objPrices[count] = dataPeoplesObject[key]['price'];
-                objPrices[count] += value;
-                lastPrice = objPrices[count];
-                break;
-            } else {
-                objPrices[count] = lastPrice;
-            }
-        }
-    }
+        // var value = parseInt($(".pricevalue").html());
+        var objPrices = {};
+        var lastPrice = value;
+        var peoples = +$(".count-peoples-summ").text();
 
-//       else other type
-    var prices = {};
-    var countPrice;
-    var pr = 0;
-    for (var count in objPrices) {
-        if (objPrices[count] !== value) {
+        for (var i = minPeople; i <= maxPeople; i++) {
+            var count = i;
             for (var key in dataPeoplesObject) {
-                if (dataPeoplesObject[key]['count_peoples'] === +count) {
-                    countPrice = dataPeoplesObject[key]['price'];
+                if (count === dataPeoplesObject[key]['count_peoples']) {
+                    objPrices[count] = dataPeoplesObject[key]['price'];
+                    objPrices[count] += value;
+                    lastPrice = objPrices[count];
+                    break;
+                } else {
+                    objPrices[count] = lastPrice;
                 }
             }
-            pr += countPrice;
-            prices[count] = pr;
         }
 
-    }
+//       else other type
+        var prices = {};
+        var countPrice;
+        var pr = 0;
+        for (var count in objPrices) {
+            if (objPrices[count] !== value) {
+                for (var key in dataPeoplesObject) {
+                    if (dataPeoplesObject[key]['count_peoples'] === +count) {
+                        countPrice = dataPeoplesObject[key]['price'];
+                    }
+                }
+                pr += countPrice;
+                prices[count] = pr;
+            }
 
-    var objOtherPrice = {};
-    var firstCount = +getFirstCountElementInObj(prices);
-    for (var count in objPrices) {
-        objOtherPrice[count] = value + prices[count];
-    }
-
-    for (var count in objOtherPrice) {
-
-        if (+count === firstCount) {
-            break;
         }
-        objOtherPrice[count] = value;
-    }
+
+        var objOtherPrice = {};
+        var firstCount = +getFirstCountElementInObj(prices);
+        for (var count in objPrices) {
+            objOtherPrice[count] = value + prices[count];
+        }
+
+        for (var count in objOtherPrice) {
+
+            if (+count === firstCount) {
+                break;
+            }
+            objOtherPrice[count] = value;
+        }
 
 
 // endelse
 
 
-    var totalPrice;
-    $(".count-peoples-add, .count-peoples-reduce").click(function () {
-        if (dataPeoplesObject.length !== 0) {
+        var totalPrice;
+        $(".count-peoples-add, .count-peoples-reduce").click(function () {
+            if (dataPeoplesObject.length !== 0) {
 
-            peoples = +$(".count-peoples-summ").text();
+                peoples = +$(".count-peoples-summ").text();
 
-            $(".pricevalue").html(function () {
-                if (calculationPriceType) {
-                    totalPrice = servicePrice + objOtherPrice[peoples];
+                $(".pricevalue").html(function () {
+                    if (calculationPriceType) {
+                        totalPrice = servicePrice + objOtherPrice[peoples];
 
-                } else {
-                    totalPrice = servicePrice + objPrices[peoples];
-                }
+                    } else {
+                        totalPrice = servicePrice + objPrices[peoples];
+                    }
 
-                if (value !== parseInt($(".pricevalue").html())) {
-                    $(".pricevalue").animate({fontSize: 30}, 1000);
-                }
+                    if (value !== parseInt($(".pricevalue").html())) {
+                        $(".pricevalue").animate({fontSize: 30}, 1000);
+                    }
 
-                return ' ' + totalPrice;
-            });
-        }
-    });
+                    return ' ' + totalPrice;
+                });
+            }
+        });
 ////////////////////////////////////////////
+
+    }
+
 
     $(":checkbox").click(function () {
         price = $(this).attr('value');
@@ -147,6 +212,7 @@ $(document).ready(function () {
 
 
     $("input[type=text]").on("keyup", function () {
+        console.log($("#form-telephone").val().length);
         $(".error-message").remove();
         if ($("#form-nickname").val().length !== 0 && $("#form-telephone").val().length !== 0) {
             $(".button-reserve")
@@ -163,6 +229,8 @@ $(document).ready(function () {
                 .attr("disabled", 'true');
         }
     });
+
+
 
     //functions for validations
     function isNumeric(n) {
@@ -190,9 +258,8 @@ $(document).ready(function () {
             errors = 1;
         } else if (phone.length > 14) {
             errors = 2;
-        } else if (!isNumeric(phone)) {
-            errors = 3;
         }
+
         if (errors !== undefined) {
             return errors;
         } else {
@@ -200,6 +267,7 @@ $(document).ready(function () {
         }
 
     }
+
 
 // Ajax
     $(".button-reserve").click(function () {
@@ -225,24 +293,48 @@ $(document).ready(function () {
             textError = "<div class='error-message'>Номер должен состоять из чисел</div>";
             $(".telephone").prepend(textError);
         } else {
-            //AJAX SEND
+
+            //Object formation for POST
+
             var inputs = $('.form-reserve').find('input[type=text],input[type=hidden],:checked'),
                 object = {},
                 prices;
-            object.countPeoples = peoples;
 
-            $.each(inputs, function (num, element) {
-                object[$(element).attr('name')] = $(element).val()
-            });
-            if (calculationPriceType) {
-                prices = $.toJSON(objOtherPrice);
+            if (dataPeoplesObject.length === 0) {
+                var staticPrices = {};
+
+                peoples = +$(".count-peoples-summ").text();
+
+                for (var i = 1; i <= maxPeople; i++) {
+                    staticPrices[i] = value;
+                }
+                $.each(inputs, function (num, element) {
+                    object[$(element).attr('name')] = $(element).val()
+                });
+
+                object.countPeoples = peoples;
+                object.dataPrices = $.toJSON(staticPrices);
 
             } else {
-                prices = $.toJSON(objPrices);
+                object.countPeoples = peoples;
+
+                $.each(inputs, function (num, element) {
+                    object[$(element).attr('name')] = $(element).val()
+                });
+                if (calculationPriceType) {
+                    prices = $.toJSON(objOtherPrice);
+
+                } else {
+                    prices = $.toJSON(objPrices);
+                }
+
+                object.dataPrices = prices;
             }
 
-            object.dataPrices = prices;
+            console.log(object);
 
+
+            //AJAX SEND
 
             $.ajax({
                 type: "POST",
@@ -254,6 +346,8 @@ $(document).ready(function () {
                     $(".button-reserve").css("display", "none");
                     $(".reserve-successful").css("display", "block");
                     $(".count-peoples-control").css("display", "none");
+                    $(".section-services-one").css("margin-left","230px");
+                    $(".section-services-two").css("display","none");
                     $(":checkbox").unbind();
 
                 }
@@ -267,3 +361,4 @@ $(document).ready(function () {
 
 
 });
+

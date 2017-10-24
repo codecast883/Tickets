@@ -9,9 +9,9 @@
 <main>
 
     <ul class="main-menu-items">
-        <li class="tickets-list">Запись на квест</li>
-        <li class="menu-description">Описание</li>
-        <li class="menu-photo">Фото</li>
+        <li class="tickets-list"><span>Запись на квест</span></li>
+        <li class="menu-description"><span>Описание</span></li>
+        <li class="menu-photo"><span>Фото</span></li>
     </ul>
 
 
@@ -78,6 +78,7 @@
             <?php endforeach; ?>
         </div>
         <div class="description-wrapper" style="display: none"><?= $this->eventData->description; ?></div>
+        <div class="photo-wrapper" style="display: none"></div>
     </div>
 </main>
 

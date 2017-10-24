@@ -14,6 +14,7 @@ class Controller
     protected $eventId;
     protected $eventsGateway;
 
+
     public function __construct()
     {
         $this->eventsGateway = new EventsGateway;
@@ -23,6 +24,8 @@ class Controller
                 $this->eventId = htmlspecialchars($_GET['id']);
                 $this->eventData = TicketsApp::getDataAdmin('getEvent', 'Events', $this->eventId);
                 $this->headerImg = TicketsApp::getDataAdmin('getAllEventsImages', 'Events', $this->eventId);
+
+
             }
 
             $this->hash = htmlspecialchars($_GET['getiframe']);

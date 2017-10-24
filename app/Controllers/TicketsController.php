@@ -12,7 +12,7 @@ class TicketsController extends Controller
     public function actionList()
     {
 
-
+        setcookie("user_id", $_GET['viewer_id']);
         $events = $this->eventsGateway->isEventsExist($this->id);
         $countEvents = count($events);
 
@@ -31,7 +31,6 @@ class TicketsController extends Controller
     public function actionEvent()
     {
 
-
         if (!$_GET['id']) {
             header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
         }
@@ -39,6 +38,7 @@ class TicketsController extends Controller
 //        if ($reservedCookie){
 //            ksort($reservedCookie);
 //        }
+
 
         $list = TicketsApp::getData('getAllTickets', 'Tickets', $this->eventId);
 
