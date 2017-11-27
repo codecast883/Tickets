@@ -540,3 +540,10 @@ input[type=checkbox]:checked + .service-item:before {
 #form-telephone{
     margin-left: 18px;
 }
+
+.ticket-disabled{
+    position: relative;
+    display: inline-block;
+    opacity: 0.3;
+    pointer-events: none;
+}

@@ -96,18 +96,18 @@
             </div>
             <div class="col-md-3">
 
-                <label class="form-label">Интервал времени</label>
+
                 <div class="row">
                     <div class="col-md-5">
                         <div class=" times  form-group has-feedback">
-
+                            <label class="form-label">Старт<br> времени</label>
                             <input type="text" name="from" placeholder="От" class="pattern-input" required>
                         </div>
                     </div>
 
                     <div class="col-md-5">
-                        <div class=" times  form-group has-feedback">
-
+                        <div class=" interval  form-group has-feedback">
+                            <label class="form-label">Интервал времени</label>
                             <input type="text" name="to" placeholder="До" class="pattern-input" required>
                         </div>
                     </div>
@@ -147,6 +147,16 @@
     $(function () {
         $('.times').datetimepicker(
             {pickDate: false, language: 'ru'}
+        );
+
+        $('.interval').datetimepicker(
+            {
+                pickDate: false,
+                language: 'ru',
+                defaultDate: "00:30",
+                maxDate: "05:00",
+                minDate: "00:09"
+            }
         );
     });
 

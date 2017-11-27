@@ -35,7 +35,7 @@
                     <div class="tickets-day-items">
 
                         <?php foreach ($tickets as $ticket) : ?>
-                            <div class="tickets-item">
+                            <div class="tickets-item" data-event="<?=$ticket->event_id?>" data-date="<?=$date?>"  data-time="<?=$ticket->time?>">
 
                                 <div class="<?php if (app\DB\Tickets::isDisabled($date)) {
                                     echo 'no-title';
@@ -81,5 +81,20 @@
         <div class="photo-wrapper" style="display: none"></div>
     </div>
 </main>
+<script type="text/javascript">
+    $(".tickets-item").each(function(indx, element){
+        for (var i = 1;i <= localStorage.length; i++){
+            localObj = $.parseJSON(localStorage[i]);
 
+            if(+$(element).attr("data-event") === +localObj.event_id
+            && $(element).attr("data-date") === localObj.date
+            && $(element).attr("data-time") === localObj.time){
+                $(element).addClass("ticket-disabled");
+
+            }
+        }
+
+
+    });
+</script>
 <?php require_once "footer-inc.php" ?>

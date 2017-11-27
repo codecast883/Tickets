@@ -11,15 +11,13 @@ use app\Components\TicketsApp;
 class RequestController extends Controller
 {
 
-
-    public $requestModel;
     public $requestGateway;
 
     public function __construct()
     {
         parent::__construct();
         $this->requestGateway = new RequestGateway;
-        $this->requestModel = new Request;
+
         if (!$_GET['id']) {
             header('Location: https://' . $_SERVER['SERVER_NAME'] . '/admin/404');
         }
@@ -32,6 +30,7 @@ class RequestController extends Controller
         $priceCountPeoples = TicketsApp::getDataAdmin('getPriceCountPeoples', "Services", $this->eventId);
 
         /*FOR JS*/
+        $ticketDataJson = json_encode($ticketData);
         $priceCountPeoplesJson = json_encode($priceCountPeoples);
         $calculationPriceType = $this->eventData->calculation_price_type;
         /*FOR JS*/

@@ -147,16 +147,32 @@ class EventsGateway extends Gateway
 
     public function getGenerateWeek($param, $eventId)
     {
+        date_default_timezone_set('UTC');
+
+        $hour =(new \DateTime($param['to']))->format('H');
+        $minute =(new \DateTime($param['to']))->format('m');
+        $timeToTimeStamp =  mktime($hour, $minute, 0, 1, 1, 1970);
+
+        $time = '';
         $week = [];
         for ($i = 1; $i <= 7; $i++) {
+            $time =(new \DateTime($param['from']))->getTimestamp();
             for ($a = 1; $a <= $param['ticketsAmount']; $a++) {
                 $week[$i][$a]['event_id'] = $eventId;
                 $week[$i][$a]['day_id'] = $i;
-                $week[$i][$a]['time'] = $param['from'];
+
+                if ($a != 1){
+                    $time += $timeToTimeStamp;
+                    $week[$i][$a]['time'] = date('H:i', $time);
+                }else{
+                    $week[$i][$a]['time'] = $param['from'];
+                }
+
                 $week[$i][$a]['price'] = $param['ticketsPrice'];
                 $week[$i][$a]['no_time'] = 0;
             }
         }
+
 
         return $week;
     }

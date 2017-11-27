@@ -11,7 +11,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 //error_reporting(E_ALL);
 // define('DOMAIN', $_SERVER['SERVER_NAME']);
 
-define('DB_SERVER', 'localhost');
+define('DB_SERVER', '192.168.1.59');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'tickets');

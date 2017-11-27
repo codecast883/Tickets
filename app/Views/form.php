@@ -100,5 +100,7 @@
             </div>
         </div>
     </div>
-
+    <script type="text/javascript">
+        var ticketData = $.parseJSON('<?=$ticketDataJson;?>');
+    </script>
 <?php require_once "footer-inc.php" ?>

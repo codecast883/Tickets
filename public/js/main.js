@@ -331,7 +331,24 @@ if(isDeploy){
                 object.dataPrices = prices;
             }
 
-            console.log(object);
+            // console.log(object);
+
+
+            //Local Storage send
+
+            localObject = {
+                "event_id": ticketData.event_id,
+                "date": ticketData.date,
+                "time": ticketData.time
+            };
+
+            lengthStorage = localStorage.length;
+            if (lengthStorage === 0){
+                localStorage.setItem(1,$.toJSON(localObject));
+            }else{
+                localStorage.setItem(++lengthStorage,$.toJSON(localObject));
+            }
+
 
 
             //AJAX SEND
